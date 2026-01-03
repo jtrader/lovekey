@@ -7,6 +7,53 @@ import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { CURRENCY_SYMBOL } from "@/lib/stripe-products";
 
+// Product image imports - Lightweight
+import lightweightGreen from "@/assets/products/green.png";
+import lightweightLightBlue from "@/assets/products/light-blue.png";
+import lightweightOrange from "@/assets/products/orange.png";
+import lightweightPink from "@/assets/products/pink.png";
+import lightweightPurple from "@/assets/products/purple.png";
+import lightweightRed from "@/assets/products/red.png";
+import lightweightWhite from "@/assets/products/white.png";
+import lightweightYellow from "@/assets/products/yellow.png";
+
+// Product image imports - Metal
+import metalGreen from "@/assets/products/metal/green.png";
+import metalLightBlue from "@/assets/products/metal/light-blue.png";
+import metalOrange from "@/assets/products/metal/orange.png";
+import metalPink from "@/assets/products/metal/pink.png";
+import metalPurple from "@/assets/products/metal/purple.png";
+import metalRed from "@/assets/products/metal/red.png";
+import metalWhite from "@/assets/products/metal/white.png";
+import metalYellow from "@/assets/products/metal/yellow.png";
+
+const productImages: Record<string, Record<string, string>> = {
+  lightweight: {
+    green: lightweightGreen,
+    "light-blue": lightweightLightBlue,
+    orange: lightweightOrange,
+    pink: lightweightPink,
+    purple: lightweightPurple,
+    red: lightweightRed,
+    white: lightweightWhite,
+    yellow: lightweightYellow,
+  },
+  metal: {
+    green: metalGreen,
+    "light-blue": metalLightBlue,
+    orange: metalOrange,
+    pink: metalPink,
+    purple: metalPurple,
+    red: metalRed,
+    white: metalWhite,
+    yellow: metalYellow,
+  },
+};
+
+const getProductImage = (variationId: string, color: string): string => {
+  return productImages[variationId]?.[color] || lightweightWhite;
+};
+
 const CartDrawer = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart } = useCart();
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +121,14 @@ const CartDrawer = () => {
                   key={`${item.variationId}-${item.color}`}
                   className="flex gap-4 p-4 bg-secondary rounded-xl"
                 >
-                  <div className="flex-1">
+                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-background flex-shrink-0">
+                    <img
+                      src={getProductImage(item.variationId, item.color)}
+                      alt={`${item.variationName} - ${item.color}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
                     <h4 className="font-medium">{item.variationName}</h4>
                     <p className="text-sm text-muted-foreground">
                       Color: {formatColor(item.color)}
