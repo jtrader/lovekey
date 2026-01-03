@@ -89,6 +89,28 @@ serve(async (req) => {
       shipping_address_collection: {
         allowed_countries: ["US", "CA", "GB", "AU", "DE", "FR", "NL", "BE", "AT", "CH", "IE", "NZ"],
       },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 495,
+              currency: "aud",
+            },
+            display_name: "Standard Shipping",
+            delivery_estimate: {
+              minimum: {
+                unit: "business_day",
+                value: 5,
+              },
+              maximum: {
+                unit: "business_day",
+                value: 10,
+              },
+            },
+          },
+        },
+      ],
       metadata: {
         order_details: orderDetails,
         items: itemsJson,
