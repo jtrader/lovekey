@@ -10,13 +10,12 @@ const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
   const [selectedColor, setSelectedColor] = useState("pink");
   const [quantity, setQuantity] = useState(1);
-  const [cartCount] = useState(0);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
 
   return (
     <div className="min-h-screen bg-background">
-      <Header cartCount={cartCount} />
+      <Header />
       
       <main className="container mx-auto px-4 pt-20 sm:pt-24 pb-8 sm:pb-12">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
@@ -45,6 +44,9 @@ const Index = () => {
                 quantity={quantity}
                 pricePerUnit={currentVariation.price}
                 onQuantityChange={setQuantity}
+                selectedVariation={selectedVariation}
+                selectedColor={selectedColor}
+                variationName={currentVariation.name}
               />
             )}
             
