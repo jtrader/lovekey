@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import ProductGallery from "@/components/ProductGallery";
 import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
-import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
 
 const Index = () => {
@@ -25,6 +24,7 @@ const Index = () => {
             <ProductGallery 
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
+              onColorSelect={setSelectedColor}
             />
           </div>
           
@@ -33,11 +33,6 @@ const Index = () => {
             <VariationSelector
               selected={selectedVariation}
               onSelect={setSelectedVariation}
-            />
-            
-            <ColorSelector
-              selected={selectedColor}
-              onSelect={setSelectedColor}
             />
             
             {currentVariation && (
