@@ -26,7 +26,7 @@ const ColorSelector = ({ selected, onSelect }: ColorSelectorProps) => {
   return (
     <div className="animate-fade-up delay-300">
       <h3 className="text-base font-semibold mb-3">Select Color</h3>
-      <div className="flex gap-1.5">
+      <div className="flex justify-between w-full">
         {colors.map((color) => (
           <button
             key={color.id}
