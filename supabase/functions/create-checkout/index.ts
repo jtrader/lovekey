@@ -101,11 +101,11 @@ serve(async (req) => {
             delivery_estimate: {
               minimum: {
                 unit: "business_day",
-                value: 5,
+                value: 2,
               },
               maximum: {
                 unit: "business_day",
-                value: 10,
+                value: 5,
               },
             },
           },
