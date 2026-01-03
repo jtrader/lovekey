@@ -1,10 +1,11 @@
-import { X, Minus, Plus, Trash2, ShoppingBag, Loader2 } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, Loader2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { CURRENCY_SYMBOL } from "@/lib/stripe-products";
 
 const CartDrawer = () => {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart } = useCart();
@@ -79,7 +80,7 @@ const CartDrawer = () => {
                       Color: {formatColor(item.color)}
                     </p>
                     <p className="text-sm font-medium mt-1">
-                      ${item.pricePerUnit.toFixed(2)} each
+                      {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)} each
                     </p>
                   </div>
 
@@ -114,7 +115,7 @@ const CartDrawer = () => {
                     </div>
 
                     <p className="text-sm font-semibold">
-                      ${(item.pricePerUnit * item.quantity).toFixed(2)}
+                      {CURRENCY_SYMBOL}{(item.pricePerUnit * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -124,7 +125,7 @@ const CartDrawer = () => {
             <div className="border-t border-border pt-4 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="text-xl font-bold">${totalPrice.toFixed(2)}</span>
+                <span className="text-xl font-bold">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
               </div>
 
               <p className="text-xs text-muted-foreground text-center">
@@ -142,7 +143,7 @@ const CartDrawer = () => {
                     Processing...
                   </>
                 ) : (
-                  `Checkout — $${totalPrice.toFixed(2)}`
+                  `Checkout — ${CURRENCY_SYMBOL}${totalPrice.toFixed(2)}`
                 )}
               </Button>
 
