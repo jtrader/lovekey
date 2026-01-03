@@ -51,12 +51,12 @@ const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProp
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
 
   return (
-    <div className="flex flex-col gap-4 animate-fade-up">
-      <div className="aspect-square bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-8">
+    <div className="flex flex-col gap-3 animate-fade-up">
+      <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-4 sm:p-6">
         <img
           src={currentImage}
           alt={`Love Key - ${selectedColor} ${selectedVariation}`}
-          className="w-full h-full object-contain transition-all duration-300"
+          className="w-auto h-auto max-h-[240px] sm:max-h-[320px] lg:max-h-[400px] object-contain transition-all duration-300"
         />
       </div>
       
