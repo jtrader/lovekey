@@ -43,9 +43,10 @@ const metalImages: Record<string, string> = {
 interface ProductGalleryProps {
   selectedColor: string;
   selectedVariation: string;
+  onColorSelect: (color: string) => void;
 }
 
-const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProps) => {
+const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect }: ProductGalleryProps) => {
   const images = selectedVariation === "metal" ? metalImages : lightweightImages;
   const currentImage = images[selectedColor] || images.pink;
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
@@ -60,14 +61,15 @@ const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProp
         />
       </div>
       
-      <div className="flex gap-2 flex-wrap">
+      <div className="grid grid-cols-4 gap-2">
         {Object.entries(thumbnailImages).map(([color, img]) => (
-          <div
+          <button
             key={color}
-            className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 flex items-center justify-center bg-secondary p-1 ${
+            onClick={() => onColorSelect(color)}
+            className={`aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 flex items-center justify-center bg-secondary p-2 cursor-pointer hover:opacity-100 ${
               selectedColor === color 
                 ? "border-accent ring-2 ring-accent/20" 
-                : "border-transparent opacity-60"
+                : "border-transparent opacity-70 hover:border-border"
             }`}
           >
             <img
@@ -75,7 +77,7 @@ const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProp
               alt={`${color} keyring`}
               className="w-full h-full object-contain"
             />
-          </div>
+          </button>
         ))}
       </div>
     </div>

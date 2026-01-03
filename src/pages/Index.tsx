@@ -20,11 +20,16 @@ const Index = () => {
       
       <main className="container mx-auto px-4 pt-20 sm:pt-24 pb-8 sm:pb-12">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-          {/* Left Column - Product Gallery */}
-          <div className="lg:sticky lg:top-24 lg:self-start">
+          {/* Left Column - Color Selector & Product Gallery */}
+          <div className="lg:sticky lg:top-24 lg:self-start space-y-4">
+            <ColorSelector
+              selected={selectedColor}
+              onSelect={setSelectedColor}
+            />
             <ProductGallery 
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
+              onColorSelect={setSelectedColor}
             />
           </div>
           
@@ -33,11 +38,6 @@ const Index = () => {
             <VariationSelector
               selected={selectedVariation}
               onSelect={setSelectedVariation}
-            />
-            
-            <ColorSelector
-              selected={selectedColor}
-              onSelect={setSelectedColor}
             />
             
             {currentVariation && (
