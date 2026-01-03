@@ -22,7 +22,10 @@ const Index = () => {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {/* Left Column - Product Gallery */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <ProductGallery selectedColor={selectedColor} />
+            <ProductGallery 
+              selectedColor={selectedColor} 
+              selectedVariation={selectedVariation}
+            />
           </div>
           
           {/* Right Column - Product Details */}
