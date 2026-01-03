@@ -25,6 +25,7 @@ const Index = () => {
             <ProductGallery 
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
+              onColorSelect={setSelectedColor}
             />
           </div>
           
