@@ -13,7 +13,6 @@ const Index = () => {
   const [cartCount] = useState(0);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
-  const isMixPack = selectedVariation.includes("mix");
 
   return (
     <div className="min-h-screen bg-background">
@@ -23,7 +22,7 @@ const Index = () => {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {/* Left Column - Product Gallery */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <ProductGallery />
+            <ProductGallery selectedColor={selectedColor} />
           </div>
           
           {/* Right Column - Product Details */}
@@ -47,14 +46,12 @@ const Index = () => {
             <ColorSelector
               selected={selectedColor}
               onSelect={setSelectedColor}
-              disabled={isMixPack}
             />
             
             {currentVariation && (
               <QuantitySelector
                 quantity={quantity}
-                unitsPerSet={currentVariation.units}
-                pricePerSet={currentVariation.price}
+                pricePerUnit={currentVariation.price}
                 onQuantityChange={setQuantity}
               />
             )}
