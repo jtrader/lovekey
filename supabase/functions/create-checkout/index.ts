@@ -40,9 +40,27 @@ serve(async (req) => {
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
-    // Build line items for Stripe with metadata for color
-    const stripeLineItems = lineItems.map((item) => ({
-      price: item.priceId,
+    // Fetch prices to get unit amounts for price_data
+    const priceDetails = await Promise.all(
+      lineItems.map(async (item) => {
+        const price = await stripe.prices.retrieve(item.priceId);
+        return { ...item, unitAmount: price.unit_amount, currency: price.currency };
+      })
+    );
+
+    // Build line items with price_data to include color in the product name
+    const stripeLineItems = priceDetails.map((item) => ({
+      price_data: {
+        currency: item.currency,
+        unit_amount: item.unitAmount,
+        product_data: {
+          name: `LoveKey ${item.variationName} - ${item.color.charAt(0).toUpperCase() + item.color.slice(1)}`,
+          metadata: {
+            variation: item.variationName,
+            color: item.color,
+          },
+        },
+      },
       quantity: item.quantity,
     }));
 
@@ -50,6 +68,15 @@ serve(async (req) => {
     const orderDetails = lineItems.map(
       (item) => `${item.quantity}x ${item.variationName} (${item.color})`
     ).join(", ");
+
+    // Build individual item metadata as JSON for easier parsing
+    const itemsJson = JSON.stringify(
+      lineItems.map((item) => ({
+        variation: item.variationName,
+        color: item.color,
+        quantity: item.quantity,
+      }))
+    );
 
     const origin = req.headers.get("origin") || "http://localhost:3000";
 
@@ -64,6 +91,7 @@ serve(async (req) => {
       },
       metadata: {
         order_details: orderDetails,
+        items: itemsJson,
       },
     });
 
