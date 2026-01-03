@@ -43,16 +43,17 @@ const metalImages: Record<string, string> = {
 interface ProductGalleryProps {
   selectedColor: string;
   selectedVariation: string;
+  onColorSelect: (color: string) => void;
 }
 
-const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProps) => {
+const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect }: ProductGalleryProps) => {
   const images = selectedVariation === "metal" ? metalImages : lightweightImages;
   const currentImage = images[selectedColor] || images.pink;
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
 
   return (
-    <div className="flex flex-col gap-3 animate-fade-up">
-      <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-4 sm:p-6">
+    <div className="flex gap-2 animate-fade-up">
+      <div className="flex-1 bg-secondary rounded-2xl overflow-hidden flex items-center justify-center">
         <img
           src={currentImage}
           alt={`Love Key - ${selectedColor} ${selectedVariation}`}
@@ -60,14 +61,15 @@ const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProp
         />
       </div>
       
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex flex-col gap-2">
         {Object.entries(thumbnailImages).map(([color, img]) => (
-          <div
+          <button
             key={color}
-            className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 flex items-center justify-center bg-secondary p-1 ${
+            onClick={() => onColorSelect(color)}
+            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden border-2 transition-all duration-200 flex items-center justify-center bg-secondary p-1 cursor-pointer ${
               selectedColor === color 
                 ? "border-accent ring-2 ring-accent/20" 
-                : "border-transparent opacity-60"
+                : "border-transparent opacity-60 hover:opacity-100"
             }`}
           >
             <img
@@ -75,7 +77,7 @@ const ProductGallery = ({ selectedColor, selectedVariation }: ProductGalleryProp
               alt={`${color} keyring`}
               className="w-full h-full object-contain"
             />
-          </div>
+          </button>
         ))}
       </div>
     </div>
