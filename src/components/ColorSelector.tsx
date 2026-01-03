@@ -32,14 +32,14 @@ const ColorSelector = ({ selected, onSelect }: ColorSelectorProps) => {
             key={color.id}
             onClick={() => onSelect(color.id)}
             title={color.name}
-            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full ${color.className} flex items-center justify-center transition-all duration-200 ${
+            className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${color.className} flex items-center justify-center transition-all duration-200 ${
               selected === color.id
-                ? "ring-2 ring-offset-1 ring-primary scale-110"
+                ? "ring-2 ring-offset-2 ring-primary scale-110"
                 : "hover:scale-105"
             }`}
           >
             {selected === color.id && (
-              <Check className={`w-3.5 h-3.5 ${color.id === "white" || color.id === "yellow" ? "text-foreground" : "text-white"}`} />
+              <Check className={`w-4 h-4 sm:w-5 sm:h-5 ${color.id === "white" || color.id === "yellow" ? "text-foreground" : "text-white"}`} />
             )}
           </button>
         ))}
