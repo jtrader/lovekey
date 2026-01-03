@@ -30,6 +30,7 @@ import metalYellow from "@/assets/products/metal/yellow.png";
 const productImages: Record<string, Record<string, string>> = {
   lightweight: {
     green: lightweightGreen,
+    blue: lightweightLightBlue,
     "light-blue": lightweightLightBlue,
     orange: lightweightOrange,
     pink: lightweightPink,
@@ -40,6 +41,7 @@ const productImages: Record<string, Record<string, string>> = {
   },
   metal: {
     green: metalGreen,
+    blue: metalLightBlue,
     "light-blue": metalLightBlue,
     orange: metalOrange,
     pink: metalPink,
