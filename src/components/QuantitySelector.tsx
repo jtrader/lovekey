@@ -52,7 +52,7 @@ const QuantitySelector = ({ quantity, pricePerUnit, onQuantityChange }: Quantity
       <div className="flex items-center justify-center gap-6 mt-4 text-sm text-muted-foreground">
         <span>✓ Fast Delivery</span>
         <span>✓ Secure Payment</span>
-        <span>✓ $4.95 S + H (Auspost)</span>
+        <span>✓$4.95 Shipping + Handling</span>
       </div>
     </div>
   );
