@@ -1,13 +1,46 @@
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { getStripePrice } from "@/lib/stripe-products";
+import { toast } from "@/hooks/use-toast";
 
 interface QuantitySelectorProps {
   quantity: number;
   pricePerUnit: number;
   onQuantityChange: (quantity: number) => void;
+  selectedVariation: string;
+  selectedColor: string;
+  variationName: string;
 }
 
-const QuantitySelector = ({ quantity, pricePerUnit, onQuantityChange }: QuantitySelectorProps) => {
+const QuantitySelector = ({ 
+  quantity, 
+  pricePerUnit, 
+  onQuantityChange,
+  selectedVariation,
+  selectedColor,
+  variationName,
+}: QuantitySelectorProps) => {
+  const { addItem } = useCart();
   const totalPrice = quantity * pricePerUnit;
+
+  const handleAddToCart = () => {
+    addItem({
+      variationId: selectedVariation,
+      variationName: variationName,
+      color: selectedColor,
+      pricePerUnit: pricePerUnit,
+      priceId: getStripePrice(selectedVariation),
+      quantity: quantity,
+    });
+
+    toast({
+      title: "Added to cart",
+      description: `${quantity}x ${variationName} (${selectedColor}) added to your cart.`,
+    });
+
+    // Reset quantity after adding
+    onQuantityChange(1);
+  };
 
   return (
     <div className="bg-secondary rounded-2xl p-6">
@@ -45,7 +78,11 @@ const QuantitySelector = ({ quantity, pricePerUnit, onQuantityChange }: Quantity
         </div>
       </div>
 
-      <button className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-colors active:scale-[0.98]">
+      <button 
+        onClick={handleAddToCart}
+        className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-colors active:scale-[0.98] flex items-center justify-center gap-2"
+      >
+        <ShoppingCart className="w-5 h-5" />
         Add to Cart — ${totalPrice.toFixed(2)}
       </button>
 
