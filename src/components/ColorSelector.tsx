@@ -8,7 +8,7 @@ interface ColorOption {
 
 const colors: ColorOption[] = [
   { id: "green", name: "Green", className: "bg-product-green" },
-  { id: "blue", name: "Blue", className: "bg-product-blue" },
+  { id: "blue", name: "Light Blue", className: "bg-product-blue" },
   { id: "orange", name: "Orange", className: "bg-product-orange" },
   { id: "pink", name: "Pink", className: "bg-product-pink" },
   { id: "purple", name: "Purple", className: "bg-product-purple" },
@@ -20,12 +20,11 @@ const colors: ColorOption[] = [
 interface ColorSelectorProps {
   selected: string;
   onSelect: (id: string) => void;
-  disabled?: boolean;
 }
 
-const ColorSelector = ({ selected, onSelect, disabled }: ColorSelectorProps) => {
+const ColorSelector = ({ selected, onSelect }: ColorSelectorProps) => {
   return (
-    <div className={`animate-fade-up delay-300 ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
+    <div className="animate-fade-up delay-300">
       <h3 className="text-base font-semibold mb-3">Select Color</h3>
       <div className="flex gap-2 flex-wrap">
         {colors.map((color) => (
@@ -45,9 +44,6 @@ const ColorSelector = ({ selected, onSelect, disabled }: ColorSelectorProps) => 
           </button>
         ))}
       </div>
-      {disabled && (
-        <p className="text-xs text-muted-foreground mt-2">Color selection disabled for mix packs</p>
-      )}
     </div>
   );
 };

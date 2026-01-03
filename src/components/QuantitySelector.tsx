@@ -2,26 +2,23 @@ import { Minus, Plus } from "lucide-react";
 
 interface QuantitySelectorProps {
   quantity: number;
-  unitsPerSet: number;
-  pricePerSet: number;
+  pricePerUnit: number;
   onQuantityChange: (quantity: number) => void;
 }
 
 const QuantitySelector = ({ 
   quantity, 
-  unitsPerSet, 
-  pricePerSet, 
+  pricePerUnit, 
   onQuantityChange 
 }: QuantitySelectorProps) => {
-  const totalUnits = quantity * unitsPerSet;
-  const totalPrice = quantity * pricePerSet;
+  const totalPrice = quantity * pricePerUnit;
 
   return (
     <div className="bg-secondary rounded-2xl p-6">
       <div className="flex items-baseline justify-between mb-4">
         <div>
-          <span className="text-3xl font-bold">${pricePerSet}</span>
-          <span className="text-muted-foreground ml-1">per {unitsPerSet} units</span>
+          <span className="text-3xl font-bold">${pricePerUnit}</span>
+          <span className="text-muted-foreground ml-1">per unit</span>
         </div>
       </div>
       
@@ -31,7 +28,7 @@ const QuantitySelector = ({
       
       <div className="mb-4">
         <label className="text-sm text-muted-foreground mb-2 block">
-          Quantity (sets of {unitsPerSet})
+          Quantity
         </label>
         <div className="flex items-center gap-4">
           <div className="flex items-center bg-background rounded-lg border border-border">
@@ -50,7 +47,7 @@ const QuantitySelector = ({
               <Plus className="w-4 h-4" />
             </button>
           </div>
-          <span className="text-muted-foreground">= {totalUnits} keyrings</span>
+          <span className="text-muted-foreground">= {quantity} keyring{quantity > 1 ? 's' : ''}</span>
         </div>
       </div>
       

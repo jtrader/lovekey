@@ -13,29 +13,15 @@ const variations: Variation[] = [
     id: "lightweight",
     name: "Lightweight",
     description: "NFC-enabled, budget-friendly option",
-    price: 100,
-    units: 100,
-  },
-  {
-    id: "lightweight-mix",
-    name: "Lightweight Mix Pack",
-    description: "All 8 colors (10 each), budget-friendly",
-    price: 100,
-    units: 80,
+    price: 2,
+    units: 1,
   },
   {
     id: "metal",
     name: "Metal",
     description: "NFC-enabled, premium durable finish",
-    price: 200,
-    units: 100,
-  },
-  {
-    id: "metal-mix",
-    name: "Metal Mix Pack",
-    description: "All 8 colors (10 each), premium quality",
-    price: 200,
-    units: 80,
+    price: 5,
+    units: 1,
   },
 ];
 
@@ -67,7 +53,7 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
             <h4 className="font-medium text-sm mb-1">{variation.name}</h4>
             <p className="text-xs text-muted-foreground mb-2">{variation.description}</p>
             <p className="text-sm font-semibold">
-              ${variation.price} <span className="text-muted-foreground font-normal">/ {variation.units} units</span>
+              ${variation.price} <span className="text-muted-foreground font-normal">/ unit</span>
             </p>
           </button>
         ))}
