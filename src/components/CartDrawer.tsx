@@ -1,11 +1,12 @@
-import { Minus, Plus, Trash2, ShoppingBag, Loader2 } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, Loader2, Check } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
-import { CURRENCY_SYMBOL } from "@/lib/stripe-products";
+import { CURRENCY_SYMBOL, getStripePrice } from "@/lib/stripe-products";
+import { variations } from "@/components/VariationSelector";
 
 // Product image imports - Lightweight
 import lightweightGreen from "@/assets/products/green.png";
@@ -56,9 +57,22 @@ const getProductImage = (variationId: string, color: string): string => {
   return productImages[variationId]?.[color] || lightweightWhite;
 };
 
+const colorOptions = [
+  { id: "green", name: "Green", className: "bg-product-green" },
+  { id: "blue", name: "Light Blue", className: "bg-product-blue" },
+  { id: "orange", name: "Orange", className: "bg-product-orange" },
+  { id: "pink", name: "Pink", className: "bg-product-pink" },
+  { id: "purple", name: "Purple", className: "bg-product-purple" },
+  { id: "red", name: "Red", className: "bg-product-red" },
+  { id: "white", name: "White", className: "bg-product-white border border-border" },
+  { id: "yellow", name: "Yellow", className: "bg-product-yellow" },
+];
+
 const CartDrawer = () => {
-  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart } = useCart();
+  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart, addItem } = useCart();
   const [isLoading, setIsLoading] = useState(false);
+  const [quickAddVariation, setQuickAddVariation] = useState("lightweight");
+  const [quickAddColor, setQuickAddColor] = useState("pink");
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
@@ -96,6 +110,25 @@ const CartDrawer = () => {
 
   const formatColor = (color: string) => {
     return color.charAt(0).toUpperCase() + color.slice(1);
+  };
+
+  const handleQuickAdd = () => {
+    const variation = variations.find((v) => v.id === quickAddVariation);
+    if (!variation) return;
+
+    addItem({
+      variationId: quickAddVariation,
+      variationName: variation.name,
+      color: quickAddColor,
+      pricePerUnit: variation.price,
+      priceId: getStripePrice(quickAddVariation),
+      quantity: 1,
+    });
+
+    toast({
+      title: "Added to cart",
+      description: `1x ${variation.name} (${formatColor(quickAddColor)}) added.`,
+    });
   };
 
   return (
@@ -179,6 +212,58 @@ const CartDrawer = () => {
               ))}
             </div>
 
+            {/* Quick Add Section */}
+            <div className="border-t border-border pt-4 pb-2">
+              <h4 className="text-sm font-semibold mb-3">Add another LoveKey</h4>
+              
+              {/* Variation Toggle */}
+              <div className="flex gap-2 mb-3">
+                {variations.map((variation) => (
+                  <button
+                    key={variation.id}
+                    onClick={() => setQuickAddVariation(variation.id)}
+                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
+                      quickAddVariation === variation.id
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary hover:bg-secondary/80"
+                    }`}
+                  >
+                    {variation.name} ({CURRENCY_SYMBOL}{variation.price})
+                  </button>
+                ))}
+              </div>
+
+              {/* Color Swatches */}
+              <div className="flex gap-1.5 mb-3 flex-wrap">
+                {colorOptions.map((color) => (
+                  <button
+                    key={color.id}
+                    onClick={() => setQuickAddColor(color.id)}
+                    title={color.name}
+                    className={`w-7 h-7 rounded-full ${color.className} flex items-center justify-center transition-all ${
+                      quickAddColor === color.id
+                        ? "ring-2 ring-offset-1 ring-primary scale-110"
+                        : "hover:scale-105"
+                    }`}
+                  >
+                    {quickAddColor === color.id && (
+                      <Check className={`w-3 h-3 ${color.id === "white" || color.id === "yellow" ? "text-foreground" : "text-white"}`} />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Quick Add Button */}
+              <Button
+                onClick={handleQuickAdd}
+                variant="outline"
+                className="w-full"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add {variations.find((v) => v.id === quickAddVariation)?.name} ({formatColor(quickAddColor)})
+              </Button>
+            </div>
+
             <div className="border-t border-border pt-4 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Subtotal</span>
@@ -192,7 +277,7 @@ const CartDrawer = () => {
               <Button
                 onClick={handleCheckout}
                 disabled={isLoading}
-                className="w-full py-6 text-lg"
+                className="w-full py-6 text-lg bg-product-red hover:bg-product-red/90"
               >
                 {isLoading ? (
                   <>
