@@ -83,19 +83,19 @@ const ProductGallery = ({
 
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
-      <div className="rounded-2xl overflow-hidden flex items-center justify-center relative">
+      <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
         {showingLifestyle && lifestyleImages.length > 1 && (
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-2 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+              className="absolute left-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
               aria-label="Previous image"
             >
               <ChevronLeft className="h-5 w-5 text-foreground" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-2 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+              className="absolute right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
               aria-label="Next image"
             >
               <ChevronRight className="h-5 w-5 text-foreground" />
@@ -109,7 +109,7 @@ const ProductGallery = ({
           className={`w-full transition-all duration-300 rounded-lg ${
             showingLifestyle 
               ? "aspect-[4/3] object-cover" 
-              : "max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain bg-secondary p-4"
+              : "max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain"
           }`}
         />
         
