@@ -134,7 +134,7 @@ const ProductGallery = ({
           <button
             key={color}
             onClick={() => onColorSelect(color)}
-            className={`aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 flex items-center justify-center backdrop-blur-xl bg-muted/50 p-1 cursor-pointer hover:opacity-100 ${
+            className={`aspect-square rounded-xl overflow-hidden border-2 transition-all duration-200 flex items-center justify-center backdrop-blur-xl bg-muted/50 cursor-pointer hover:opacity-100 ${
               selectedColor === color 
                 ? "border-accent ring-2 ring-accent/20" 
                 : "border-transparent opacity-70 hover:border-border"
@@ -143,7 +143,7 @@ const ProductGallery = ({
             <img
               src={img}
               alt={`${color} keyring`}
-              className="max-w-full max-h-full object-contain rounded-lg"
+              className="w-full h-full object-contain rounded-lg p-0.5"
             />
           </button>
         ))}
