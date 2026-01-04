@@ -9,15 +9,21 @@ import RealLifeGallery, { realLifeImages } from "@/components/RealLifeGallery";
 
 const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
-  const [selectedColor, setSelectedColor] = useState("pink");
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [realLifeImageIndex, setRealLifeImageIndex] = useState<number | null>(null);
+  const [lifestyleImageIndex, setLifestyleImageIndex] = useState(0);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
   
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
-    setRealLifeImageIndex(null); // Clear real-life image when selecting a product color
+  };
+  
+  const handleLifestyleSelect = (index: number | null) => {
+    if (index !== null) {
+      setLifestyleImageIndex(index);
+      setSelectedColor(null); // Clear product color when selecting lifestyle image
+    }
   };
 
   return (
@@ -36,11 +42,13 @@ const Index = () => {
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
               onColorSelect={handleColorSelect}
-              overrideImage={realLifeImageIndex !== null ? realLifeImages[realLifeImageIndex] : null}
+              lifestyleImages={realLifeImages}
+              lifestyleImageIndex={lifestyleImageIndex}
+              onLifestyleNavigate={setLifestyleImageIndex}
             />
             <RealLifeGallery 
-              selectedIndex={realLifeImageIndex}
-              onSelect={setRealLifeImageIndex}
+              selectedIndex={selectedColor === null ? lifestyleImageIndex : null}
+              onSelect={handleLifestyleSelect}
             />
           </div>
           
@@ -57,7 +65,7 @@ const Index = () => {
                 pricePerUnit={currentVariation.price}
                 onQuantityChange={setQuantity}
                 selectedVariation={selectedVariation}
-                selectedColor={selectedColor}
+                selectedColor={selectedColor || "pink"}
                 variationName={currentVariation.name}
               />
             )}
