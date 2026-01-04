@@ -143,7 +143,7 @@ const ProductGallery = ({
             <img
               src={img}
               alt={`${color} keyring`}
-              className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-contain scale-125 rounded-lg hover:scale-[1.35] transition-transform duration-300"
             />
           </button>
         ))}
