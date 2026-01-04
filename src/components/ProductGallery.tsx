@@ -143,7 +143,7 @@ const ProductGallery = ({
             <img
               src={img}
               alt={`${color} keyring`}
-              className="w-full h-full object-contain rounded-lg"
+              className="max-w-full max-h-full object-contain rounded-lg"
             />
           </button>
         ))}
