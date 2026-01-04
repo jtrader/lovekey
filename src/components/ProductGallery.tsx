@@ -1,3 +1,5 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 // Lightweight images
 import lightweightLightBlue from "@/assets/products/light-blue.png";
 import lightweightGreen from "@/assets/products/green.png";
@@ -41,30 +43,90 @@ const metalImages: Record<string, string> = {
 };
 
 interface ProductGalleryProps {
-  selectedColor: string;
+  selectedColor: string | null;
   selectedVariation: string;
   onColorSelect: (color: string) => void;
-  overrideImage?: { src: string; alt: string } | null;
+  lifestyleImages: { src: string; alt: string }[];
+  lifestyleImageIndex: number;
+  onLifestyleNavigate: (index: number) => void;
 }
 
-const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect, overrideImage }: ProductGalleryProps) => {
-  const images = selectedVariation === "metal" ? metalImages : lightweightImages;
-  const currentImage = overrideImage?.src || images[selectedColor] || images.pink;
-  const currentAlt = overrideImage?.alt || `Love Key - ${selectedColor} ${selectedVariation}`;
+const ProductGallery = ({ 
+  selectedColor, 
+  selectedVariation, 
+  onColorSelect, 
+  lifestyleImages,
+  lifestyleImageIndex,
+  onLifestyleNavigate
+}: ProductGalleryProps) => {
+  const productImages = selectedVariation === "metal" ? metalImages : lightweightImages;
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
+  
+  // Show lifestyle image by default, product image when color is selected
+  const showingLifestyle = selectedColor === null;
+  const currentImage = showingLifestyle 
+    ? lifestyleImages[lifestyleImageIndex]?.src 
+    : productImages[selectedColor] || productImages.pink;
+  const currentAlt = showingLifestyle 
+    ? lifestyleImages[lifestyleImageIndex]?.alt 
+    : `Love Key - ${selectedColor} ${selectedVariation}`;
+
+  const goToPrevious = () => {
+    const newIndex = lifestyleImageIndex === 0 ? lifestyleImages.length - 1 : lifestyleImageIndex - 1;
+    onLifestyleNavigate(newIndex);
+  };
+
+  const goToNext = () => {
+    const newIndex = lifestyleImageIndex === lifestyleImages.length - 1 ? 0 : lifestyleImageIndex + 1;
+    onLifestyleNavigate(newIndex);
+  };
 
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
-      <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-4 sm:p-6">
+      <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-4 sm:p-6 relative">
+        {showingLifestyle && lifestyleImages.length > 1 && (
+          <>
+            <button
+              onClick={goToPrevious}
+              className="absolute left-2 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-5 w-5 text-foreground" />
+            </button>
+            <button
+              onClick={goToNext}
+              className="absolute right-2 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-5 w-5 text-foreground" />
+            </button>
+          </>
+        )}
+        
         <img
           src={currentImage}
           alt={currentAlt}
           className={`max-h-[240px] sm:max-h-[320px] lg:max-h-[400px] transition-all duration-300 rounded-lg ${
-            overrideImage 
+            showingLifestyle 
               ? "w-full object-cover" 
               : "w-auto h-auto object-contain"
           }`}
         />
+        
+        {showingLifestyle && lifestyleImages.length > 1 && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {lifestyleImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => onLifestyleNavigate(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === lifestyleImageIndex ? "bg-accent" : "bg-background/60"
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
       
       <div className="grid grid-cols-4 gap-2">
