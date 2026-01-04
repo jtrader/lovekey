@@ -5,6 +5,7 @@ import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
+import RealLifeGallery from "@/components/RealLifeGallery";
 
 const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
@@ -30,6 +31,7 @@ const Index = () => {
               selectedVariation={selectedVariation}
               onColorSelect={setSelectedColor}
             />
+            <RealLifeGallery />
           </div>
           
           {/* Right Column - Product Details */}
