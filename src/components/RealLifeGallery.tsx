@@ -8,9 +8,9 @@ import keyring4 from "@/assets/gallery/keyring-4.png";
 
 const images = [
   { src: keyring1, alt: "Metal keyring with heart logo" },
-  { src: keyring2, alt: "Red keyring with QR code" },
-  { src: keyring3, alt: "Red keyring with NFC symbol" },
   { src: keyring4, alt: "Metal keyring with QR code" },
+  { src: keyring3, alt: "Red keyring with NFC symbol" },
+  { src: keyring2, alt: "Red keyring with QR code" },
 ];
 
 const RealLifeGallery = () => {
