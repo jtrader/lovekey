@@ -126,8 +126,8 @@ const CartDrawer = () => {
     });
 
     toast({
-      title: "Added to cart",
-      description: `1x ${variation.name} (${formatColor(quickAddColor)}) added.`,
+      title: `1x ${variation.name} (${formatColor(quickAddColor)}) added to cart`,
+      duration: 2000,
     });
   };
 
