@@ -5,14 +5,20 @@ import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
-import RealLifeGallery from "@/components/RealLifeGallery";
+import RealLifeGallery, { realLifeImages } from "@/components/RealLifeGallery";
 
 const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
   const [selectedColor, setSelectedColor] = useState("pink");
   const [quantity, setQuantity] = useState(1);
+  const [realLifeImageIndex, setRealLifeImageIndex] = useState<number | null>(null);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
+  
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    setRealLifeImageIndex(null); // Clear real-life image when selecting a product color
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,14 +30,18 @@ const Index = () => {
           <div className="lg:sticky lg:top-24 lg:self-start space-y-4">
             <ColorSelector
               selected={selectedColor}
-              onSelect={setSelectedColor}
+              onSelect={handleColorSelect}
             />
             <ProductGallery 
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
-              onColorSelect={setSelectedColor}
+              onColorSelect={handleColorSelect}
+              overrideImage={realLifeImageIndex !== null ? realLifeImages[realLifeImageIndex] : null}
             />
-            <RealLifeGallery />
+            <RealLifeGallery 
+              selectedIndex={realLifeImageIndex}
+              onSelect={setRealLifeImageIndex}
+            />
           </div>
           
           {/* Right Column - Product Details */}

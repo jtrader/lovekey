@@ -44,11 +44,13 @@ interface ProductGalleryProps {
   selectedColor: string;
   selectedVariation: string;
   onColorSelect: (color: string) => void;
+  overrideImage?: { src: string; alt: string } | null;
 }
 
-const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect }: ProductGalleryProps) => {
+const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect, overrideImage }: ProductGalleryProps) => {
   const images = selectedVariation === "metal" ? metalImages : lightweightImages;
-  const currentImage = images[selectedColor] || images.pink;
+  const currentImage = overrideImage?.src || images[selectedColor] || images.pink;
+  const currentAlt = overrideImage?.alt || `Love Key - ${selectedColor} ${selectedVariation}`;
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
 
   return (
@@ -56,8 +58,10 @@ const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect }: Pro
       <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-4 sm:p-6">
         <img
           src={currentImage}
-          alt={`Love Key - ${selectedColor} ${selectedVariation}`}
-          className="w-auto h-auto max-h-[240px] sm:max-h-[320px] lg:max-h-[400px] object-contain transition-all duration-300"
+          alt={currentAlt}
+          className={`w-auto h-auto max-h-[240px] sm:max-h-[320px] lg:max-h-[400px] transition-all duration-300 ${
+            overrideImage ? "object-cover" : "object-contain"
+          }`}
         />
       </div>
       
