@@ -33,7 +33,7 @@ const RealLifeGallery = ({ selectedIndex, onSelect }: RealLifeGalleryProps) => {
             <img
               src={image.src}
               alt={image.alt}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
             />
           </button>
         ))}
