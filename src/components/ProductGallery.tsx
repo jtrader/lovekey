@@ -88,14 +88,14 @@ const ProductGallery = ({
           <>
             <button
               onClick={goToPrevious}
-              className="absolute left-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+              className="absolute left-2 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
               aria-label="Previous image"
             >
               <ChevronLeft className="h-5 w-5 text-foreground" />
             </button>
             <button
               onClick={goToNext}
-              className="absolute right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
+              className="absolute right-2 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
               aria-label="Next image"
             >
               <ChevronRight className="h-5 w-5 text-foreground" />
@@ -114,7 +114,7 @@ const ProductGallery = ({
         />
         
         {showingLifestyle && lifestyleImages.length > 1 && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
             {lifestyleImages.map((_, index) => (
               <button
                 key={index}
