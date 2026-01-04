@@ -59,9 +59,9 @@ const ProductGallery = ({ selectedColor, selectedVariation, onColorSelect, overr
         <img
           src={currentImage}
           alt={currentAlt}
-          className={`max-h-[240px] sm:max-h-[320px] lg:max-h-[400px] transition-all duration-300 ${
+          className={`max-h-[240px] sm:max-h-[320px] lg:max-h-[400px] transition-all duration-300 rounded-lg ${
             overrideImage 
-              ? "w-full object-cover rounded-lg" 
+              ? "w-full object-cover" 
               : "w-auto h-auto object-contain"
           }`}
         />
