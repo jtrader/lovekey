@@ -34,8 +34,8 @@ const QuantitySelector = ({
     });
 
     toast({
-      title: "Added to cart",
-      description: `${quantity}x ${variationName} (${selectedColor}) added to your cart.`,
+      title: `${quantity}x ${variationName} (${selectedColor}) added to cart`,
+      duration: 2000,
     });
 
     // Reset quantity after adding
