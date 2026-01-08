@@ -4,7 +4,7 @@ import ProductGallery from "@/components/ProductGallery";
 import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
-import DonationSelector from "@/components/DonationSelector";
+import AddToCartButton from "@/components/AddToCartButton";
 import RealLifeGallery, { realLifeImages } from "@/components/RealLifeGallery";
 
 const Index = () => {
@@ -59,7 +59,7 @@ const Index = () => {
             />
             
             {currentVariation && (
-              <DonationSelector
+              <AddToCartButton
                 selectedVariation={selectedVariation}
                 selectedColor={selectedColor || "pink"}
                 variationName={currentVariation.name}
