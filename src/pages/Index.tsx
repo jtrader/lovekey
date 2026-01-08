@@ -4,13 +4,12 @@ import ProductGallery from "@/components/ProductGallery";
 import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
-import QuantitySelector from "@/components/QuantitySelector";
+import DonationSelector from "@/components/DonationSelector";
 import RealLifeGallery, { realLifeImages } from "@/components/RealLifeGallery";
 
 const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [quantity, setQuantity] = useState(1);
   const [lifestyleImageIndex, setLifestyleImageIndex] = useState(0);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
@@ -60,10 +59,7 @@ const Index = () => {
             />
             
             {currentVariation && (
-              <QuantitySelector
-                quantity={quantity}
-                pricePerUnit={currentVariation.price}
-                onQuantityChange={setQuantity}
+              <DonationSelector
                 selectedVariation={selectedVariation}
                 selectedColor={selectedColor || "pink"}
                 variationName={currentVariation.name}
