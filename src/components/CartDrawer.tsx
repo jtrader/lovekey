@@ -1,10 +1,12 @@
-import { Minus, Plus, Trash2, ShoppingBag, Heart, ExternalLink, Check } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, Loader2, Check } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
-import { variations } from "@/components/VariationSelector";
 import { toast } from "@/hooks/use-toast";
+import { CURRENCY_SYMBOL, getStripePrice } from "@/lib/stripe-products";
+import { variations } from "@/components/VariationSelector";
 
 // Product image imports - Lightweight
 import lightweightGreen from "@/assets/products/green.png";
@@ -66,41 +68,45 @@ const colorOptions = [
   { id: "yellow", name: "Yellow", className: "bg-product-yellow" },
 ];
 
-const donationAmounts = [10, 25, 50, 100];
-
-const foundations = [
-  {
-    id: "lifeline",
-    name: "Lifeline Australia",
-    url: "https://www.lifeline.org.au/donate",
-    color: "bg-[#00A651]",
-  },
-  {
-    id: "beyondblue",
-    name: "Beyond Blue",
-    url: "https://www.beyondblue.org.au/donate",
-    color: "bg-[#1E3A8A]",
-  },
-  {
-    id: "kidshelpline",
-    name: "Kids Helpline",
-    url: "https://www.kidshelpline.com.au/donate",
-    color: "bg-[#E91E63]",
-  },
-  {
-    id: "mensline",
-    name: "MensLine Australia",
-    url: "https://www.mensline.org.au/donate",
-    color: "bg-[#0EA5E9]",
-  },
-];
-
 const CartDrawer = () => {
-  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, clearCart, addItem } = useCart();
+  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart, addItem } = useCart();
+  const [isLoading, setIsLoading] = useState(false);
   const [quickAddVariation, setQuickAddVariation] = useState("lightweight");
   const [quickAddColor, setQuickAddColor] = useState("pink");
-  const [selectedDonation, setSelectedDonation] = useState<number>(25);
-  const [showCheckout, setShowCheckout] = useState(false);
+
+  const handleCheckout = async () => {
+    if (items.length === 0) return;
+
+    setIsLoading(true);
+    try {
+      const lineItems = items.map((item) => ({
+        priceId: item.priceId,
+        quantity: item.quantity,
+        color: item.color,
+        variationName: item.variationName,
+      }));
+
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { lineItems },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        // Use location.href for mobile compatibility (window.open is often blocked)
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      toast({
+        title: "Checkout failed",
+        description: "There was an error processing your checkout. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formatColor = (color: string) => {
     return color.charAt(0).toUpperCase() + color.slice(1);
@@ -114,6 +120,8 @@ const CartDrawer = () => {
       variationId: quickAddVariation,
       variationName: variation.name,
       color: quickAddColor,
+      pricePerUnit: variation.price,
+      priceId: getStripePrice(quickAddVariation),
       quantity: 1,
     });
 
@@ -123,100 +131,17 @@ const CartDrawer = () => {
     });
   };
 
-  const handleDonate = (foundation: typeof foundations[0]) => {
-    window.open(foundation.url, "_blank", "noopener,noreferrer");
-    toast({
-      title: "Thank you for your generosity!",
-      description: `Redirecting to ${foundation.name} to complete your $${selectedDonation} donation.`,
-      duration: 4000,
-    });
-  };
-
-  const handleBackToCart = () => {
-    setShowCheckout(false);
-  };
-
   return (
     <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
       <SheetContent className="w-full sm:max-w-md flex flex-col">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            {showCheckout ? (
-              <>
-                <Heart className="w-5 h-5 text-product-red" />
-                Choose a Donation
-              </>
-            ) : (
-              <>
-                <ShoppingBag className="w-5 h-5" />
-                Your Cart
-              </>
-            )}
+            <ShoppingBag className="w-5 h-5" />
+            Your Cart
           </SheetTitle>
         </SheetHeader>
 
-        {showCheckout ? (
-          <div className="flex-1 flex flex-col py-4">
-            <p className="text-sm text-muted-foreground mb-6 text-center">
-              LoveKeys are free! We ask that you consider making a donation to one of these amazing mental health foundations.
-            </p>
-
-            {/* Donation Amount Selection */}
-            <div className="mb-6">
-              <label className="text-sm font-medium mb-3 block">Select donation amount</label>
-              <div className="grid grid-cols-4 gap-2">
-                {donationAmounts.map((amount) => (
-                  <button
-                    key={amount}
-                    onClick={() => setSelectedDonation(amount)}
-                    className={`py-3 px-2 rounded-xl font-semibold text-sm transition-all ${
-                      selectedDonation === amount
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary hover:bg-secondary/80"
-                    }`}
-                  >
-                    ${amount}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Foundation Selection */}
-            <div className="flex-1 space-y-3">
-              <label className="text-sm font-medium block">Choose a foundation to support</label>
-              {foundations.map((foundation) => (
-                <button
-                  key={foundation.id}
-                  onClick={() => handleDonate(foundation)}
-                  className="w-full text-left p-4 rounded-xl border-2 border-border hover:border-primary transition-all duration-200 bg-background group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full ${foundation.color} flex items-center justify-center flex-shrink-0`}>
-                      <Heart className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm flex items-center gap-2">
-                        {foundation.name}
-                        <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors" />
-                      </h4>
-                    </div>
-                    <span className="text-sm font-semibold text-primary">${selectedDonation}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <div className="border-t border-border pt-4 mt-4">
-              <Button
-                variant="outline"
-                onClick={handleBackToCart}
-                className="w-full"
-              >
-                Back to Cart
-              </Button>
-            </div>
-          </div>
-        ) : items.length === 0 ? (
+        {items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
             <ShoppingBag className="w-16 h-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
@@ -244,8 +169,8 @@ const CartDrawer = () => {
                     <p className="text-sm text-muted-foreground">
                       Color: {formatColor(item.color)}
                     </p>
-                    <p className="text-sm font-medium text-product-green mt-1">
-                      Free
+                    <p className="text-sm font-medium mt-1">
+                      {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)} each
                     </p>
                   </div>
 
@@ -278,6 +203,10 @@ const CartDrawer = () => {
                         <Plus className="w-3 h-3" />
                       </button>
                     </div>
+
+                    <p className="text-sm font-semibold">
+                      {CURRENCY_SYMBOL}{(item.pricePerUnit * item.quantity).toFixed(2)}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -299,7 +228,7 @@ const CartDrawer = () => {
                         : "bg-secondary hover:bg-secondary/80"
                     }`}
                   >
-                    {variation.name}
+                    {variation.name} ({CURRENCY_SYMBOL}{variation.price})
                   </button>
                 ))}
               </div>
@@ -336,12 +265,28 @@ const CartDrawer = () => {
             </div>
 
             <div className="border-t border-border pt-4 space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-xl font-bold">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
+              </div>
+
+              <p className="text-xs text-muted-foreground text-center">
+                Shipping calculated at checkout
+              </p>
+
               <Button
-                onClick={() => setShowCheckout(true)}
+                onClick={handleCheckout}
+                disabled={isLoading}
                 className="w-full py-6 text-lg bg-product-red hover:bg-product-red/90"
               >
-                <Heart className="w-5 h-5 mr-2" />
-                Checkout & Donate
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  `Checkout — ${CURRENCY_SYMBOL}${totalPrice.toFixed(2)}`
+                )}
               </Button>
 
               <button

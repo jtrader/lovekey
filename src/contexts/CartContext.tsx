@@ -5,6 +5,8 @@ export interface CartItem {
   variationName: string;
   color: string;
   quantity: number;
+  pricePerUnit: number;
+  priceId: string;
 }
 
 interface CartContextType {
@@ -14,6 +16,7 @@ interface CartContextType {
   updateQuantity: (variationId: string, color: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
+  totalPrice: number;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
 }
@@ -91,6 +94,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce(
+    (sum, item) => sum + item.quantity * item.pricePerUnit,
+    0
+  );
 
   return (
     <CartContext.Provider
@@ -101,6 +108,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         updateQuantity,
         clearCart,
         totalItems,
+        totalPrice,
         isCartOpen,
         setIsCartOpen,
       }}

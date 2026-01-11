@@ -1,21 +1,27 @@
 import { Check } from "lucide-react";
-
+import { CURRENCY_SYMBOL } from "@/lib/stripe-products";
 interface Variation {
   id: string;
   name: string;
   description: string;
+  price: number;
+  units: number;
 }
 
 const variations: Variation[] = [
   {
     id: "lightweight",
     name: "Lightweight",
-    description: "NFC-enabled, eco-friendly option",
+    description: "NFC-enabled, budget-friendly option",
+    price: 2,
+    units: 1,
   },
   {
     id: "metal",
     name: "Metal",
     description: "NFC-enabled, premium durable finish",
+    price: 5,
+    units: 1,
   },
 ];
 
@@ -45,7 +51,10 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
               </div>
             )}
             <h4 className="font-medium text-sm mb-1">{variation.name}</h4>
-            <p className="text-xs text-muted-foreground">{variation.description}</p>
+            <p className="text-xs text-muted-foreground mb-2">{variation.description}</p>
+            <p className="text-sm font-semibold">
+              {CURRENCY_SYMBOL}{variation.price} <span className="text-muted-foreground font-normal">/ unit</span>
+            </p>
           </button>
         ))}
       </div>
