@@ -11,14 +11,14 @@ interface Variation {
 const variations: Variation[] = [
   {
     id: "metal",
-    name: "Metal",
+    name: "Love Key Guardian",
     description: "NFC-enabled, premium durable finish",
     price: 29.95,
     units: 1,
   },
   {
     id: "lightweight",
-    name: "Lightweight",
+    name: "Love Key Essential",
     description: "NFC-enabled, budget-friendly option",
     price: 14.95,
     units: 1,
