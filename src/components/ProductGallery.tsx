@@ -63,7 +63,7 @@ const ProductGallery = ({
     : productImages[selectedColor] || productImages.pink;
   const currentAlt = showingLifestyle 
     ? lifestyleImage.alt 
-    : `Love Key - ${selectedColor} ${selectedVariation}`;
+    : `Love Key™ - ${selectedColor} ${selectedVariation}`;
 
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
