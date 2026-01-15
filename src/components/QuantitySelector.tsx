@@ -73,7 +73,7 @@ const QuantitySelector = ({
             </button>
           </div>
           <span className="text-muted-foreground">
-            = {quantity} {variationName} keyring{quantity > 1 ? "s" : ""} - {selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)}
+            = {quantity} {variationName} - {selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)}
           </span>
         </div>
       </div>
