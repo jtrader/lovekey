@@ -1,5 +1,3 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
 // Lightweight images
 import lightweightLightBlue from "@/assets/products/light-blue.png";
 import lightweightGreen from "@/assets/products/green.png";
@@ -46,18 +44,14 @@ interface ProductGalleryProps {
   selectedColor: string | null;
   selectedVariation: string;
   onColorSelect: (color: string) => void;
-  lifestyleImages: { src: string; alt: string }[];
-  lifestyleImageIndex: number;
-  onLifestyleNavigate: (index: number) => void;
+  lifestyleImage: { src: string; alt: string };
 }
 
 const ProductGallery = ({ 
   selectedColor, 
   selectedVariation, 
   onColorSelect, 
-  lifestyleImages,
-  lifestyleImageIndex,
-  onLifestyleNavigate
+  lifestyleImage,
 }: ProductGalleryProps) => {
   const productImages = selectedVariation === "metal" ? metalImages : lightweightImages;
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
@@ -65,44 +59,15 @@ const ProductGallery = ({
   // Show lifestyle image by default, product image when color is selected
   const showingLifestyle = selectedColor === null;
   const currentImage = showingLifestyle 
-    ? lifestyleImages[lifestyleImageIndex]?.src 
+    ? lifestyleImage.src 
     : productImages[selectedColor] || productImages.pink;
   const currentAlt = showingLifestyle 
-    ? lifestyleImages[lifestyleImageIndex]?.alt 
+    ? lifestyleImage.alt 
     : `Love Key - ${selectedColor} ${selectedVariation}`;
-
-  const goToPrevious = () => {
-    const newIndex = lifestyleImageIndex === 0 ? lifestyleImages.length - 1 : lifestyleImageIndex - 1;
-    onLifestyleNavigate(newIndex);
-  };
-
-  const goToNext = () => {
-    const newIndex = lifestyleImageIndex === lifestyleImages.length - 1 ? 0 : lifestyleImageIndex + 1;
-    onLifestyleNavigate(newIndex);
-  };
 
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
       <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
-        {showingLifestyle && lifestyleImages.length > 1 && (
-          <>
-            <button
-              onClick={goToPrevious}
-              className="absolute left-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="h-5 w-5 text-foreground" />
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors"
-              aria-label="Next image"
-            >
-              <ChevronRight className="h-5 w-5 text-foreground" />
-            </button>
-          </>
-        )}
-        
         <img
           src={currentImage}
           alt={currentAlt}
@@ -112,21 +77,6 @@ const ProductGallery = ({
               : "max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain"
           }`}
         />
-        
-        {showingLifestyle && lifestyleImages.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-            {lifestyleImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => onLifestyleNavigate(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === lifestyleImageIndex ? "bg-accent" : "bg-background/60"
-                }`}
-                aria-label={`Go to image ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
       
       <div className="grid grid-cols-4 gap-2">

@@ -6,24 +6,15 @@ import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
 
-// Lifestyle images for the main gallery slider
+// Lifestyle image for the main gallery
 import keyring1 from "@/assets/gallery/keyring-1.png";
-import keyring2 from "@/assets/gallery/keyring-2.png";
-import keyring3 from "@/assets/gallery/keyring-3.jpeg";
-import keyring4 from "@/assets/gallery/keyring-4.png";
 
-const lifestyleImages = [
-  { src: keyring1, alt: "Love Key on keys" },
-  { src: keyring2, alt: "Love Key lifestyle" },
-  { src: keyring3, alt: "Love Key in use" },
-  { src: keyring4, alt: "Love Key collection" },
-];
+const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
 const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [lifestyleImageIndex, setLifestyleImageIndex] = useState(0);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
   
@@ -47,9 +38,7 @@ const Index = () => {
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
               onColorSelect={handleColorSelect}
-              lifestyleImages={lifestyleImages}
-              lifestyleImageIndex={lifestyleImageIndex}
-              onLifestyleNavigate={setLifestyleImageIndex}
+              lifestyleImage={lifestyleImage}
             />
           </div>
           
