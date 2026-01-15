@@ -5,6 +5,7 @@ import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
+import BundlePromos from "@/components/BundlePromos";
 
 // Lifestyle image for the main gallery
 import keyring1 from "@/assets/gallery/keyring-1.png";
@@ -59,6 +60,8 @@ const Index = () => {
                 variationName={currentVariation.name}
               />
             )}
+            
+            <BundlePromos selectedVariation={selectedVariation} />
             
             <FeatureBox />
           </div>
