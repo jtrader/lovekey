@@ -51,7 +51,7 @@ const QuantitySelector = ({
         </div>
       </div>
 
-      <p className="text-sm text-muted-foreground mb-4">All key rings include QR code and NFC technology</p>
+      
 
       <div className="mb-4">
         <label className="text-sm text-muted-foreground mb-2 block">Quantity</label>
