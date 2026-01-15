@@ -15,6 +15,7 @@ interface LineItem {
 
 interface CheckoutRequest {
   lineItems: LineItem[];
+  couponId?: string | null;
 }
 
 serve(async (req) => {
@@ -31,8 +32,8 @@ serve(async (req) => {
       throw new Error("STRIPE_SECRET_KEY is not set");
     }
 
-    const { lineItems }: CheckoutRequest = await req.json();
-    console.log("[CREATE-CHECKOUT] Received line items:", JSON.stringify(lineItems));
+    const { lineItems, couponId }: CheckoutRequest = await req.json();
+    console.log("[CREATE-CHECKOUT] Received line items:", JSON.stringify(lineItems), "Coupon:", couponId);
 
     if (!lineItems || lineItems.length === 0) {
       throw new Error("No items in cart");
@@ -80,8 +81,8 @@ serve(async (req) => {
 
     const origin = req.headers.get("origin") || "http://localhost:3000";
 
-    // Create checkout session (guest checkout - no auth required)
-    const session = await stripe.checkout.sessions.create({
+    // Build session config
+    const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       line_items: stripeLineItems,
       mode: "payment",
       success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
@@ -115,7 +116,16 @@ serve(async (req) => {
         order_details: orderDetails,
         items: itemsJson,
       },
-    });
+    };
+
+    // Apply coupon if provided
+    if (couponId) {
+      sessionConfig.discounts = [{ coupon: couponId }];
+      console.log("[CREATE-CHECKOUT] Applying coupon:", couponId);
+    }
+
+    // Create checkout session (guest checkout - no auth required)
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     console.log("[CREATE-CHECKOUT] Session created:", session.id);
 

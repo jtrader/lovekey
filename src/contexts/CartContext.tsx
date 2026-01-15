@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useMemo } from "react";
+import { detectBundles, calculateBundleDiscount, DetectedBundle } from "@/lib/bundles";
 
 export interface CartItem {
   variationId: string;
@@ -19,6 +20,9 @@ interface CartContextType {
   totalPrice: number;
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
+  detectedBundles: DetectedBundle[];
+  bundleDiscount: number;
+  finalPrice: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -99,6 +103,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     0
   );
 
+  // Bundle detection and discount calculation
+  const detectedBundles = useMemo(() => detectBundles(items), [items]);
+  const bundleDiscount = useMemo(
+    () => calculateBundleDiscount(items, detectedBundles),
+    [items, detectedBundles]
+  );
+  const finalPrice = totalPrice - bundleDiscount;
+
   return (
     <CartContext.Provider
       value={{
@@ -111,6 +123,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         totalPrice,
         isCartOpen,
         setIsCartOpen,
+        detectedBundles,
+        bundleDiscount,
+        finalPrice,
       }}
     >
       {children}
