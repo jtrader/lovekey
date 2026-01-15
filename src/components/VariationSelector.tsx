@@ -12,14 +12,14 @@ const variations: Variation[] = [
   {
     id: "metal",
     name: "Love Key Guardian",
-    description: "NFC-enabled, premium durable finish",
+    description: "Crafted with a polished metal frame for strength, beauty, and permanence. The Love Key™ Guardian is a premium reminder that care is always close.",
     price: 29.95,
     units: 1,
   },
   {
     id: "lightweight",
     name: "Love Key Essential",
-    description: "NFC-enabled, budget-friendly option",
+    description: "Lightweight, durable, and designed for everyday carry. The Love Key™ Essential is the simplest way to keep emergency and mental health support within reach.",
     price: 14.95,
     units: 1,
   },
