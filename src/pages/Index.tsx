@@ -5,7 +5,19 @@ import FeatureBox from "@/components/FeatureBox";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
-import RealLifeGallery, { realLifeImages } from "@/components/RealLifeGallery";
+
+// Lifestyle images for the main gallery slider
+import keyring1 from "@/assets/gallery/keyring-1.png";
+import keyring2 from "@/assets/gallery/keyring-2.png";
+import keyring3 from "@/assets/gallery/keyring-3.jpeg";
+import keyring4 from "@/assets/gallery/keyring-4.png";
+
+const lifestyleImages = [
+  { src: keyring1, alt: "Love Key on keys" },
+  { src: keyring2, alt: "Love Key lifestyle" },
+  { src: keyring3, alt: "Love Key in use" },
+  { src: keyring4, alt: "Love Key collection" },
+];
 
 const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("lightweight");
@@ -17,13 +29,6 @@ const Index = () => {
   
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
-  };
-  
-  const handleLifestyleSelect = (index: number | null) => {
-    if (index !== null) {
-      setLifestyleImageIndex(index);
-      setSelectedColor(null); // Clear product color when selecting lifestyle image
-    }
   };
 
   return (
@@ -42,13 +47,9 @@ const Index = () => {
               selectedColor={selectedColor} 
               selectedVariation={selectedVariation}
               onColorSelect={handleColorSelect}
-              lifestyleImages={realLifeImages}
+              lifestyleImages={lifestyleImages}
               lifestyleImageIndex={lifestyleImageIndex}
               onLifestyleNavigate={setLifestyleImageIndex}
-            />
-            <RealLifeGallery 
-              selectedIndex={selectedColor === null ? lifestyleImageIndex : null}
-              onSelect={handleLifestyleSelect}
             />
           </div>
           
