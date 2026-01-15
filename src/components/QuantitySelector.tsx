@@ -73,7 +73,7 @@ const QuantitySelector = ({
             </button>
           </div>
           <span className="text-muted-foreground">
-            = {quantity} {variationName} ({selectedColor}) keyring{quantity > 1 ? "s" : ""}
+            = {quantity} Love Key™ {variationName.replace('Love Key ', '')} keyring{quantity > 1 ? "s" : ""} - {selectedColor}
           </span>
         </div>
       </div>
