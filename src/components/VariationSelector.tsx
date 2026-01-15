@@ -23,6 +23,13 @@ const variations: Variation[] = [
     price: 29.95,
     units: 1,
   },
+  {
+    id: "2pack-lightweight",
+    name: "2-Pack",
+    description: "One for you, one for someone you love",
+    price: 34.95,
+    units: 2,
+  },
 ];
 
 interface VariationSelectorProps {
