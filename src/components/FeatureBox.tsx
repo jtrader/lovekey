@@ -4,7 +4,7 @@ const FeatureBox = () => {
   return (
     <div className="bg-accent-soft rounded-2xl p-6 animate-fade-up delay-100">
       <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
-        Smart NFC-enabled keyrings that connect people to life-saving resources.
+        Love Key™ smart NFC-enabled keyrings that connect people to life-saving resources.
       </p>
 
       <div className="grid grid-cols-2 gap-4">

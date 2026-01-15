@@ -149,7 +149,7 @@ const CartDrawer = () => {
             <ShoppingBag className="w-16 h-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
             <p className="text-sm text-muted-foreground">
-              Add some LoveKeys to get started!
+              Add some Love Key™ keyrings to get started!
             </p>
           </div>
         ) : (
@@ -217,7 +217,7 @@ const CartDrawer = () => {
 
             {/* Quick Add Section */}
             <div className="border-t border-border pt-4 pb-2">
-              <h4 className="text-sm font-semibold mb-3">Add another LoveKey</h4>
+              <h4 className="text-sm font-semibold mb-3">Add another Love Key™</h4>
               
               {/* Variation Toggle */}
               <div className="flex gap-2 mb-3">

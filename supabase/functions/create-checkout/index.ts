@@ -55,7 +55,7 @@ serve(async (req) => {
         currency: item.currency,
         unit_amount: item.unitAmount,
         product_data: {
-          name: `LoveKey ${item.variationName} - ${item.color.charAt(0).toUpperCase() + item.color.slice(1)}`,
+          name: `Love Key™ ${item.variationName} - ${item.color.charAt(0).toUpperCase() + item.color.slice(1)}`,
           metadata: {
             variation: item.variationName,
             color: item.color,

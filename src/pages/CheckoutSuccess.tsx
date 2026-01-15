@@ -25,7 +25,7 @@ const CheckoutSuccess = () => {
         <div className="space-y-2">
           <h1 className="text-2xl font-bold">Order Confirmed!</h1>
           <p className="text-muted-foreground">
-            Thank you for your purchase. We've received your order and will ship your LoveKeys soon.
+            Thank you for your purchase. We've received your order and will ship your Love Key™ soon.
           </p>
         </div>
 
