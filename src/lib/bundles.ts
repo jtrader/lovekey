@@ -18,7 +18,7 @@ export const BUNDLES: Bundle[] = [
   {
     id: "true-blue",
     name: "True Blue",
-    colors: ["blue", "purple"], // blue = light-blue, purple = aqua
+    colors: ["blue", "aqua"],
     discountPercent: 20,
     stripeCouponId: "GQPRDALv",
   },
@@ -35,7 +35,7 @@ export const BUNDLES: Bundle[] = [
 const colorMapping: Record<string, string> = {
   "light-blue": "blue",
   blue: "blue",
-  purple: "purple", // This is the aqua color in the app
+  aqua: "aqua",
 };
 
 export const normalizeColor = (color: string): string => {

@@ -13,7 +13,7 @@ import lightweightGreen from "@/assets/products/green.png";
 import lightweightLightBlue from "@/assets/products/light-blue.png";
 import lightweightOrange from "@/assets/products/orange.png";
 import lightweightPink from "@/assets/products/pink.png";
-import lightweightPurple from "@/assets/products/purple.png";
+import lightweightAqua from "@/assets/products/aqua.png";
 import lightweightRed from "@/assets/products/red.png";
 import lightweightWhite from "@/assets/products/white.png";
 import lightweightYellow from "@/assets/products/yellow.png";
@@ -23,7 +23,7 @@ import metalGreen from "@/assets/products/metal/green.png";
 import metalLightBlue from "@/assets/products/metal/light-blue.png";
 import metalOrange from "@/assets/products/metal/orange.png";
 import metalPink from "@/assets/products/metal/pink.png";
-import metalPurple from "@/assets/products/metal/purple.png";
+import metalAqua from "@/assets/products/metal/aqua.png";
 import metalRed from "@/assets/products/metal/red.png";
 import metalWhite from "@/assets/products/metal/white.png";
 import metalYellow from "@/assets/products/metal/yellow.png";
@@ -35,7 +35,7 @@ const productImages: Record<string, Record<string, string>> = {
     "light-blue": lightweightLightBlue,
     orange: lightweightOrange,
     pink: lightweightPink,
-    purple: lightweightPurple,
+    aqua: lightweightAqua,
     red: lightweightRed,
     white: lightweightWhite,
     yellow: lightweightYellow,
@@ -46,7 +46,7 @@ const productImages: Record<string, Record<string, string>> = {
     "light-blue": metalLightBlue,
     orange: metalOrange,
     pink: metalPink,
-    purple: metalPurple,
+    aqua: metalAqua,
     red: metalRed,
     white: metalWhite,
     yellow: metalYellow,
@@ -62,7 +62,7 @@ const colorOptions = [
   { id: "blue", name: "Light Blue", className: "bg-product-blue" },
   { id: "orange", name: "Orange", className: "bg-product-orange" },
   { id: "pink", name: "Pink", className: "bg-product-pink" },
-  { id: "purple", name: "Purple", className: "bg-product-purple" },
+  { id: "aqua", name: "Aqua", className: "bg-product-aqua" },
   { id: "red", name: "Red", className: "bg-product-red" },
   { id: "white", name: "White", className: "bg-product-white border border-border" },
   { id: "yellow", name: "Yellow", className: "bg-product-yellow" },

@@ -3,7 +3,7 @@ import lightweightLightBlue from "@/assets/products/light-blue.png";
 import lightweightGreen from "@/assets/products/green.png";
 import lightweightOrange from "@/assets/products/orange.png";
 import lightweightPink from "@/assets/products/pink.png";
-import lightweightPurple from "@/assets/products/purple.png";
+import lightweightAqua from "@/assets/products/aqua.png";
 import lightweightRed from "@/assets/products/red.png";
 import lightweightWhite from "@/assets/products/white.png";
 import lightweightYellow from "@/assets/products/yellow.png";
@@ -13,7 +13,7 @@ import metalLightBlue from "@/assets/products/metal/light-blue.png";
 import metalGreen from "@/assets/products/metal/green.png";
 import metalOrange from "@/assets/products/metal/orange.png";
 import metalPink from "@/assets/products/metal/pink.png";
-import metalPurple from "@/assets/products/metal/purple.png";
+import metalAqua from "@/assets/products/metal/aqua.png";
 import metalRed from "@/assets/products/metal/red.png";
 import metalWhite from "@/assets/products/metal/white.png";
 import metalYellow from "@/assets/products/metal/yellow.png";
@@ -23,7 +23,7 @@ const lightweightImages: Record<string, string> = {
   blue: lightweightLightBlue,
   orange: lightweightOrange,
   pink: lightweightPink,
-  purple: lightweightPurple,
+  aqua: lightweightAqua,
   red: lightweightRed,
   white: lightweightWhite,
   yellow: lightweightYellow,
@@ -34,7 +34,7 @@ const metalImages: Record<string, string> = {
   blue: metalLightBlue,
   orange: metalOrange,
   pink: metalPink,
-  purple: metalPurple,
+  aqua: metalAqua,
   red: metalRed,
   white: metalWhite,
   yellow: metalYellow,
