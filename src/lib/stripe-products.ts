@@ -2,7 +2,6 @@
 export const STRIPE_PRICES = {
   lightweight: "price_1SlWkWIc1upzIn0vMFQh6Ptl",
   metal: "price_1SlWkmIc1upzIn0vOhaToRSq",
-  "2pack-lightweight": "price_2pack_lightweight", // TODO: Replace with actual Stripe price ID
 } as const;
 
 export const CURRENCY = "AUD";
