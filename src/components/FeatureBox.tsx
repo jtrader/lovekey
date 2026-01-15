@@ -7,7 +7,7 @@ const FeatureBox = () => {
         Love Key™ smart NFC-enabled keyrings that connect people to life-saving resources.
       </p>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center shrink-0">
             <Smartphone className="w-5 h-5 text-accent-soft-foreground" />
