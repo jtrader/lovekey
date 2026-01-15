@@ -8,7 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import greenImg from "@/assets/products/green.png";
 import yellowImg from "@/assets/products/yellow.png";
 import blueImg from "@/assets/products/light-blue.png";
-import purpleImg from "@/assets/products/purple.png";
+import aquaImg from "@/assets/products/aqua.png";
 import redImg from "@/assets/products/red.png";
 import whiteImg from "@/assets/products/white.png";
 
@@ -27,10 +27,10 @@ const bundlePromos = [
     id: "true-blue",
     name: "True Blue",
     tagline: "Blue & Aqua",
-    colors: ["blue", "purple"],
-    images: [blueImg, purpleImg],
+    colors: ["blue", "aqua"],
+    images: [blueImg, aquaImg],
     emoji: "🌊",
-    bgClass: "from-product-blue/20 to-product-purple/20",
+    bgClass: "from-product-blue/20 to-product-aqua/20",
     borderClass: "border-product-blue/30",
   },
   {
