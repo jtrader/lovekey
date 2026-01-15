@@ -13,7 +13,7 @@ import keyring1 from "@/assets/gallery/keyring-1.png";
 const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
 const Index = () => {
-  const [selectedVariation, setSelectedVariation] = useState("lightweight");
+  const [selectedVariation, setSelectedVariation] = useState("metal");
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
 
