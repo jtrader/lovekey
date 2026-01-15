@@ -11,7 +11,7 @@ const colors: ColorOption[] = [
   { id: "blue", name: "Light Blue", className: "bg-product-blue" },
   { id: "orange", name: "Orange", className: "bg-product-orange" },
   { id: "pink", name: "Pink", className: "bg-product-pink" },
-  { id: "purple", name: "Purple", className: "bg-product-purple" },
+  { id: "purple", name: "Aqua", className: "bg-product-purple" },
   { id: "red", name: "Red", className: "bg-product-red" },
   { id: "white", name: "White", className: "bg-product-white border border-border" },
   { id: "yellow", name: "Yellow", className: "bg-product-yellow" },
