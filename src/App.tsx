@@ -11,6 +11,7 @@ import CartDrawer from "@/components/CartDrawer";
 
 const queryClient = new QueryClient();
 
+// App component with cart context
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
