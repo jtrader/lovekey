@@ -14,7 +14,7 @@ const partners = [
 
 const SupportPartners = () => {
   return (
-    <section className="py-12 border-t border-border">
+    <section className="mt-12 pt-12 border-t border-border">
       <h2 className="text-center text-lg font-medium text-muted-foreground mb-8">
         Our Support Partners
       </h2>
