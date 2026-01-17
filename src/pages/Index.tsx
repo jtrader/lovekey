@@ -4,7 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import WhySection from "@/components/WhySection";
 import HowItWorks from "@/components/HowItWorks";
 import ProductGallery from "@/components/ProductGallery";
-import FeatureBox from "@/components/FeatureBox";
+
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
@@ -84,8 +84,6 @@ const Index = () => {
               )}
               
               <BundlePromos selectedVariation={selectedVariation} />
-              
-              <FeatureBox />
             </div>
           </div>
         </section>
