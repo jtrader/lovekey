@@ -3,7 +3,7 @@ import { Smartphone, QrCode, ArrowRight, CheckCircle } from "lucide-react";
 const steps = [
   {
     icon: Smartphone,
-    title: "Tap the NFC side",
+    title: "NFC Tap feature",
     description: "For basic emergency first aid training",
   },
   {
