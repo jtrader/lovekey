@@ -15,7 +15,7 @@ const FeatureBox = () => {
           <div>
             <h4 className="text-sm font-semibold text-foreground">NFC Tap Feature</h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Tap with phone to access emergency first aid resources
+              Tap with phone to access basic emergency first aid training
             </p>
           </div>
         </div>

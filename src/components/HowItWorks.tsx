@@ -4,7 +4,7 @@ const steps = [
   {
     icon: Smartphone,
     title: "Tap the NFC side",
-    description: "For emergency first aid support",
+    description: "For basic emergency first aid training",
   },
   {
     icon: QrCode,
