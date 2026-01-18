@@ -9,7 +9,7 @@ const HeroSection = () => {
   };
   return <section className="text-center sm:py-10 px-4 py-1">
       {/* Cropped keyring image at top */}
-      <div className="w-full max-w-xs sm:max-w-sm mx-auto mb-3">
+      <div className="w-full max-w-sm sm:max-w-lg mx-auto mb-3">
         <img 
           src={keyringHero} 
           alt="Love Key keyring with QR code" 
