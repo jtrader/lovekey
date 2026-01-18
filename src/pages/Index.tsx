@@ -43,14 +43,14 @@ const Index = () => {
         {/* Hero Section */}
         <HeroSection />
         
-        {/* Lifestyle Showcase */}
-        <LifestyleShowcase />
-        
         {/* Why Section */}
         <WhySection />
         
         {/* How It Works */}
         <HowItWorks />
+        
+        {/* Lifestyle Showcase */}
+        <LifestyleShowcase />
         
         {/* Product Section */}
         <section id="product-section" className="container mx-auto px-4 py-12 sm:py-16">
