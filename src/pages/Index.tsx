@@ -21,6 +21,7 @@ import SupportPartners from "@/components/SupportPartners";
 
 // Lifestyle image for the main gallery
 import keyring1 from "@/assets/gallery/keyring-1.png";
+import keyringHero from "@/assets/keyring-hero.png";
 
 const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
@@ -42,6 +43,15 @@ const Index = () => {
       <main className="pt-24">
         {/* Hero Section */}
         <HeroSection />
+        
+        {/* Keyring Image Separator */}
+        <div className="flex justify-center py-12 sm:py-16 bg-background">
+          <img 
+            src={keyringHero} 
+            alt="Love Key keyring with QR code" 
+            className="max-w-xs sm:max-w-sm md:max-w-md h-auto"
+          />
+        </div>
         
         {/* Why Section */}
         <WhySection />
