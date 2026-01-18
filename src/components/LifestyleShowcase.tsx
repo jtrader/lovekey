@@ -6,12 +6,6 @@ const LifestyleShowcase = () => {
   return (
     <section className="py-12 sm:py-20 px-4 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10 sm:mb-14 text-xl sm:text-2xl font-medium tracking-wide text-muted-foreground space-y-3 sm:space-y-4">
-          <p>Two styles.</p>
-          <p>One mission.</p>
-          <p>Always there when you need it.</p>
-        </div>
-
         {/* Bendigo Health Foundation Partner */}
         <div className="text-center mb-10 sm:mb-14">
           <p className="text-lg text-muted-foreground mb-6">
@@ -27,6 +21,12 @@ const LifestyleShowcase = () => {
               Proud Partner
             </p>
           </div>
+        </div>
+
+        <div className="text-center mb-10 sm:mb-14 text-xl sm:text-2xl font-medium tracking-wide text-muted-foreground space-y-3 sm:space-y-4">
+          <p>Two styles.</p>
+          <p>One mission.</p>
+          <p>Always there when you need it.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 lg:gap-10">
