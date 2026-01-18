@@ -46,9 +46,6 @@ const Index = () => {
         {/* Lifestyle Showcase */}
         <LifestyleShowcase />
         
-        {/* Donation Banner */}
-        <DonationBanner />
-        
         {/* Why Section */}
         <WhySection />
         
@@ -95,6 +92,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+        
+        {/* Donation Banner */}
+        <DonationBanner />
         
         {/* Who It's For */}
         <WhoItsFor />
