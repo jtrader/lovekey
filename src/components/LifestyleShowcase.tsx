@@ -5,9 +5,11 @@ const LifestyleShowcase = () => {
   return (
     <section className="py-12 sm:py-20 px-4 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <p className="text-center text-muted-foreground mb-10 sm:mb-14 text-xl sm:text-2xl font-medium tracking-wide">
-          Two styles. One mission. Always there when you need it.
-        </p>
+        <div className="text-center mb-10 sm:mb-14 text-xl sm:text-2xl font-medium tracking-wide text-muted-foreground">
+          <p>Two styles.</p>
+          <p>One mission.</p>
+          <p>Always there when you need it.</p>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-6 lg:gap-10">
           {/* Metal Edition Card */}
