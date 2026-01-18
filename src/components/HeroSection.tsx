@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import heroKeyring from "@/assets/hero-keyring.png";
 
 const HeroSection = () => {
   const scrollToProduct = () => {
@@ -19,6 +20,13 @@ const HeroSection = () => {
       <Button size="lg" onClick={scrollToProduct} className="text-base px-8 py-6">
         Get Your Love Key™ Today
       </Button>
+      <div className="mt-10">
+        <img 
+          src={heroKeyring} 
+          alt="Love Key keyring in hand" 
+          className="mx-auto max-w-md w-full"
+        />
+      </div>
     </section>
   );
 };
