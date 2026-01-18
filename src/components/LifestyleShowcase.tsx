@@ -16,11 +16,11 @@ const LifestyleShowcase = () => {
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-6 sm:p-8">
-              <span className="text-xs font-semibold tracking-[0.2em] text-white/80 uppercase">
+            <span className="text-xs font-semibold tracking-[0.2em] text-white/80 uppercase">
                 Premium Finish
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-white mt-1">
-                Metal Edition
+                Guardian Edition
               </h3>
               <p className="text-white/80 text-sm mt-2 max-w-xs">
                 Sleek chrome bezel with domed resin finish
@@ -38,11 +38,11 @@ const LifestyleShowcase = () => {
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-6 sm:p-8">
-              <span className="text-xs font-semibold tracking-[0.2em] text-white/80 uppercase">
+            <span className="text-xs font-semibold tracking-[0.2em] text-white/80 uppercase">
                 Everyday Carry
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-white mt-1">
-                Lightweight Edition
+                Essential Edition
               </h3>
               <p className="text-white/80 text-sm mt-2 max-w-xs">
                 Durable acrylic with smooth matte finish
