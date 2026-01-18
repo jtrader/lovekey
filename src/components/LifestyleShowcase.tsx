@@ -5,7 +5,7 @@ const LifestyleShowcase = () => {
   return (
     <section className="py-12 sm:py-20 px-4 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10 sm:mb-14 text-xl sm:text-2xl font-medium tracking-wide text-muted-foreground">
+        <div className="text-center mb-10 sm:mb-14 text-xl sm:text-2xl font-medium tracking-wide text-muted-foreground space-y-3 sm:space-y-4">
           <p>Two styles.</p>
           <p>One mission.</p>
           <p>Always there when you need it.</p>
