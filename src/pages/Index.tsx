@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import DonationBanner from "@/components/DonationBanner";
 import WhySection from "@/components/WhySection";
 import HowItWorks from "@/components/HowItWorks";
 import ProductGallery from "@/components/ProductGallery";
@@ -40,6 +41,9 @@ const Index = () => {
       <main className="pt-16">
         {/* Hero Section */}
         <HeroSection />
+        
+        {/* Donation Banner */}
+        <DonationBanner />
         
         {/* Why Section */}
         <WhySection />
