@@ -16,9 +16,16 @@ const HeroSection = () => {
       <p className="text-base text-muted-foreground max-w-3xl mx-auto mb-8">
         With one tap or scan, Love Key™ connects you to first aid guidance and trusted mental health support when it matters most. It's a quiet promise that you, or someone you love, is never truly alone in a moment of need.
       </p>
-      <Button size="lg" onClick={scrollToProduct} className="text-base px-8 py-6">
-        Get Your Love Key™ Today
-      </Button>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button size="lg" onClick={scrollToProduct} className="text-base px-8 py-6">
+          Get Your Love Key™ Today
+        </Button>
+        <Button size="lg" variant="outline" asChild className="text-base px-8 py-6">
+          <a href="https://unit.link/love-key" target="_blank" rel="noopener noreferrer">
+            View the Love Key™ App Now
+          </a>
+        </Button>
+      </div>
     </section>
   );
 };
