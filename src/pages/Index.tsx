@@ -21,6 +21,7 @@ import SupportPartners from "@/components/SupportPartners";
 
 // Lifestyle image for the main gallery
 import keyring1 from "@/assets/gallery/keyring-1.png";
+import keyringNfc from "@/assets/keyring-nfc.png";
 
 const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
@@ -42,6 +43,15 @@ const Index = () => {
       <main className="pt-24">
         {/* Hero Section */}
         <HeroSection />
+        
+        {/* NFC Keyring Image */}
+        <div className="flex justify-center py-8">
+          <img 
+            src={keyringNfc} 
+            alt="Love Key NFC keyring with heart logo" 
+            className="w-full max-w-xs sm:max-w-sm mx-auto"
+          />
+        </div>
         
         {/* Why Section */}
         <WhySection />
