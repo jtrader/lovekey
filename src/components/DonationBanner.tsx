@@ -5,7 +5,7 @@ const DonationBanner = () => {
     <section className="py-12 px-4 bg-secondary/50">
       <div className="max-w-3xl mx-auto text-center">
         <p className="text-lg text-muted-foreground mb-6">
-          50% of all profits from every Love Key™ sold is donated to:
+          <span className="font-bold text-primary">50%</span> of all profits from every Love Key™ sold is donated to:
         </p>
         <div className="bg-background rounded-2xl p-8 border border-border shadow-sm inline-block">
           <img 
