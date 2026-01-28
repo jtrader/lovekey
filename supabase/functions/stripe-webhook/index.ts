@@ -104,21 +104,21 @@ serve(async (req) => {
             stripe_session_id: session.id,
             stripe_payment_intent: session.payment_intent,
           },
-          sender: {
-            contact: {
-              name: "Love Key Australia",
-              phone: "0400000000",
-              company: "Love Key",
-            },
-            address: {
-              address_line1: "123 Business St",
-              suburb: "Melbourne",
-              state_name: "VIC",
-              postcode: "3000",
-              country: "Australia",
-            },
-            instructions: "Business hours",
+        sender: {
+          contact: {
+            name: "Love Key Australia",
+            phone: "0400000000",
+            company: "Love Key",
           },
+          address: {
+            address_line1: "47B Little Breen Street",
+            suburb: "Quarry Hill",
+            state_name: "VIC",
+            postcode: "3550",
+            country: "Australia",
+          },
+          instructions: "Business hours",
+        },
           receiver: {
             contact: {
               name: shipping.name || "Customer",

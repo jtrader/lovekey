@@ -79,14 +79,14 @@ serve(async (req) => {
       sender: {
         contact: {
           name: "Love Key Australia",
-          phone: "0400000000", // Update with actual phone
+          phone: "0400000000",
           company: "Love Key",
         },
         address: {
-          address_line1: "123 Business St", // Update with actual address
-          suburb: "Melbourne",
+          address_line1: "47B Little Breen Street",
+          suburb: "Quarry Hill",
           state_name: "VIC",
-          postcode: "3000",
+          postcode: "3550",
           country: "Australia",
         },
         instructions: "Business hours pickup",
