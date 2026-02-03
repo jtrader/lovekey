@@ -66,12 +66,20 @@ serve(async (req) => {
       // Retrieve the full session with all details - the webhook event may not include everything
       const session = await stripe.checkout.sessions.retrieve(eventSession.id);
       
-      console.log("[STRIPE-WEBHOOK] Shipping address:", JSON.stringify(session.shipping_details));
+      // Try multiple locations for shipping details (Stripe API changes)
+      const shippingDetails = session.shipping_details || 
+        (session as any).collected_information?.shipping_details;
+      
+      console.log("[STRIPE-WEBHOOK] Shipping details:", JSON.stringify(shippingDetails));
       console.log("[STRIPE-WEBHOOK] Customer details:", JSON.stringify(session.customer_details));
       console.log("[STRIPE-WEBHOOK] Metadata:", JSON.stringify(session.metadata));
 
-      // Only process if there's shipping details
-      if (session.shipping_details) {
+      // Get shipping address from shipping_details or fall back to customer_details.address
+      const shippingAddress = shippingDetails?.address || session.customer_details?.address;
+      const shippingName = shippingDetails?.name || session.customer_details?.name;
+
+      // Only process if there's an address
+      if (shippingAddress) {
         const shippoToken = Deno.env.get("SHIPPO_API_TOKEN");
 
         if (!shippoToken) {
@@ -99,8 +107,7 @@ serve(async (req) => {
         // Create description from items or use order_details
         const description = session.metadata?.order_details || "Love Key™ Order";
 
-        const shipping = session.shipping_details;
-        const address = shipping.address;
+        const address = shippingAddress;
 
         // Build Shippo shipment payload
         const shippoShipment = {
@@ -116,7 +123,7 @@ serve(async (req) => {
             email: "hello@lovekey.com.au",
           },
           address_to: {
-            name: shipping.name || "Customer",
+            name: shippingName || "Customer",
             street1: address.line1 || "",
             street2: address.line2 || "",
             city: address.city || "",
