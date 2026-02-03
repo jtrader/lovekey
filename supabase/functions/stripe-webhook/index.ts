@@ -6,8 +6,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, stripe-signature",
 };
 
-// Sendle API base URL
-const SENDLE_API_URL = "https://api.sendle.com/api";
+// Shippo API base URL
+const SHIPPO_API_URL = "https://api.goshippo.com";
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -67,13 +67,12 @@ serve(async (req) => {
 
       // Only process if there's shipping details
       if (session.shipping_details) {
-        const sendleApiKey = Deno.env.get("SENDLE_API_KEY");
-        const sendleId = Deno.env.get("SENDLE_SENDLE_ID");
+        const shippoToken = Deno.env.get("SHIPPO_API_TOKEN");
 
-        if (!sendleApiKey || !sendleId) {
-          console.error("[STRIPE-WEBHOOK] Sendle credentials not configured");
+        if (!shippoToken) {
+          console.error("[STRIPE-WEBHOOK] Shippo API token not configured");
           // Return 200 to acknowledge receipt - handle shipping manually
-          return new Response(JSON.stringify({ received: true, error: "Sendle not configured" }), {
+          return new Response(JSON.stringify({ received: true, error: "Shippo not configured" }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
             status: 200,
           });
@@ -98,103 +97,126 @@ serve(async (req) => {
         const shipping = session.shipping_details;
         const address = shipping.address;
 
-        // Map country codes to full names for Sendle
-        const countryMap: Record<string, string> = {
-          AU: "Australia",
-          US: "United States",
-          CA: "Canada",
-          GB: "United Kingdom",
-          NZ: "New Zealand",
-          DE: "Germany",
-          FR: "France",
-          NL: "Netherlands",
-          BE: "Belgium",
-          AT: "Austria",
-          CH: "Switzerland",
-          IE: "Ireland",
-        };
-
-        // Build Sendle order payload
-        const sendleOrder = {
-          first_mile_option: "drop off",
-          description: description,
-          weight: {
-            value: (totalQuantity * 0.05).toFixed(2),
-            units: "kg",
-          },
-          customer_reference: session.id,
-          metadata: {
-            stripe_session_id: session.id,
-            stripe_payment_intent: session.payment_intent,
-          },
-        sender: {
-          contact: {
+        // Build Shippo shipment payload
+        const shippoShipment = {
+          address_from: {
             name: "Love Key Australia",
-            phone: "0497347456",
             company: "Love Key",
+            street1: "47B Little Breen Street",
+            city: "Quarry Hill",
+            state: "VIC",
+            zip: "3550",
+            country: "AU",
+            phone: "0497347456",
+            email: "hello@lovekey.com.au",
           },
-          address: {
-            address_line1: "47B Little Breen Street",
-            suburb: "Quarry Hill",
-            state_name: "VIC",
-            postcode: "3550",
-            country: "Australia",
+          address_to: {
+            name: shipping.name || "Customer",
+            street1: address.line1 || "",
+            street2: address.line2 || "",
+            city: address.city || "",
+            state: address.state || "",
+            zip: address.postal_code || "",
+            country: address.country || "AU",
+            phone: session.customer_details?.phone || "",
+            email: session.customer_details?.email || "",
           },
-          instructions: "Business hours",
-        },
-          receiver: {
-            contact: {
-              name: shipping.name || "Customer",
-              email: session.customer_details?.email || "",
-              phone: session.customer_details?.phone || "",
+          parcels: [
+            {
+              length: "15",
+              width: "10",
+              height: "3",
+              distance_unit: "cm",
+              weight: (totalQuantity * 50).toString(), // ~50g per keyring
+              mass_unit: "g",
             },
-            address: {
-              address_line1: address.line1 || "",
-              address_line2: address.line2 || "",
-              suburb: address.city || "",
-              state_name: address.state || "",
-              postcode: address.postal_code || "",
-              country: countryMap[address.country] || address.country || "Australia",
-            },
-            instructions: "Leave at door if no answer",
-          },
+          ],
+          async: false,
+          metadata: `Stripe: ${session.id}`,
         };
 
-        // Create Basic Auth header
-        const authString = btoa(`${sendleId}:${sendleApiKey}`);
-        const idempotencyKey = `order-${session.id}`;
+        console.log("[STRIPE-WEBHOOK] Creating Shippo shipment");
 
-        console.log("[STRIPE-WEBHOOK] Creating Sendle order");
-
-        const sendleResponse = await fetch(`${SENDLE_API_URL}/orders`, {
+        // Create shipment in Shippo
+        const shipmentResponse = await fetch(`${SHIPPO_API_URL}/shipments`, {
           method: "POST",
           headers: {
-            "Authorization": `Basic ${authString}`,
+            "Authorization": `ShippoToken ${shippoToken}`,
             "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Idempotency-Key": idempotencyKey,
           },
-          body: JSON.stringify(sendleOrder),
+          body: JSON.stringify(shippoShipment),
         });
 
-        const sendleData = await sendleResponse.json();
+        const shipmentData = await shipmentResponse.json();
 
-        if (!sendleResponse.ok) {
-          console.error("[STRIPE-WEBHOOK] Sendle API error:", JSON.stringify(sendleData));
+        if (!shipmentResponse.ok) {
+          console.error("[STRIPE-WEBHOOK] Shippo shipment error:", JSON.stringify(shipmentData));
           // Return 200 to acknowledge - handle manually
-          return new Response(JSON.stringify({ received: true, sendle_error: sendleData }), {
+          return new Response(JSON.stringify({ received: true, shippo_error: shipmentData }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
             status: 200,
           });
         }
 
-        console.log("[STRIPE-WEBHOOK] Sendle order created:", sendleData.order_id);
+        console.log("[STRIPE-WEBHOOK] Shippo shipment created:", shipmentData.object_id);
+
+        // Get rates and select the cheapest one
+        const rates = shipmentData.rates || [];
+        if (rates.length === 0) {
+          console.error("[STRIPE-WEBHOOK] No shipping rates available");
+          return new Response(JSON.stringify({ received: true, error: "No shipping rates available", shipment_id: shipmentData.object_id }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 200,
+          });
+        }
+
+        // Sort rates by price and pick the cheapest
+        const sortedRates = rates.sort((a: { amount: string }, b: { amount: string }) => 
+          parseFloat(a.amount) - parseFloat(b.amount)
+        );
+        const selectedRate = sortedRates[0];
+
+        console.log("[STRIPE-WEBHOOK] Selected rate:", selectedRate.object_id, "Price:", selectedRate.amount, selectedRate.currency);
+
+        // Purchase the label (create transaction)
+        const transactionResponse = await fetch(`${SHIPPO_API_URL}/transactions`, {
+          method: "POST",
+          headers: {
+            "Authorization": `ShippoToken ${shippoToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rate: selectedRate.object_id,
+            label_file_type: "PDF",
+            async: false,
+          }),
+        });
+
+        const transactionData = await transactionResponse.json();
+
+        if (!transactionResponse.ok || transactionData.status === "ERROR") {
+          console.error("[STRIPE-WEBHOOK] Shippo transaction error:", JSON.stringify(transactionData));
+          return new Response(JSON.stringify({ 
+            received: true, 
+            shippo_error: transactionData,
+            shipment_id: shipmentData.object_id 
+          }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 200,
+          });
+        }
+
+        console.log("[STRIPE-WEBHOOK] Shippo label purchased:", transactionData.object_id);
+        console.log("[STRIPE-WEBHOOK] Tracking number:", transactionData.tracking_number);
+        console.log("[STRIPE-WEBHOOK] Label URL:", transactionData.label_url);
 
         return new Response(
           JSON.stringify({
             received: true,
-            sendle_order_id: sendleData.order_id,
-            tracking_url: sendleData.tracking_url,
+            shippo_transaction_id: transactionData.object_id,
+            tracking_number: transactionData.tracking_number,
+            tracking_url: transactionData.tracking_url_provider,
+            label_url: transactionData.label_url,
           }),
           {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
