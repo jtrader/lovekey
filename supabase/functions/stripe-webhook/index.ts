@@ -64,9 +64,7 @@ serve(async (req) => {
       console.log("[STRIPE-WEBHOOK] Checkout session completed:", eventSession.id);
       
       // Retrieve the full session with all details - the webhook event may not include everything
-      const session = await stripe.checkout.sessions.retrieve(eventSession.id, {
-        expand: ["shipping_details", "customer_details"],
-      });
+      const session = await stripe.checkout.sessions.retrieve(eventSession.id);
       
       console.log("[STRIPE-WEBHOOK] Shipping address:", JSON.stringify(session.shipping_details));
       console.log("[STRIPE-WEBHOOK] Customer details:", JSON.stringify(session.customer_details));
