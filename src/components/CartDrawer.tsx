@@ -96,8 +96,17 @@ const CartDrawer = () => {
       if (error) throw error;
 
       if (data?.url) {
-        // Open in new tab to avoid iframe restrictions
-        window.open(data.url, "_blank");
+        // Stripe Checkout cannot render inside embedded/iframe previews due to Stripe security headers.
+        // Open in a new tab/window; fall back to same-tab navigation if popups are blocked.
+        const opened = window.open(data.url, "_blank", "noopener,noreferrer");
+        if (!opened) {
+          window.location.assign(data.url);
+          toast({
+            title: "Redirecting to Stripe",
+            description: "If nothing happens, please allow pop-ups for this site and try again.",
+            duration: 4000,
+          });
+        }
       }
     } catch (error) {
       console.error("Checkout error:", error);
