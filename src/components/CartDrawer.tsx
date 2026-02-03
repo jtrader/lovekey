@@ -79,8 +79,9 @@ const CartDrawer = () => {
 
     setIsLoading(true);
     try {
+      // Always use current price IDs to ensure prices match the latest configuration
       const lineItems = items.map((item) => ({
-        priceId: item.priceId,
+        priceId: getStripePrice(item.variationId),
         quantity: item.quantity,
         color: item.color,
         variationName: item.variationName,
