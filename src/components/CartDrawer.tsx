@@ -96,8 +96,8 @@ const CartDrawer = () => {
       if (error) throw error;
 
       if (data?.url) {
-        // Use location.href for mobile compatibility (window.open is often blocked)
-        window.location.href = data.url;
+        // Open in new tab to avoid iframe restrictions
+        window.open(data.url, "_blank");
       }
     } catch (error) {
       console.error("Checkout error:", error);
