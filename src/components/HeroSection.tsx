@@ -12,7 +12,7 @@ const HeroSection = () => {
       <div className="w-full max-w-sm sm:max-w-lg mx-auto mb-3">
         <img 
           src={keyringHero} 
-          alt="Love Key keyring with QR code" 
+          alt="Love Key™ NFC keyring with heart shape and QR code for mental health support" 
           className="w-full h-auto"
         />
       </div>

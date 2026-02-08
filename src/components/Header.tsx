@@ -5,8 +5,8 @@ const Header = () => {
   const { totalItems, setIsCartOpen } = useCart();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border" role="banner">
+      <nav className="container mx-auto px-4 h-16 flex items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-2">
           <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-product-red fill-product-red" />
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
@@ -26,7 +26,7 @@ const Header = () => {
             </span>
           )}
         </button>
-      </div>
+      </nav>
     </header>
   );
 };

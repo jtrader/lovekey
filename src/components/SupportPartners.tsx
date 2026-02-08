@@ -14,7 +14,7 @@ const partners = [
 
 const SupportPartners = () => {
   return (
-    <section className="mt-12 pt-12 pb-16 border-t border-border">
+    <footer className="mt-12 pt-12 pb-16 border-t border-border" role="contentinfo">
       <h2 className="text-center text-lg font-medium text-muted-foreground mb-8">
         Our Support Partners
       </h2>
@@ -29,13 +29,14 @@ const SupportPartners = () => {
           >
             <img
               src={partner.logo}
-              alt={partner.name}
+              alt={`${partner.name} - mental health support partner`}
               className="h-10 md:h-12 w-auto object-contain"
+              loading="lazy"
             />
           </a>
         ))}
       </div>
-    </section>
+    </footer>
   );
 };
 
