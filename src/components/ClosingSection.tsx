@@ -1,4 +1,4 @@
-import { Heart, Facebook, Instagram } from "lucide-react";
+import { Heart, Facebook, Instagram, Mail } from "lucide-react";
 
 const ClosingSection = () => {
   return (
@@ -16,7 +16,15 @@ const ClosingSection = () => {
           <Heart className="w-5 h-5 text-primary" />
         </div>
 
-        <div className="flex items-center justify-center gap-4 mt-8">
+        <a
+          href="mailto:support@lovekey.com.au"
+          className="inline-flex items-center gap-2 mt-8 px-6 py-2.5 rounded-full border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+        >
+          <Mail className="w-4 h-4" />
+          Contact Us
+        </a>
+
+        <div className="flex items-center justify-center gap-4 mt-4">
           <a href="#" aria-label="Facebook" className="p-2 hover:bg-secondary rounded-full transition-colors">
             <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
           </a>
