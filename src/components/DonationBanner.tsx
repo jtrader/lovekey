@@ -12,8 +12,9 @@ const DonationBanner = () => {
           <div className="bg-background rounded-2xl p-8 border border-border shadow-sm w-full sm:w-64 flex flex-col items-center justify-center">
             <img 
               src={lifeline} 
-              alt="Lifeline" 
+              alt="Lifeline Australia crisis support partner" 
               className="h-28 sm:h-36 object-contain"
+              loading="lazy"
             />
             <p className="mt-4 text-xs font-semibold tracking-[0.2em] text-primary uppercase">
               Proud Partner
@@ -22,8 +23,9 @@ const DonationBanner = () => {
           <div className="bg-background rounded-2xl p-8 border border-border shadow-sm w-full sm:w-64 flex flex-col items-center justify-center">
             <img 
               src={bendigoHealth} 
-              alt="Bendigo Health Foundation" 
+              alt="Bendigo Health Foundation healthcare partner" 
               className="h-28 sm:h-36 object-contain"
+              loading="lazy"
             />
             <p className="mt-4 text-xs font-semibold tracking-[0.2em] text-primary uppercase">
               Proud Partner

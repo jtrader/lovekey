@@ -18,8 +18,9 @@ const LifestyleShowcase = () => {
             <div className="aspect-[4/5] overflow-hidden">
               <img 
                 src={metalKeyring} 
-                alt="Love Key Metal Edition with QR code" 
+                alt="Love Key™ Guardian Edition metal keyring with chrome bezel and QR code for mental health support" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-6 sm:p-8">
@@ -40,8 +41,9 @@ const LifestyleShowcase = () => {
             <div className="aspect-[4/5] overflow-hidden">
               <img 
                 src={lightweightKeyring} 
-                alt="Love Key Lightweight Edition with QR code" 
+                alt="Love Key™ Essential Edition lightweight acrylic keyring with QR code for wellbeing resources" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-6 sm:p-8">

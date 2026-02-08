@@ -48,8 +48,9 @@ const Index = () => {
         <div className="flex justify-center py-8">
           <img 
             src={keyringNfc} 
-            alt="Love Key NFC keyring with heart logo" 
+            alt="Love Key™ NFC keyring showing tap-to-connect feature for mental health support" 
             className="w-full max-w-xs sm:max-w-sm mx-auto"
+            loading="lazy"
           />
         </div>
         
