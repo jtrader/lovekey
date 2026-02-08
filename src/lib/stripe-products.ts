@@ -5,7 +5,7 @@ export const STRIPE_PRICES = {
 } as const;
 
 export const CURRENCY = "AUD";
-export const CURRENCY_SYMBOL = "A$";
+export const CURRENCY_SYMBOL = "$";
 
 export type VariationId = keyof typeof STRIPE_PRICES;
 
