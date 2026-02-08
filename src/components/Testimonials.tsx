@@ -2,7 +2,7 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "I bought this for my daughter. It helps me breathe easier.",
+    quote: "I bought this for my daughter. It helps me sleep easier.",
   },
   {
     quote: "It's comforting knowing help is literally on my keys.",
