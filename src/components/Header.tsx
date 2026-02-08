@@ -1,4 +1,4 @@
-import { Heart, ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag, Facebook, Instagram } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 const Header = () => {
@@ -15,17 +15,25 @@ const Header = () => {
           </div>
         </div>
         
-        <button 
-          onClick={() => setIsCartOpen(true)}
-          className="relative p-2 hover:bg-secondary rounded-lg transition-colors"
-        >
-          <ShoppingBag className="w-6 h-6" />
-          {totalItems > 0 && (
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-product-red text-white text-xs font-medium rounded-full flex items-center justify-center">
-              {totalItems}
-            </span>
-          )}
-        </button>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <a href="#" aria-label="Facebook" className="p-2 hover:bg-secondary rounded-lg transition-colors">
+            <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
+          </a>
+          <a href="#" aria-label="Instagram" className="p-2 hover:bg-secondary rounded-lg transition-colors">
+            <Instagram className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
+          </a>
+          <button 
+            onClick={() => setIsCartOpen(true)}
+            className="relative p-2 hover:bg-secondary rounded-lg transition-colors"
+          >
+            <ShoppingBag className="w-6 h-6" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-product-red text-white text-xs font-medium rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </button>
+        </div>
       </nav>
     </header>
   );
