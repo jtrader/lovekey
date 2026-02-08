@@ -16,10 +16,10 @@ const Header = () => {
         </div>
         
         <div className="flex items-center gap-1 sm:gap-2">
-          <a href="#" aria-label="Facebook" className="p-2 hover:bg-secondary rounded-lg transition-colors">
+          <a href="#" aria-label="Facebook" className="hidden sm:block p-2 hover:bg-secondary rounded-lg transition-colors">
             <Facebook className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
           </a>
-          <a href="#" aria-label="Instagram" className="p-2 hover:bg-secondary rounded-lg transition-colors">
+          <a href="#" aria-label="Instagram" className="hidden sm:block p-2 hover:bg-secondary rounded-lg transition-colors">
             <Instagram className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
           </a>
           <button 
