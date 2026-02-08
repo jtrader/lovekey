@@ -95,7 +95,7 @@ serve(async (req) => {
           shipping_rate_data: {
             type: "fixed_amount",
             fixed_amount: {
-              amount: 495,
+              amount: 995,
               currency: "aud",
             },
             display_name: "Standard Shipping",
