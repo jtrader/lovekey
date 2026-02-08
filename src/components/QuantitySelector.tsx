@@ -89,7 +89,7 @@ const QuantitySelector = ({
       <div className="flex items-center justify-center gap-6 mt-4 text-sm text-muted-foreground">
         <span>✓ Fast Delivery</span>
         <span>✓ Secure Payment</span>
-        <span>✓ {CURRENCY_SYMBOL}4.95 Shipping</span>
+        <span>✓ {CURRENCY_SYMBOL}9.95 Shipping</span>
       </div>
     </div>
   );
