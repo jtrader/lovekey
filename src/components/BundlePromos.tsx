@@ -70,7 +70,7 @@ const BundlePromos = ({ selectedVariation }: BundlePromosProps) => {
     setIsCartOpen(true);
     toast({
       title: "Bundle added to cart!",
-      description: "20% discount applied automatically",
+      description: "Both keyrings added — FREE + $9.95 shipping",
       duration: 3000,
     });
   };
@@ -79,7 +79,7 @@ const BundlePromos = ({ selectedVariation }: BundlePromosProps) => {
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
         <Gift className="w-4 h-4" />
-        <span>Bundle & Save 20%</span>
+        <span>Themed Packs — Add 2 keyrings at once</span>
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -89,9 +89,9 @@ const BundlePromos = ({ selectedVariation }: BundlePromosProps) => {
             onClick={() => handleAddBundle(promo.colors)}
             className={`group relative overflow-hidden rounded-xl border ${promo.borderClass} bg-gradient-to-br ${promo.bgClass} p-3 text-left transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]`}
           >
-            {/* Discount badge */}
-            <div className="absolute top-2 right-2 bg-product-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-              20% OFF
+            {/* FREE badge */}
+            <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              FREE
             </div>
             
             {/* Product images */}

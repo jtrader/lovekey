@@ -15,7 +15,6 @@ interface LineItem {
 
 interface CheckoutRequest {
   lineItems: LineItem[];
-  couponId?: string | null;
 }
 
 serve(async (req) => {
@@ -32,8 +31,8 @@ serve(async (req) => {
       throw new Error("STRIPE_SECRET_KEY is not set");
     }
 
-    const { lineItems, couponId }: CheckoutRequest = await req.json();
-    console.log("[CREATE-CHECKOUT] Received line items:", JSON.stringify(lineItems), "Coupon:", couponId);
+    const { lineItems }: CheckoutRequest = await req.json();
+    console.log("[CREATE-CHECKOUT] Received line items:", JSON.stringify(lineItems));
 
     if (!lineItems || lineItems.length === 0) {
       throw new Error("No items in cart");
@@ -41,19 +40,11 @@ serve(async (req) => {
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
-    // Fetch prices to get unit amounts for price_data
-    const priceDetails = await Promise.all(
-      lineItems.map(async (item) => {
-        const price = await stripe.prices.retrieve(item.priceId);
-        return { ...item, unitAmount: price.unit_amount, currency: price.currency };
-      })
-    );
-
-    // Build line items with price_data to include color in the product name
-    const stripeLineItems = priceDetails.map((item) => ({
+    // Build line items with price_data — products are FREE, only shipping is charged
+    const stripeLineItems = lineItems.map((item) => ({
       price_data: {
-        currency: item.currency,
-        unit_amount: item.unitAmount,
+        currency: "aud",
+        unit_amount: 0,
         product_data: {
           name: `${item.variationName} - ${item.color.charAt(0).toUpperCase() + item.color.slice(1)}`,
           metadata: {
@@ -118,11 +109,7 @@ serve(async (req) => {
       },
     };
 
-    // Apply coupon if provided
-    if (couponId) {
-      sessionConfig.discounts = [{ coupon: couponId }];
-      console.log("[CREATE-CHECKOUT] Applying coupon:", couponId);
-    }
+
 
     // Create checkout session (guest checkout - no auth required)
     const session = await stripe.checkout.sessions.create(sessionConfig);
