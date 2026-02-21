@@ -4,12 +4,12 @@ const steps = [
   {
     icon: Smartphone,
     title: "NFC Tap feature",
-    description: "For access to the Love Key™ Homepage",
+    description: "For access to the Love Key Homepage",
   },
   {
     icon: QrCode,
     title: "Scan the QR code",
-    description: "For access to the Love Key™ App",
+    description: "For access to the Love Key App",
   },
   {
     icon: ArrowRight,

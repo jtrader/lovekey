@@ -48,7 +48,7 @@ const Index = () => {
         <div className="flex justify-center py-8">
           <img 
             src={keyringNfc} 
-            alt="Love Key™ NFC keyring showing tap-to-connect feature for mental health support" 
+            alt="Love Key NFC keyring showing tap-to-connect feature for mental health support" 
             className="w-full max-w-xs sm:max-w-sm mx-auto"
             loading="lazy"
           />
@@ -65,7 +65,7 @@ const Index = () => {
         
         {/* Product Section */}
         <section id="product-section" className="container mx-auto px-4 py-12 sm:py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">Choose Your Love Key™</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">Choose Your Love Key</h2>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
             {/* Left Column - Color Selector & Product Gallery */}
             <div className="lg:sticky lg:top-24 lg:self-start space-y-4">

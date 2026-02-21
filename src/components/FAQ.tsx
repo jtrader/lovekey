@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "Is it complicated to use?",
-    answer: "Not at all. If you can tap your phone or scan a QR code, you can use Love Key™.",
+    answer: "Not at all. If you can tap your phone or scan a QR code, you can use Love Key.",
   },
   {
     question: "Does it work without an app?",
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     question: "Is it suitable as a gift?",
-    answer: "Absolutely. Many people give Love Key™ to those they care about most.",
+    answer: "Absolutely. Many people give Love Key to those they care about most.",
   },
 ];
 

@@ -7,7 +7,7 @@ const PurposeSection = () => {
         <Heart className="w-12 h-12 text-primary mx-auto mb-6" />
         <h2 className="text-2xl sm:text-3xl font-bold mb-6">Your Purchase Has Purpose</h2>
         <p className="text-lg text-muted-foreground mb-4">
-          Every Love Key™ represents compassion in action.
+          Every Love Key represents compassion in action.
         </p>
         <p className="text-base text-muted-foreground mb-8">
           It encourages awareness, readiness, and connection to support services that save lives.
