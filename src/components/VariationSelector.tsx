@@ -11,15 +11,15 @@ interface Variation {
 const variations: Variation[] = [
   {
     id: "metal",
-    name: "Love Key™ Guardian",
-    description: "Crafted with a polished metal frame for strength, beauty, and permanence. The Love Key™ Guardian is a premium reminder that care is always close.",
+    name: "Love Key Guardian",
+    description: "Crafted with a polished metal frame for strength, beauty, and permanence. The Love Key Guardian is a premium reminder that care is always close.",
     price: 19.95,
     units: 1,
   },
   {
     id: "lightweight",
-    name: "Love Key™ Essential",
-    description: "Lightweight, durable, and designed for everyday carry. The Love Key™ Essential is the simplest way to personal safety and wellbeing support within reach.",
+    name: "Love Key Essential",
+    description: "Lightweight, durable, and designed for everyday carry. The Love Key Essential is the simplest way to personal safety and wellbeing support within reach.",
     price: 9.95,
     units: 1,
   },

@@ -5,7 +5,7 @@ const LifestyleShowcase = () => {
   return (
     <section className="py-12 sm:py-20 px-4 bg-secondary/30">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6">Your Love Key™ Options</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6">Your Love Key Options</h2>
         <div className="text-center mb-10 sm:mb-14 text-xl font-medium text-muted-foreground space-y-6 sm:space-y-8">
           <p>Two styles.</p>
           <p>One mission.</p>
@@ -18,7 +18,7 @@ const LifestyleShowcase = () => {
             <div className="aspect-[4/5] overflow-hidden">
               <img 
                 src={metalKeyring} 
-                alt="Love Key™ Guardian Edition metal keyring with chrome bezel and QR code for mental health support" 
+                alt="Love Key Guardian Edition metal keyring with chrome bezel and QR code for mental health support" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
@@ -41,7 +41,7 @@ const LifestyleShowcase = () => {
             <div className="aspect-[4/5] overflow-hidden">
               <img 
                 src={lightweightKeyring} 
-                alt="Love Key™ Essential Edition lightweight acrylic keyring with QR code for wellbeing resources" 
+                alt="Love Key Essential Edition lightweight acrylic keyring with QR code for wellbeing resources" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
