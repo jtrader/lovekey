@@ -9,7 +9,7 @@ const steps = [
   {
     icon: QrCode,
     title: "Scan the QR code",
-    description: "For access to the Love Key App",
+    description: "For access to the Love Key Web App",
   },
   {
     icon: ArrowRight,
