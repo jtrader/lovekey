@@ -87,11 +87,8 @@ const CartDrawer = () => {
         variationName: item.variationName,
       }));
 
-      // Pass bundle info to checkout
-      const applyCoupon = detectedBundles.length > 0 ? detectedBundles[0].bundle.stripeCouponId : null;
-
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { lineItems, couponId: applyCoupon },
+        body: { lineItems },
       });
 
       if (error) throw error;
@@ -182,8 +179,8 @@ const CartDrawer = () => {
                     <p className="text-sm text-muted-foreground">
                       Color: {formatColor(item.color)}
                     </p>
-                    <p className="text-sm font-medium mt-1">
-                      {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)} each
+                    <p className="text-sm font-medium mt-1 text-primary">
+                      FREE
                     </p>
                   </div>
 
@@ -217,8 +214,8 @@ const CartDrawer = () => {
                       </button>
                     </div>
 
-                    <p className="text-sm font-semibold">
-                      {CURRENCY_SYMBOL}{(item.pricePerUnit * item.quantity).toFixed(2)}
+                    <p className="text-sm font-semibold text-primary">
+                      FREE
                     </p>
                   </div>
                 </div>
@@ -241,7 +238,7 @@ const CartDrawer = () => {
                         : "bg-secondary hover:bg-secondary/80"
                     }`}
                   >
-                    {variation.name} ({CURRENCY_SYMBOL}{variation.price})
+                    {variation.name} (FREE)
                   </button>
                 ))}
               </div>
@@ -278,44 +275,22 @@ const CartDrawer = () => {
             </div>
 
             <div className="border-t border-border pt-4 space-y-4">
-              {/* Bundle Discount Display */}
-              {detectedBundles.length > 0 && (
-                <div className="bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg p-3">
-                  <div className="flex items-center gap-2 text-green-700 dark:text-green-400 text-sm font-medium mb-1">
-                    🎉 Bundle Discount Applied!
-                  </div>
-                  {detectedBundles.map((db) => (
-                    <div key={db.bundle.id} className="text-xs text-green-600 dark:text-green-500">
-                      {db.bundle.name}: {db.bundle.discountPercent}% off
-                    </div>
-                  ))}
-                </div>
-              )}
-
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span className={bundleDiscount > 0 ? "line-through text-muted-foreground" : ""}>
-                    {CURRENCY_SYMBOL}{totalPrice.toFixed(2)}
-                  </span>
+                  <span className="text-muted-foreground">Products</span>
+                  <span className="text-primary font-medium">FREE</span>
                 </div>
                 
-                {bundleDiscount > 0 && (
-                  <div className="flex justify-between items-center text-sm text-green-600 dark:text-green-400">
-                    <span>Bundle Discount</span>
-                    <span>-{CURRENCY_SYMBOL}{bundleDiscount.toFixed(2)}</span>
-                  </div>
-                )}
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">Shipping</span>
+                  <span>{CURRENCY_SYMBOL}9.95</span>
+                </div>
                 
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Total</span>
-                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}{finalPrice.toFixed(2)}</span>
+                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}9.95</span>
                 </div>
               </div>
-
-              <p className="text-xs text-muted-foreground text-center">
-                Shipping calculated at checkout
-              </p>
 
               <Button
                 onClick={handleCheckout}
@@ -328,7 +303,7 @@ const CartDrawer = () => {
                     Processing...
                   </>
                 ) : (
-                  `Checkout — ${CURRENCY_SYMBOL}${finalPrice.toFixed(2)}`
+                  `Checkout — ${CURRENCY_SYMBOL}9.95`
                 )}
               </Button>
 

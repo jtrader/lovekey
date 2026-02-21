@@ -46,8 +46,8 @@ const QuantitySelector = ({
     <div className="bg-secondary rounded-2xl p-6">
       <div className="flex items-baseline justify-between mb-4">
         <div>
-          <span className="text-3xl font-bold">{CURRENCY_SYMBOL}{pricePerUnit}</span>
-          <span className="text-muted-foreground ml-1">per unit</span>
+          <span className="text-3xl font-bold text-primary">FREE</span>
+          <span className="text-muted-foreground ml-2 text-sm">+ {CURRENCY_SYMBOL}9.95 shipping</span>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ const QuantitySelector = ({
         className="w-full bg-product-red text-white py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-colors active:scale-[0.98] flex items-center justify-center gap-2"
       >
         <ShoppingCart className="w-5 h-5" />
-        Add to Cart — {CURRENCY_SYMBOL}{totalPrice.toFixed(2)}
+        Add to Cart — FREE
       </button>
 
       <div className="flex items-center justify-center gap-6 mt-4 text-sm text-muted-foreground">
