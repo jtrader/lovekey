@@ -28,7 +28,7 @@ const HeroSection = () => {
           Get Your Love Key Today
         </Button>
         <Button size="lg" variant="outline" asChild className="text-base px-8 py-6">
-          <a href="https://unit.link/love-key" target="_blank" rel="noopener noreferrer">
+          <a href="https://lovekeyring.org" target="_blank" rel="noopener noreferrer">
             View the Love Key App Now
           </a>
         </Button>
