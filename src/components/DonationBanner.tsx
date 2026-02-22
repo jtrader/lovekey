@@ -1,4 +1,4 @@
-import lifeline from "@/assets/partners/lifeline.jpg";
+import cvgtLogo from "@/assets/partners/cvgt.png";
 import bendigoHealth from "@/assets/partners/bendigo-health-foundation.png";
 
 const DonationBanner = () => {
@@ -11,8 +11,8 @@ const DonationBanner = () => {
         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-6 sm:gap-8">
           <div className="bg-background rounded-2xl p-8 border border-border shadow-sm w-full sm:w-64 flex flex-col items-center justify-center">
             <img 
-              src={lifeline} 
-              alt="Lifeline Australia crisis support partner" 
+              src={cvgtLogo} 
+              alt="CVGT Employment partner" 
               className="h-28 sm:h-36 object-contain"
               loading="lazy"
             />
