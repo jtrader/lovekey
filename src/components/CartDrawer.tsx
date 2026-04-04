@@ -180,7 +180,7 @@ const CartDrawer = () => {
                       Color: {formatColor(item.color)}
                     </p>
                     <p className="text-sm font-medium mt-1 text-primary">
-                      FREE
+                      {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)}
                     </p>
                   </div>
 
@@ -215,7 +215,7 @@ const CartDrawer = () => {
                     </div>
 
                     <p className="text-sm font-semibold text-primary">
-                      FREE
+                      {CURRENCY_SYMBOL}{(item.pricePerUnit * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ const CartDrawer = () => {
                         : "bg-secondary hover:bg-secondary/80"
                     }`}
                   >
-                    {variation.name} (FREE)
+                    {variation.name} ({CURRENCY_SYMBOL}{variation.price.toFixed(2)})
                   </button>
                 ))}
               </div>
@@ -278,7 +278,7 @@ const CartDrawer = () => {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Products</span>
-                  <span className="text-primary font-medium">FREE</span>
+                  <span className="text-primary font-medium">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center text-sm">
@@ -288,7 +288,7 @@ const CartDrawer = () => {
                 
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Total</span>
-                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}9.95</span>
+                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}{(totalPrice + 9.95).toFixed(2)}</span>
                 </div>
               </div>
 
@@ -303,7 +303,7 @@ const CartDrawer = () => {
                     Processing...
                   </>
                 ) : (
-                  `Checkout — ${CURRENCY_SYMBOL}9.95`
+                  `Checkout — ${CURRENCY_SYMBOL}${(totalPrice + 9.95).toFixed(2)}`
                 )}
               </Button>
 
