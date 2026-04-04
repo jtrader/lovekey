@@ -1,10 +1,33 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const ALLOWED_ORIGINS = [
+  "https://lovekey.lovable.app",
+  "https://id-preview--6799dfb0-ac44-4c03-8c4d-55e3d0d2a793.lovable.app",
+  "https://6799dfb0-ac44-4c03-8c4d-55e3d0d2a793.lovableproject.com",
+  "http://localhost:3000",
+  "http://localhost:8080",
+];
+
+function getCorsHeaders(origin: string | null) {
+  const allowedOrigin =
+    origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Credentials": "true",
+  };
+}
+
+// Validation constants
+const ALLOWED_COLORS = [
+  "green", "blue", "light-blue", "orange", "pink", "aqua", "red", "white", "yellow",
+];
+const ALLOWED_VARIATIONS = ["Love Key Guardian", "Love Key Essential"];
+const MAX_QUANTITY_PER_ITEM = 100;
+const MAX_LINE_ITEMS = 50;
+const MAX_TOTAL_ITEMS = 500;
 
 interface LineItem {
   priceId: string;
@@ -18,9 +41,20 @@ interface CheckoutRequest {
 }
 
 serve(async (req) => {
+  const origin = req.headers.get("origin");
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Origin validation for non-preflight requests
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return new Response(JSON.stringify({ error: "Forbidden" }), {
+      headers: { "Content-Type": "application/json" },
+      status: 403,
+    });
   }
 
   try {
@@ -28,15 +62,62 @@ serve(async (req) => {
 
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) {
-      throw new Error("STRIPE_SECRET_KEY is not set");
+      console.error("[CREATE-CHECKOUT] STRIPE_SECRET_KEY is not set");
+      return new Response(
+        JSON.stringify({ error: "Payment system temporarily unavailable.", code: "CONFIG_ERROR" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 }
+      );
     }
 
-    const { lineItems }: CheckoutRequest = await req.json();
-    console.log("[CREATE-CHECKOUT] Received line items:", JSON.stringify(lineItems));
+    const body = await req.json();
+    const lineItems: LineItem[] = body?.lineItems;
 
-    if (!lineItems || lineItems.length === 0) {
-      throw new Error("No items in cart");
+    // Input validation
+    if (!Array.isArray(lineItems) || lineItems.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "Your cart is empty.", code: "EMPTY_CART" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
     }
+
+    if (lineItems.length > MAX_LINE_ITEMS) {
+      return new Response(
+        JSON.stringify({ error: "Too many items in cart.", code: "CART_LIMIT" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
+    let totalQuantity = 0;
+    for (const item of lineItems) {
+      if (!ALLOWED_COLORS.includes(item.color)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid color selection.", code: "INVALID_COLOR" }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+        );
+      }
+      if (!ALLOWED_VARIATIONS.includes(item.variationName)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid product selection.", code: "INVALID_VARIATION" }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+        );
+      }
+      if (typeof item.quantity !== "number" || item.quantity < 1 || item.quantity > MAX_QUANTITY_PER_ITEM || !Number.isInteger(item.quantity)) {
+        return new Response(
+          JSON.stringify({ error: "Invalid quantity.", code: "INVALID_QUANTITY" }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+        );
+      }
+      totalQuantity += item.quantity;
+    }
+
+    if (totalQuantity > MAX_TOTAL_ITEMS) {
+      return new Response(
+        JSON.stringify({ error: "Cart total exceeds maximum.", code: "CART_LIMIT" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
+    console.log("[CREATE-CHECKOUT] Validated line items:", JSON.stringify(lineItems));
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
@@ -76,14 +157,14 @@ serve(async (req) => {
       }))
     );
 
-    const origin = req.headers.get("origin") || "http://localhost:3000";
+    const requestOrigin = origin || "https://lovekey.lovable.app";
 
     // Build session config
     const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       line_items: stripeLineItems,
       mode: "payment",
-      success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/`,
+      success_url: `${requestOrigin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${requestOrigin}/`,
       shipping_address_collection: {
         allowed_countries: ["US", "CA", "GB", "AU", "DE", "FR", "NL", "BE", "AT", "CH", "IE", "NZ"],
       },
@@ -115,8 +196,6 @@ serve(async (req) => {
       },
     };
 
-
-
     // Create checkout session (guest checkout - no auth required)
     const session = await stripe.checkout.sessions.create(sessionConfig);
 
@@ -129,9 +208,11 @@ serve(async (req) => {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("[CREATE-CHECKOUT] Error:", errorMessage);
-    return new Response(JSON.stringify({ error: errorMessage }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
-    });
+
+    // Return safe user-facing message
+    return new Response(
+      JSON.stringify({ error: "Unable to process checkout. Please try again.", code: "CHECKOUT_FAILED" }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 }
+    );
   }
 });
