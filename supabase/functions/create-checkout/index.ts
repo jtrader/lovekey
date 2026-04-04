@@ -55,11 +55,13 @@ serve(async (req) => {
 
   // Origin validation for non-preflight requests
   if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    console.error("[CREATE-CHECKOUT] Blocked origin:", origin);
     return new Response(JSON.stringify({ error: "Forbidden" }), {
       headers: { "Content-Type": "application/json" },
       status: 403,
     });
   }
+  console.log("[CREATE-CHECKOUT] Origin:", origin || "none");
 
   try {
     console.log("[CREATE-CHECKOUT] Function started");
