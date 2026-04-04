@@ -1,18 +1,19 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, stripe-signature",
-};
+// Webhooks are server-to-server — no CORS needed
+const jsonHeaders = { "Content-Type": "application/json" };
 
 // Shippo API base URL
 const SHIPPO_API_URL = "https://api.goshippo.com";
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+  // Webhooks only accept POST
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      headers: jsonHeaders,
+      status: 405,
+    });
   }
 
   try {
@@ -20,12 +21,20 @@ serve(async (req) => {
 
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) {
-      throw new Error("STRIPE_SECRET_KEY is not set");
+      console.error("[STRIPE-WEBHOOK] STRIPE_SECRET_KEY is not set");
+      return new Response(JSON.stringify({ error: "Configuration error" }), {
+        headers: jsonHeaders,
+        status: 500,
+      });
     }
 
     const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
     if (!webhookSecret) {
-      throw new Error("STRIPE_WEBHOOK_SECRET is not set");
+      console.error("[STRIPE-WEBHOOK] STRIPE_WEBHOOK_SECRET is not set");
+      return new Response(JSON.stringify({ error: "Configuration error" }), {
+        headers: jsonHeaders,
+        status: 500,
+      });
     }
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
@@ -37,7 +46,7 @@ serve(async (req) => {
     if (!signature) {
       console.error("[STRIPE-WEBHOOK] No stripe-signature header");
       return new Response(JSON.stringify({ error: "No signature" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: jsonHeaders,
         status: 400,
       });
     }
@@ -51,7 +60,7 @@ serve(async (req) => {
       const errorMessage = err instanceof Error ? err.message : String(err);
       console.error("[STRIPE-WEBHOOK] Signature verification failed:", errorMessage);
       return new Response(JSON.stringify({ error: "Invalid signature" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: jsonHeaders,
         status: 400,
       });
     }
@@ -63,10 +72,10 @@ serve(async (req) => {
       
       console.log("[STRIPE-WEBHOOK] Checkout session completed:", eventSession.id);
       
-      // Retrieve the full session with all details - the webhook event may not include everything
+      // Retrieve the full session with all details
       const session = await stripe.checkout.sessions.retrieve(eventSession.id);
       
-      // Try multiple locations for shipping details (Stripe API changes)
+      // Try multiple locations for shipping details
       const shippingDetails = session.shipping_details || 
         (session as any).collected_information?.shipping_details;
       
@@ -84,9 +93,8 @@ serve(async (req) => {
 
         if (!shippoToken) {
           console.error("[STRIPE-WEBHOOK] Shippo API token not configured");
-          // Return 200 to acknowledge receipt - handle shipping manually
-          return new Response(JSON.stringify({ received: true, error: "Shippo not configured" }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          return new Response(JSON.stringify({ received: true, error: "Shipping not configured" }), {
+            headers: jsonHeaders,
             status: 200,
           });
         }
@@ -139,7 +147,7 @@ serve(async (req) => {
               width: "10",
               height: "3",
               distance_unit: "cm",
-              weight: (totalQuantity * 50).toString(), // ~50g per keyring
+              weight: (totalQuantity * 50).toString(),
               mass_unit: "g",
             },
           ],
@@ -163,9 +171,8 @@ serve(async (req) => {
 
         if (!shipmentResponse.ok) {
           console.error("[STRIPE-WEBHOOK] Shippo shipment error:", JSON.stringify(shipmentData));
-          // Return 200 to acknowledge - handle manually
-          return new Response(JSON.stringify({ received: true, shippo_error: shipmentData }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          return new Response(JSON.stringify({ received: true }), {
+            headers: jsonHeaders,
             status: 200,
           });
         }
@@ -176,8 +183,8 @@ serve(async (req) => {
         const rates = shipmentData.rates || [];
         if (rates.length === 0) {
           console.error("[STRIPE-WEBHOOK] No shipping rates available");
-          return new Response(JSON.stringify({ received: true, error: "No shipping rates available", shipment_id: shipmentData.object_id }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          return new Response(JSON.stringify({ received: true }), {
+            headers: jsonHeaders,
             status: 200,
           });
         }
@@ -208,12 +215,8 @@ serve(async (req) => {
 
         if (!transactionResponse.ok || transactionData.status === "ERROR") {
           console.error("[STRIPE-WEBHOOK] Shippo transaction error:", JSON.stringify(transactionData));
-          return new Response(JSON.stringify({ 
-            received: true, 
-            shippo_error: transactionData,
-            shipment_id: shipmentData.object_id 
-          }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          return new Response(JSON.stringify({ received: true }), {
+            headers: jsonHeaders,
             status: 200,
           });
         }
@@ -223,32 +226,23 @@ serve(async (req) => {
         console.log("[STRIPE-WEBHOOK] Label URL:", transactionData.label_url);
 
         return new Response(
-          JSON.stringify({
-            received: true,
-            shippo_transaction_id: transactionData.object_id,
-            tracking_number: transactionData.tracking_number,
-            tracking_url: transactionData.tracking_url_provider,
-            label_url: transactionData.label_url,
-          }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-            status: 200,
-          }
+          JSON.stringify({ received: true }),
+          { headers: jsonHeaders, status: 200 }
         );
       }
     }
 
     // Return 200 for all other events
     return new Response(JSON.stringify({ received: true }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: jsonHeaders,
       status: 200,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("[STRIPE-WEBHOOK] Error:", errorMessage);
     // Return 200 to prevent Stripe from retrying
-    return new Response(JSON.stringify({ error: errorMessage }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    return new Response(JSON.stringify({ received: true }), {
+      headers: jsonHeaders,
       status: 200,
     });
   }
