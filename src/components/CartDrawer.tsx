@@ -180,7 +180,7 @@ const CartDrawer = () => {
                       Color: {formatColor(item.color)}
                     </p>
                     <p className="text-sm font-medium mt-1 text-primary">
-                      FREE
+                      {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)}
                     </p>
                   </div>
 
