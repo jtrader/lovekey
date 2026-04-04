@@ -278,7 +278,7 @@ const CartDrawer = () => {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Products</span>
-                  <span className="text-primary font-medium">FREE</span>
+                  <span className="text-primary font-medium">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center text-sm">
@@ -288,7 +288,7 @@ const CartDrawer = () => {
                 
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Total</span>
-                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}9.95</span>
+                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}{(totalPrice + 9.95).toFixed(2)}</span>
                 </div>
               </div>
 
