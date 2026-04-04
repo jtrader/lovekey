@@ -215,7 +215,7 @@ const CartDrawer = () => {
                     </div>
 
                     <p className="text-sm font-semibold text-primary">
-                      FREE
+                      {CURRENCY_SYMBOL}{(item.pricePerUnit * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 </div>
