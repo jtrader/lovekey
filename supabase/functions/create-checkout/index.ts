@@ -5,8 +5,12 @@ const ALLOWED_ORIGINS = [
   "https://lovekey.lovable.app",
   "https://id-preview--6799dfb0-ac44-4c03-8c4d-55e3d0d2a793.lovable.app",
   "https://6799dfb0-ac44-4c03-8c4d-55e3d0d2a793.lovableproject.com",
+  "https://checkout.lovekey.com.au",
+  "https://www.lovekey.com.au",
+  "https://lovekey.com.au",
   "http://localhost:3000",
   "http://localhost:8080",
+  "http://localhost:5173",
 ];
 
 function getCorsHeaders(origin: string | null) {
@@ -51,11 +55,13 @@ serve(async (req) => {
 
   // Origin validation for non-preflight requests
   if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    console.error("[CREATE-CHECKOUT] Blocked origin:", origin);
     return new Response(JSON.stringify({ error: "Forbidden" }), {
       headers: { "Content-Type": "application/json" },
       status: 403,
     });
   }
+  console.log("[CREATE-CHECKOUT] Origin:", origin || "none");
 
   try {
     console.log("[CREATE-CHECKOUT] Function started");
