@@ -238,7 +238,7 @@ const CartDrawer = () => {
                         : "bg-secondary hover:bg-secondary/80"
                     }`}
                   >
-                    {variation.name} (FREE)
+                    {variation.name} ({CURRENCY_SYMBOL}{variation.price.toFixed(2)})
                   </button>
                 ))}
               </div>
