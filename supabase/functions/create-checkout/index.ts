@@ -40,11 +40,17 @@ serve(async (req) => {
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
-    // Build line items with price_data — products are FREE, only shipping is charged
+    // Price map for each variation
+    const priceMap: Record<string, number> = {
+      "Love Key Guardian": 995,  // $9.95 in cents
+      "Love Key Essential": 495, // $4.95 in cents
+    };
+
+    // Build line items with price_data
     const stripeLineItems = lineItems.map((item) => ({
       price_data: {
         currency: "aud",
-        unit_amount: 0,
+        unit_amount: priceMap[item.variationName] || 995,
         product_data: {
           name: `${item.variationName} - ${item.color.charAt(0).toUpperCase() + item.color.slice(1)}`,
           metadata: {

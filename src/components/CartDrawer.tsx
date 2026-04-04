@@ -303,7 +303,7 @@ const CartDrawer = () => {
                     Processing...
                   </>
                 ) : (
-                  `Checkout — ${CURRENCY_SYMBOL}9.95`
+                  `Checkout — ${CURRENCY_SYMBOL}${(totalPrice + 9.95).toFixed(2)}`
                 )}
               </Button>
 

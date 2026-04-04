@@ -83,7 +83,7 @@ const QuantitySelector = ({
         className="w-full bg-product-red text-white py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-colors active:scale-[0.98] flex items-center justify-center gap-2"
       >
         <ShoppingCart className="w-5 h-5" />
-        Add to Cart — FREE
+        Add to Cart — {CURRENCY_SYMBOL}{(quantity * pricePerUnit).toFixed(2)}
       </button>
 
       <div className="flex items-center justify-center gap-6 mt-4 text-sm text-muted-foreground">

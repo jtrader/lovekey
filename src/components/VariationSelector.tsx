@@ -53,7 +53,7 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
             <h4 className="font-medium text-sm mb-1">{variation.name}</h4>
             <p className="text-xs text-muted-foreground mb-2">{variation.description}</p>
             <p className="text-sm font-semibold text-primary">
-              FREE
+              {CURRENCY_SYMBOL}{variation.price.toFixed(2)}
             </p>
           </button>
         ))}
