@@ -5,8 +5,12 @@ const ALLOWED_ORIGINS = [
   "https://lovekey.lovable.app",
   "https://id-preview--6799dfb0-ac44-4c03-8c4d-55e3d0d2a793.lovable.app",
   "https://6799dfb0-ac44-4c03-8c4d-55e3d0d2a793.lovableproject.com",
+  "https://checkout.lovekey.com.au",
+  "https://www.lovekey.com.au",
+  "https://lovekey.com.au",
   "http://localhost:3000",
   "http://localhost:8080",
+  "http://localhost:5173",
 ];
 
 function getCorsHeaders(origin: string | null) {
