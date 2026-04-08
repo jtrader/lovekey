@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 // Webhooks are server-to-server — no CORS needed
 const jsonHeaders = { "Content-Type": "application/json" };
@@ -224,12 +225,15 @@ serve(async (req) => {
         console.log("[STRIPE-WEBHOOK] Shippo label purchased:", transactionData.object_id);
         console.log("[STRIPE-WEBHOOK] Tracking number:", transactionData.tracking_number);
         console.log("[STRIPE-WEBHOOK] Label URL:", transactionData.label_url);
-
-        return new Response(
-          JSON.stringify({ received: true }),
-          { headers: jsonHeaders, status: 200 }
-        );
       }
+
+      // Send email notifications
+      await sendOrderEmails(session, shippingName, shippingAddress, items);
+
+      return new Response(
+        JSON.stringify({ received: true }),
+        { headers: jsonHeaders, status: 200 }
+      );
     }
 
     // Return 200 for all other events
@@ -240,10 +244,91 @@ serve(async (req) => {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("[STRIPE-WEBHOOK] Error:", errorMessage);
-    // Return 200 to prevent Stripe from retrying
     return new Response(JSON.stringify({ received: true }), {
       headers: jsonHeaders,
       status: 200,
     });
   }
 });
+
+async function sendOrderEmails(
+  session: any,
+  shippingName: string | undefined,
+  shippingAddress: any,
+  items: any[]
+) {
+  try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("[STRIPE-WEBHOOK] Missing Supabase env vars for emails");
+      return;
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const customerEmail = session.customer_details?.email;
+    const customerName = shippingName || session.customer_details?.name || "";
+    const orderDetails = session.metadata?.order_details || "";
+    const totalCents = session.amount_total || 0;
+    const totalAmount = `A$${(totalCents / 100).toFixed(2)}`;
+
+    let shippingStr = "";
+    if (shippingAddress) {
+      const parts = [
+        shippingAddress.line1,
+        shippingAddress.line2,
+        shippingAddress.city,
+        shippingAddress.state,
+        shippingAddress.postal_code,
+        shippingAddress.country,
+      ].filter(Boolean);
+      shippingStr = parts.join(", ");
+    }
+
+    // 1. Send customer receipt
+    if (customerEmail) {
+      const { error: receiptError } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "order-receipt",
+          recipientEmail: customerEmail,
+          idempotencyKey: `order-receipt-${session.id}`,
+          templateData: {
+            customerName,
+            orderDetails,
+            totalAmount,
+            shippingAddress: shippingStr,
+            sessionId: session.id,
+          },
+        },
+      });
+      if (receiptError) {
+        console.error("[STRIPE-WEBHOOK] Failed to send customer receipt:", receiptError);
+      } else {
+        console.log("[STRIPE-WEBHOOK] Customer receipt email queued for", customerEmail);
+      }
+    }
+
+    // 2. Send admin notification (template has fixed `to` address)
+    const { error: adminError } = await supabase.functions.invoke("send-transactional-email", {
+      body: {
+        templateName: "admin-order-notification",
+        idempotencyKey: `admin-notify-${session.id}`,
+        templateData: {
+          customerName,
+          customerEmail: customerEmail || "N/A",
+          orderDetails,
+          totalAmount,
+          shippingAddress: shippingStr,
+          sessionId: session.id,
+        },
+      },
+    });
+    if (adminError) {
+      console.error("[STRIPE-WEBHOOK] Failed to send admin notification:", adminError);
+    } else {
+      console.log("[STRIPE-WEBHOOK] Admin notification email queued");
+    }
+  } catch (err) {
+    console.error("[STRIPE-WEBHOOK] Email sending error:", err);
+  }
+}
