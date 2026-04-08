@@ -129,7 +129,7 @@ serve(async (req) => {
             zip: "3550",
             country: "AU",
             phone: "0497347456",
-            email: "hello@lovekey.com.au",
+            email: "support@lovekey.com.au",
           },
           address_to: {
             name: shippingName || "Customer",
