@@ -59,7 +59,7 @@ const OrderReceiptEmail = ({
         )}
         <Hr style={divider} />
         <Text style={text}>
-          We'll send you a shipping update once your order is on its way. If you have any questions, reply to this email or reach out at hello@lovekey.com.au.
+          We'll send you a shipping update once your order is on its way. If you have any questions, reply to this email or reach out at support@lovekey.com.au.
         </Text>
         <Text style={footer}>With love, The {SITE_NAME} Team 💛</Text>
       </Container>

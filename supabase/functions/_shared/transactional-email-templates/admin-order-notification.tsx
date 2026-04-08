@@ -5,7 +5,7 @@ import {
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "Love Key"
-const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "hello@lovekey.com.au"
+const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "support@lovekey.com.au"
 
 interface AdminOrderNotificationProps {
   customerName?: string
