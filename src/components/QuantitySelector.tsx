@@ -56,12 +56,12 @@ const QuantitySelector = ({
       <div className="flex items-baseline justify-between mb-2">
         <div>
           <span className="text-3xl font-bold text-primary">{CURRENCY_SYMBOL}{pricePerUnit.toFixed(2)}</span>
-          <span className="text-muted-foreground ml-2 text-sm">+ {CURRENCY_SYMBOL}9.95 shipping</span>
+          <span className="text-muted-foreground ml-2 text-sm">+ {CURRENCY_SYMBOL}9.95 delivery</span>
         </div>
       </div>
 
       <div className="mb-4 inline-flex items-center gap-2 bg-product-green/10 border border-product-green/30 text-foreground text-xs font-medium px-3 py-1.5 rounded-full">
-        🚚 FREE shipping on orders over {CURRENCY_SYMBOL}25
+        🚚 FREE delivery on orders over {CURRENCY_SYMBOL}25
       </div>
 
       
@@ -102,7 +102,7 @@ const QuantitySelector = ({
       <div className="flex items-center justify-center gap-6 mt-4 text-sm text-muted-foreground">
         <span>✓ Fast Delivery</span>
         <span>✓ Secure Payment</span>
-        <span>✓ FREE shipping over {CURRENCY_SYMBOL}25</span>
+        <span>✓ FREE delivery over {CURRENCY_SYMBOL}25</span>
       </div>
     </div>
   );

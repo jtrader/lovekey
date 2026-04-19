@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border" role="banner">
       <div className="bg-product-red text-white text-center text-xs sm:text-sm py-1.5 px-4 font-medium">
-        🚚 FREE shipping on all orders over $25
+        🚚 FREE delivery on all orders over $25
       </div>
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-2">
