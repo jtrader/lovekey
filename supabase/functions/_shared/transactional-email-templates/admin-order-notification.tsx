@@ -50,7 +50,7 @@ const AdminOrderNotificationEmail = ({
         )}
         {shippingAddress && (
           <Section style={infoBox}>
-            <Text style={label}>Ship to</Text>
+            <Text style={label}>Deliver to</Text>
             <Text style={value}>{shippingAddress}</Text>
           </Section>
         )}
