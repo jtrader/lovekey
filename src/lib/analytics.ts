@@ -68,3 +68,21 @@ export const trackBeginCheckout = (params: {
     items,
   });
 };
+
+export const trackPurchase = (params: {
+  transactionId: string;
+  value: number;
+  currency: string;
+  shipping?: number;
+  tax?: number;
+  items: GtagItem[];
+}) => {
+  safeGtag("event", "purchase", {
+    transaction_id: params.transactionId,
+    value: params.value,
+    currency: params.currency,
+    shipping: params.shipping ?? 0,
+    tax: params.tax ?? 0,
+    items: params.items,
+  });
+};

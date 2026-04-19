@@ -4,6 +4,7 @@ import { CheckCircle, ArrowRight, Truck, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
+import { trackPurchase } from "@/lib/analytics";
 
 const CheckoutSuccess = () => {
   const navigate = useNavigate();
@@ -17,6 +18,43 @@ const CheckoutSuccess = () => {
     // Clear cart after successful checkout
     clearCart();
   }, [clearCart]);
+
+  // Fire GA4 purchase event (deduped per session) using verified Stripe data
+  useEffect(() => {
+    if (!sessionId) return;
+
+    const gaKey = `ga_purchase_fired_${sessionId}`;
+    if (localStorage.getItem(gaKey)) return;
+
+    (async () => {
+      try {
+        const projectRef = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+        const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+        const url = `https://${projectRef}.supabase.co/functions/v1/verify-checkout-session?session_id=${encodeURIComponent(sessionId)}`;
+        const res = await fetch(url, {
+          headers: {
+            apikey: anonKey,
+            Authorization: `Bearer ${anonKey}`,
+          },
+        });
+        const payload = await res.json();
+
+        if (payload?.paid && Array.isArray(payload.items)) {
+          trackPurchase({
+            transactionId: payload.transaction_id,
+            value: payload.value,
+            currency: payload.currency,
+            shipping: payload.shipping,
+            tax: payload.tax,
+            items: payload.items,
+          });
+          localStorage.setItem(gaKey, "true");
+        }
+      } catch (err) {
+        console.error("[CHECKOUT-SUCCESS] GA purchase tracking failed:", err);
+      }
+    })();
+  }, [sessionId]);
 
   useEffect(() => {
     const createShippingOrder = async () => {
