@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackViewItem } from "@/lib/analytics";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import LifestyleShowcase from "@/components/LifestyleShowcase";
