@@ -70,7 +70,7 @@ const BundlePromos = ({ selectedVariation }: BundlePromosProps) => {
     setIsCartOpen(true);
     toast({
       title: "Bundle added to cart!",
-      description: "Both keyrings added — FREE + $9.95 shipping",
+      description: "Both keyrings added — FREE + $9.95 delivery",
       duration: 3000,
     });
   };
