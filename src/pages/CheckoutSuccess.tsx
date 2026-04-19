@@ -114,29 +114,29 @@ const CheckoutSuccess = () => {
           </p>
         )}
 
-        {/* Shipping Status */}
+        {/* Delivery Status */}
         <div className="bg-secondary rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-center gap-2">
             <Truck className="w-5 h-5 text-primary" />
-            <h3 className="font-medium">Shipping</h3>
+            <h3 className="font-medium">Delivery</h3>
           </div>
           
           {shippingStatus === "processing" && (
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Processing shipping...
+              Processing delivery...
             </div>
           )}
           
           {shippingStatus === "success" && (
             <p className="text-sm text-muted-foreground">
-              Your order is being prepared for shipment. You'll receive tracking information via email once your order ships.
+              Your order is being prepared for delivery. You'll receive tracking information via email once your order is on its way.
             </p>
           )}
           
           {shippingStatus === "error" && (
             <p className="text-sm text-amber-600">
-              There was an issue processing shipping. Don't worry - our team will handle it manually and you'll receive tracking information soon.
+              There was an issue processing delivery. Don't worry - our team will handle it manually and you'll receive tracking information soon.
             </p>
           )}
 

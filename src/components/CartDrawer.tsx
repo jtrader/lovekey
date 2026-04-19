@@ -308,11 +308,11 @@ const CartDrawer = () => {
                     {qualifiesForFreeShipping ? (
                       <div className="bg-product-green/10 border border-product-green/30 rounded-lg px-3 py-2 text-sm font-medium text-foreground flex items-center gap-2">
                         <Check className="w-4 h-4 text-product-green" />
-                        You've unlocked FREE shipping!
+                        You've unlocked FREE delivery!
                       </div>
                     ) : (
                       <div className="bg-secondary rounded-lg px-3 py-2 text-sm text-muted-foreground">
-                        Add <span className="font-semibold text-foreground">{CURRENCY_SYMBOL}{remaining.toFixed(2)}</span> more for <span className="font-semibold text-foreground">FREE shipping</span>
+                        Add <span className="font-semibold text-foreground">{CURRENCY_SYMBOL}{remaining.toFixed(2)}</span> more for <span className="font-semibold text-foreground">FREE delivery</span>
                         <div className="mt-2 h-1.5 bg-background rounded-full overflow-hidden">
                           <div
                             className="h-full bg-product-red transition-all"
@@ -329,7 +329,7 @@ const CartDrawer = () => {
                       </div>
 
                       <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">Shipping</span>
+                        <span className="text-muted-foreground">Delivery</span>
                         {qualifiesForFreeShipping ? (
                           <span className="font-semibold text-product-green">FREE</span>
                         ) : (
