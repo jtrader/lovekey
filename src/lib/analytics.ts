@@ -22,6 +22,27 @@ const safeGtag = (...args: unknown[]) => {
   }
 };
 
+export const trackViewItem = (params: {
+  variationId: string;
+  variationName: string;
+  color: string;
+  pricePerUnit: number;
+}) => {
+  safeGtag("event", "view_item", {
+    currency: "AUD",
+    value: params.pricePerUnit,
+    items: [
+      {
+        item_id: `${params.variationId}-${params.color}`,
+        item_name: params.variationName,
+        item_variant: params.color,
+        price: params.pricePerUnit,
+        quantity: 1,
+      },
+    ],
+  });
+};
+
 export const trackAddToCart = (params: {
   variationId: string;
   variationName: string;
