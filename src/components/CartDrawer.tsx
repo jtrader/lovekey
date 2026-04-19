@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { CURRENCY_SYMBOL, getStripePrice } from "@/lib/stripe-products";
 import { variations } from "@/components/VariationSelector";
+import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
 
 // Product image imports - Lightweight
 import lightweightGreen from "@/assets/products/green.png";
@@ -79,6 +80,18 @@ const CartDrawer = () => {
 
     setIsLoading(true);
     try {
+      // Fire GA begin_checkout event (uses cart subtotal; shipping handled by Stripe)
+      trackBeginCheckout({
+        items: items.map((i) => ({
+          variationId: i.variationId,
+          variationName: i.variationName,
+          color: i.color,
+          pricePerUnit: i.pricePerUnit,
+          quantity: i.quantity,
+        })),
+        value: totalPrice,
+      });
+
       // Always use current price IDs to ensure prices match the latest configuration
       const lineItems = items.map((item) => ({
         priceId: getStripePrice(item.variationId),
@@ -132,6 +145,14 @@ const CartDrawer = () => {
       color: quickAddColor,
       pricePerUnit: variation.price,
       priceId: getStripePrice(quickAddVariation),
+      quantity: 1,
+    });
+
+    trackAddToCart({
+      variationId: quickAddVariation,
+      variationName: variation.name,
+      color: quickAddColor,
+      pricePerUnit: variation.price,
       quantity: 1,
     });
 

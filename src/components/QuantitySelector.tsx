@@ -2,6 +2,7 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { getStripePrice, CURRENCY_SYMBOL } from "@/lib/stripe-products";
 import { toast } from "@/hooks/use-toast";
+import { trackAddToCart } from "@/lib/analytics";
 
 interface QuantitySelectorProps {
   quantity: number;
@@ -31,6 +32,14 @@ const QuantitySelector = ({
       pricePerUnit: pricePerUnit,
       priceId: getStripePrice(selectedVariation),
       quantity: quantity,
+    });
+
+    trackAddToCart({
+      variationId: selectedVariation,
+      variationName,
+      color: selectedColor,
+      pricePerUnit,
+      quantity,
     });
 
     toast({
