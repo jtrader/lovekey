@@ -165,6 +165,38 @@ serve(async (req) => {
 
     const requestOrigin = origin || "https://lovekey.lovable.app";
 
+    // Calculate subtotal in cents to determine if free shipping applies
+    const subtotalCents = lineItems.reduce(
+      (sum, item) => sum + (priceMap[item.variationName] || 995) * item.quantity,
+      0
+    );
+    const FREE_SHIPPING_THRESHOLD_CENTS = 2500; // $25.00 AUD
+    const qualifiesForFreeShipping = subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS;
+
+    console.log(
+      `[CREATE-CHECKOUT] Subtotal: $${(subtotalCents / 100).toFixed(2)} | Free shipping: ${qualifiesForFreeShipping}`
+    );
+
+    const shippingRateData: Stripe.Checkout.SessionCreateParams.ShippingOption["shipping_rate_data"] = qualifiesForFreeShipping
+      ? {
+          type: "fixed_amount",
+          fixed_amount: { amount: 0, currency: "aud" },
+          display_name: "Free Shipping (orders over $25)",
+          delivery_estimate: {
+            minimum: { unit: "business_day", value: 2 },
+            maximum: { unit: "business_day", value: 5 },
+          },
+        }
+      : {
+          type: "fixed_amount",
+          fixed_amount: { amount: 995, currency: "aud" },
+          display_name: "Standard Shipping",
+          delivery_estimate: {
+            minimum: { unit: "business_day", value: 2 },
+            maximum: { unit: "business_day", value: 5 },
+          },
+        };
+
     // Build session config
     const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       line_items: stripeLineItems,
@@ -174,28 +206,7 @@ serve(async (req) => {
       shipping_address_collection: {
         allowed_countries: ["US", "CA", "GB", "AU", "DE", "FR", "NL", "BE", "AT", "CH", "IE", "NZ"],
       },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: {
-              amount: 995,
-              currency: "aud",
-            },
-            display_name: "Standard Shipping",
-            delivery_estimate: {
-              minimum: {
-                unit: "business_day",
-                value: 2,
-              },
-              maximum: {
-                unit: "business_day",
-                value: 5,
-              },
-            },
-          },
-        },
-      ],
+      shipping_options: [{ shipping_rate_data: shippingRateData }],
       metadata: {
         order_details: orderDetails,
         items: itemsJson,

@@ -275,37 +275,70 @@ const CartDrawer = () => {
             </div>
 
             <div className="border-t border-border pt-4 space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Products</span>
-                  <span className="text-primary font-medium">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
-                </div>
-                
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Shipping</span>
-                  <span>{CURRENCY_SYMBOL}9.95</span>
-                </div>
-                
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Total</span>
-                  <span className="text-xl font-bold">{CURRENCY_SYMBOL}{(totalPrice + 9.95).toFixed(2)}</span>
-                </div>
-              </div>
+              {(() => {
+                const FREE_SHIPPING_THRESHOLD = 25;
+                const qualifiesForFreeShipping = totalPrice >= FREE_SHIPPING_THRESHOLD;
+                const remaining = FREE_SHIPPING_THRESHOLD - totalPrice;
+                const shippingCost = qualifiesForFreeShipping ? 0 : 9.95;
+                const orderTotal = totalPrice + shippingCost;
 
-              <Button
-                onClick={handleCheckout}
-                disabled={isLoading}
-                className="w-full py-6 text-lg bg-product-red hover:bg-product-red/90"
-              >
-                {isLoading ? (
+                return (
                   <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Processing...
+                    {qualifiesForFreeShipping ? (
+                      <div className="bg-product-green/10 border border-product-green/30 rounded-lg px-3 py-2 text-sm font-medium text-foreground flex items-center gap-2">
+                        <Check className="w-4 h-4 text-product-green" />
+                        You've unlocked FREE shipping!
+                      </div>
+                    ) : (
+                      <div className="bg-secondary rounded-lg px-3 py-2 text-sm text-muted-foreground">
+                        Add <span className="font-semibold text-foreground">{CURRENCY_SYMBOL}{remaining.toFixed(2)}</span> more for <span className="font-semibold text-foreground">FREE shipping</span>
+                        <div className="mt-2 h-1.5 bg-background rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-product-red transition-all"
+                            style={{ width: `${Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Products</span>
+                        <span className="text-primary font-medium">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
+                      </div>
+
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Shipping</span>
+                        {qualifiesForFreeShipping ? (
+                          <span className="font-semibold text-product-green">FREE</span>
+                        ) : (
+                          <span>{CURRENCY_SYMBOL}9.95</span>
+                        )}
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="text-muted-foreground">Total</span>
+                        <span className="text-xl font-bold">{CURRENCY_SYMBOL}{orderTotal.toFixed(2)}</span>
+                      </div>
+                    </div>
+
+                    <Button
+                      onClick={handleCheckout}
+                      disabled={isLoading}
+                      className="w-full py-6 text-lg bg-product-red hover:bg-product-red/90"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        `Checkout — ${CURRENCY_SYMBOL}${orderTotal.toFixed(2)}`
+                      )}
+                    </Button>
                   </>
-                ) : (
-                  `Checkout — ${CURRENCY_SYMBOL}${(totalPrice + 9.95).toFixed(2)}`
-                )}
-              </Button>
+                );
+              })()}
 
               <button
                 onClick={clearCart}
