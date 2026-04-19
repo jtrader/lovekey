@@ -44,11 +44,15 @@ const QuantitySelector = ({
 
   return (
     <div className="bg-secondary rounded-2xl p-6">
-      <div className="flex items-baseline justify-between mb-4">
+      <div className="flex items-baseline justify-between mb-2">
         <div>
           <span className="text-3xl font-bold text-primary">{CURRENCY_SYMBOL}{pricePerUnit.toFixed(2)}</span>
           <span className="text-muted-foreground ml-2 text-sm">+ {CURRENCY_SYMBOL}9.95 shipping</span>
         </div>
+      </div>
+
+      <div className="mb-4 inline-flex items-center gap-2 bg-product-green/10 border border-product-green/30 text-foreground text-xs font-medium px-3 py-1.5 rounded-full">
+        🚚 FREE shipping on orders over {CURRENCY_SYMBOL}25
       </div>
 
       
