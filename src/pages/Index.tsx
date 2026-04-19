@@ -32,7 +32,21 @@ const Index = () => {
   const [quantity, setQuantity] = useState(1);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
-  
+
+  // Fire GA4 view_item when user selects a variation/color (debounced)
+  useEffect(() => {
+    if (!currentVariation || !selectedColor) return;
+    const timeout = setTimeout(() => {
+      trackViewItem({
+        variationId: selectedVariation,
+        variationName: currentVariation.name,
+        color: selectedColor,
+        pricePerUnit: currentVariation.price,
+      });
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [selectedVariation, selectedColor, currentVariation]);
+
   const handleColorSelect = (color: string) => {
     setSelectedColor(color);
   };
