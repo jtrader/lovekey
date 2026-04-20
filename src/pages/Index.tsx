@@ -22,7 +22,7 @@ import SupportPartners from "@/components/SupportPartners";
 
 // Lifestyle image for the main gallery
 import keyring1 from "@/assets/gallery/keyring-1.png";
-import keyringNfc from "@/assets/keyring-nfc.png";
+
 
 const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
@@ -59,14 +59,19 @@ const Index = () => {
         {/* Hero Section */}
         <HeroSection />
         
-        {/* NFC Keyring Image */}
+        {/* NFC Keyring Video */}
         <div className="flex justify-center py-8">
-          <img 
-            src={keyringNfc} 
-            alt="Love Key NFC keyring showing tap-to-connect feature for mental health support" 
-            className="w-full max-w-xs sm:max-w-sm mx-auto"
-            loading="lazy"
-          />
+          <div className="w-full max-w-lg mx-auto">
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.youtube.com/embed/QG21RTlAGyA"
+                title="Love Key NFC Demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+          </div>
         </div>
         
         {/* Why Section */}
