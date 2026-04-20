@@ -22,7 +22,7 @@ import SupportPartners from "@/components/SupportPartners";
 
 // Lifestyle image for the main gallery
 import keyring1 from "@/assets/gallery/keyring-1.png";
-import keyringNfc from "@/assets/keyring-nfc.png";
+
 
 const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
