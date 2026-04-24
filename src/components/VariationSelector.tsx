@@ -20,7 +20,7 @@ const variations: Variation[] = [
     id: "lightweight",
     name: "Love Key Essential",
     description: "Lightweight, durable, and designed for everyday carry. The Love Key Essential is the simplest way to personal safety and wellbeing support within reach.",
-    price: 1.00,
+    price: 0,
     units: 1,
   },
 ];
@@ -53,7 +53,7 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
             <h4 className="font-medium text-sm mb-1">{variation.name}</h4>
             <p className="text-xs text-muted-foreground mb-2">{variation.description}</p>
             <p className="text-sm font-semibold text-primary">
-              {CURRENCY_SYMBOL}{variation.price.toFixed(2)}
+              {variation.price === 0 ? "FREE" : `${CURRENCY_SYMBOL}${variation.price.toFixed(2)}`}
             </p>
           </button>
         ))}

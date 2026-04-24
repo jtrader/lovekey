@@ -1,6 +1,6 @@
 // Stripe price IDs mapped to product variations (AUD)
 export const STRIPE_PRICES = {
-  lightweight: "price_1TPgWwIc1upzIn0vongHo8hm", // A$1.00
+  lightweight: "price_1TPh5nIc1upzIn0vW2BBxIdN", // A$0.00 (FREE)
   metal: "price_1TPgQEIc1upzIn0vtL59dFZY", // A$5.00
 } as const;
 
