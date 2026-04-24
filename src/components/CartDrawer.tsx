@@ -360,9 +360,15 @@ const CartDrawer = () => {
                       </div>
                     </div>
 
+                    {essentialRequiresGuardian && (
+                      <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2 text-sm text-foreground">
+                        The <span className="font-semibold">Love Key Essential</span> is free with the purchase of at least <span className="font-semibold">1 Love Key Guardian</span>. Please add a Guardian to checkout.
+                      </div>
+                    )}
+
                     <Button
                       onClick={handleCheckout}
-                      disabled={isLoading}
+                      disabled={isLoading || essentialRequiresGuardian}
                       className="w-full py-6 text-lg bg-product-red hover:bg-product-red/90"
                     >
                       {isLoading ? (
