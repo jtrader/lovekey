@@ -123,6 +123,23 @@ serve(async (req) => {
       );
     }
 
+    // Business rule: Love Key Essential (free) requires at least 1 Love Key Guardian
+    const guardianQty = lineItems
+      .filter((i) => i.variationName === "Love Key Guardian")
+      .reduce((sum, i) => sum + i.quantity, 0);
+    const essentialQty = lineItems
+      .filter((i) => i.variationName === "Love Key Essential")
+      .reduce((sum, i) => sum + i.quantity, 0);
+    if (essentialQty > 0 && guardianQty < 1) {
+      return new Response(
+        JSON.stringify({
+          error: "The Love Key Essential is free with the purchase of at least 1 Love Key Guardian. Please add a Guardian to your cart.",
+          code: "GUARDIAN_REQUIRED",
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
     console.log("[CREATE-CHECKOUT] Validated line items:", JSON.stringify(lineItems));
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
