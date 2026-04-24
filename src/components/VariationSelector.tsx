@@ -19,7 +19,7 @@ const variations: Variation[] = [
   {
     id: "lightweight",
     name: "Love Key Essential",
-    description: "Lightweight, durable, and designed for everyday carry. The Love Key Essential is the simplest way to personal safety and wellbeing support within reach.",
+    description: "Free with every Love Key Guardian (max 5 per customer). Lightweight, durable, and designed for everyday carry — the simplest way to keep personal safety and wellbeing support within reach.",
     price: 0,
     units: 1,
   },
