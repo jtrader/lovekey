@@ -129,7 +129,7 @@ serve(async (req) => {
 
     // Price map for each variation
     const priceMap: Record<string, number> = {
-      "Love Key Guardian": 995,  // $9.95 in cents
+      "Love Key Guardian": 500,  // $5.00 in cents
       "Love Key Essential": 495, // $4.95 in cents
     };
 
