@@ -63,19 +63,24 @@ export const PARTNER_COLOR_IDS = new Set(PARTNERS.map((p) => p.id));
 interface PartnerMerchandiseProps {
   selectedPartnerId: string | null;
   onSelectPartner: (id: string | null) => void;
+  selectedVariation: string;
 }
 
-const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner }: PartnerMerchandiseProps) => {
+const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner, selectedVariation }: PartnerMerchandiseProps) => {
+  const isGuardian = selectedVariation === "metal";
+  const variationLabel = isGuardian ? "Guardian" : "Essential";
+
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
         <Heart className="w-4 h-4" />
-        <span>Partner Merchandise — Tap to preview</span>
+        <span>Partner Merchandise — Tap to preview the {variationLabel}</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {PARTNERS.map((partner) => {
           const isSelected = selectedPartnerId === partner.id;
+          const img = isGuardian ? partner.guardianImage : partner.essentialImage;
           return (
             <button
               key={partner.id}
@@ -85,18 +90,19 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner }: PartnerMerch
                 isSelected ? "border-primary ring-2 ring-primary/30" : partner.borderClass
               }`}
             >
-              <div className="flex justify-center -space-x-3 mb-2">
-                <div className="w-14 h-14 rounded-full bg-background shadow-md overflow-hidden border-2 border-background">
-                  <img src={partner.guardianImage} alt={`${partner.name} Guardian`} className="w-full h-full object-contain" />
-                </div>
-                <div className="w-14 h-14 rounded-full bg-background shadow-md overflow-hidden border-2 border-background">
-                  <img src={partner.essentialImage} alt={`${partner.name} Essential`} className="w-full h-full object-contain" />
+              <div className="flex justify-center mb-2">
+                <div className="w-16 h-16 rounded-full bg-background shadow-md overflow-hidden border-2 border-background">
+                  <img
+                    src={img}
+                    alt={`${partner.name} Love Key ${variationLabel}`}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
 
               <div className="text-center">
                 <div className="text-sm font-semibold">{partner.name}</div>
-                <div className="text-xs text-muted-foreground">Guardian + Essential</div>
+                <div className="text-xs text-muted-foreground">{variationLabel}</div>
               </div>
             </button>
           );
