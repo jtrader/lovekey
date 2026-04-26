@@ -29,7 +29,7 @@ const HeroSection = () => {
         </Button>
         <Button size="lg" variant="outline" asChild className="text-base px-8 py-6 group">
           <a href="https://lovekeyring.org" target="_blank" rel="noopener noreferrer">
-            View the <span className="text-primary group-hover:text-primary-foreground transition-colors">Love</span> Key App Now
+            View the <span className="text-primary group-hover:text-white transition-colors">Love</span> Key App Now
           </a>
         </Button>
       </div>
