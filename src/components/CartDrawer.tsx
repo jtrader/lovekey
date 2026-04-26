@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { CURRENCY_SYMBOL, getStripePrice } from "@/lib/stripe-products";
 import { variations } from "@/components/VariationSelector";
 import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
+import { PARTNER_PRODUCT_IMAGES, PARTNER_COLOR_IDS, PARTNERS } from "@/components/PartnerMerchandise";
 
 // Product image imports - Lightweight
 import lightweightGreen from "@/assets/products/green.png";
@@ -55,7 +56,20 @@ const productImages: Record<string, Record<string, string>> = {
 };
 
 const getProductImage = (variationId: string, color: string): string => {
+  // Partner products use a synthetic "color" id (e.g. "cvgt") that maps to
+  // partner-specific imagery for both lightweight (Essential) and metal (Guardian).
+  if (PARTNER_COLOR_IDS.has(color)) {
+    const partnerImg = PARTNER_PRODUCT_IMAGES[color];
+    if (variationId === "metal") return partnerImg.metal;
+    return partnerImg.lightweight;
+  }
   return productImages[variationId]?.[color] || lightweightWhite;
+};
+
+const formatColorLabel = (color: string): string => {
+  const partner = PARTNERS.find((p) => p.essentialColorId === color);
+  if (partner) return partner.name;
+  return color.charAt(0).toUpperCase() + color.slice(1);
 };
 
 const colorOptions = [
@@ -215,7 +229,7 @@ const CartDrawer = () => {
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium">{item.variationName}</h4>
                     <p className="text-sm text-muted-foreground">
-                      Color: {formatColor(item.color)}
+                      {PARTNER_COLOR_IDS.has(item.color) ? "Edition" : "Color"}: {formatColorLabel(item.color)}
                     </p>
                     <p className="text-sm font-medium mt-1 text-primary">
                       {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)}
