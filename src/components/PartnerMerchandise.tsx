@@ -87,7 +87,7 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner, selectedVariat
               onClick={() => onSelectPartner(isSelected ? null : partner.id)}
               aria-pressed={isSelected}
               aria-label={`${partner.name} Love Key ${variationLabel}`}
-              className={`aspect-[4/3] rounded-xl overflow-hidden bg-secondary cursor-pointer focus:outline-none transition-all duration-200 ${
+              className={`aspect-[4/3] rounded-xl overflow-hidden bg-white border border-border shadow-lg cursor-pointer focus:outline-none transition-all duration-200 ${
                 isSelected
                   ? "ring-2 ring-accent"
                   : "opacity-70 hover:opacity-100"
