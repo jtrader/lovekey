@@ -48,6 +48,18 @@ export const PARTNERS: PartnerProduct[] = [
   },
 ];
 
+// Lookup table consumed by the cart drawer to render the correct partner
+// image based on the synthetic "color" identifier used at add-to-cart time.
+export const PARTNER_PRODUCT_IMAGES: Record<string, { lightweight: string; metal: string }> = PARTNERS.reduce(
+  (acc, p) => {
+    acc[p.id] = { lightweight: p.essentialImage, metal: p.guardianImage };
+    return acc;
+  },
+  {} as Record<string, { lightweight: string; metal: string }>
+);
+
+export const PARTNER_COLOR_IDS = new Set(PARTNERS.map((p) => p.id));
+
 interface PartnerMerchandiseProps {
   selectedPartnerId: string | null;
   onSelectPartner: (id: string | null) => void;
