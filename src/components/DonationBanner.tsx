@@ -37,13 +37,18 @@ const DonationBanner = () => {
           {partners.map((p) => (
             <div
               key={p.name}
-              className="bg-background rounded-2xl p-8 border border-border shadow-sm w-full sm:w-64 flex flex-col items-center justify-center"
+              className="bg-background rounded-2xl p-6 sm:p-8 border border-border shadow-sm w-full sm:w-64 flex flex-col items-center justify-center"
             >
-              <a href={p.href} target="_blank" rel="noopener noreferrer">
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-full h-24 sm:h-28 lg:h-36"
+              >
                 <img
                   src={p.logo}
                   alt={p.alt}
-                  className="h-28 sm:h-36 object-contain"
+                  className="max-h-full max-w-full w-auto h-auto object-contain"
                   loading="lazy"
                 />
               </a>
@@ -51,7 +56,7 @@ const DonationBanner = () => {
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 text-xs font-semibold tracking-[0.2em] text-primary uppercase hover:underline"
+                className="mt-4 text-xs font-semibold tracking-[0.2em] text-primary uppercase hover:underline text-center"
               >
                 {p.label}
               </a>
