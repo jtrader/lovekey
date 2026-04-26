@@ -1,4 +1,5 @@
 import { Smartphone, QrCode, ArrowRight, CheckCircle } from "lucide-react";
+import keyringHero from "@/assets/keyring-hero.png";
 
 const LK = () => (
   <>
