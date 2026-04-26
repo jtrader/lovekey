@@ -90,7 +90,7 @@ const QuantitySelector = ({
             </button>
           </div>
           <span className="text-muted-foreground">
-            {variationName} - {selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)}
+            {variationName} - {displayLabel}
           </span>
         </div>
       </div>

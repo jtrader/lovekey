@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { CURRENCY_SYMBOL, getStripePrice } from "@/lib/stripe-products";
 import { variations } from "@/components/VariationSelector";
 import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
+import { PARTNER_PRODUCT_IMAGES, PARTNER_COLOR_IDS, PARTNERS } from "@/components/PartnerMerchandise";
 
 // Product image imports - Lightweight
 import lightweightGreen from "@/assets/products/green.png";
@@ -55,7 +56,17 @@ const productImages: Record<string, Record<string, string>> = {
 };
 
 const getProductImage = (variationId: string, color: string): string => {
+  if (PARTNER_COLOR_IDS.has(color)) {
+    const partnerImg = PARTNER_PRODUCT_IMAGES[color];
+    return variationId === "metal" ? partnerImg.metal : partnerImg.lightweight;
+  }
   return productImages[variationId]?.[color] || lightweightWhite;
+};
+
+const formatColorLabel = (color: string): string => {
+  const partner = PARTNERS.find((p) => p.id === color);
+  if (partner) return `${partner.name} Edition`;
+  return color.charAt(0).toUpperCase() + color.slice(1);
 };
 
 const colorOptions = [
