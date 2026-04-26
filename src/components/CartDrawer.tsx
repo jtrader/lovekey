@@ -215,7 +215,7 @@ const CartDrawer = () => {
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium">{item.variationName}</h4>
                     <p className="text-sm text-muted-foreground">
-                      {PARTNER_COLOR_IDS.has(item.color) ? "Edition" : "Color"}: {formatColorLabel(item.color)}
+                      Color: {formatColor(item.color)}
                     </p>
                     <p className="text-sm font-medium mt-1 text-primary">
                       {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)}
