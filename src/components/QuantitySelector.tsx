@@ -11,6 +11,8 @@ interface QuantitySelectorProps {
   selectedVariation: string;
   selectedColor: string;
   variationName: string;
+  /** Optional human label for the color/edition shown in the UI and toast. */
+  colorLabel?: string;
 }
 
 const QuantitySelector = ({ 
@@ -20,9 +22,11 @@ const QuantitySelector = ({
   selectedVariation,
   selectedColor,
   variationName,
+  colorLabel,
 }: QuantitySelectorProps) => {
   const { addItem } = useCart();
   const totalPrice = quantity * pricePerUnit;
+  const displayLabel = colorLabel ?? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1);
 
   const handleAddToCart = () => {
     addItem({
@@ -43,7 +47,7 @@ const QuantitySelector = ({
     });
 
     toast({
-      title: `${quantity}x ${variationName} (${selectedColor}) added to cart`,
+      title: `${quantity}x ${variationName} (${displayLabel}) added to cart`,
       duration: 2000,
     });
 
@@ -86,7 +90,7 @@ const QuantitySelector = ({
             </button>
           </div>
           <span className="text-muted-foreground">
-            {variationName} - {selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)}
+            {variationName} - {displayLabel}
           </span>
         </div>
       </div>

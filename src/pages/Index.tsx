@@ -11,7 +11,7 @@ import ProductGallery from "@/components/ProductGallery";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
-import PartnerMerchandise from "@/components/PartnerMerchandise";
+import PartnerMerchandise, { PARTNERS } from "@/components/PartnerMerchandise";
 import WhoItsFor from "@/components/WhoItsFor";
 import Testimonials from "@/components/Testimonials";
 import PurposeSection from "@/components/PurposeSection";
@@ -116,16 +116,29 @@ const Index = () => {
                 onSelect={setSelectedVariation}
               />
               
-              {currentVariation && (
-                <QuantitySelector
-                  quantity={quantity}
-                  pricePerUnit={currentVariation.price}
-                  onQuantityChange={setQuantity}
-                  selectedVariation={selectedVariation}
-                  selectedColor={selectedColor || "pink"}
-                  variationName={currentVariation.name}
-                />
-              )}
+              {currentVariation && (() => {
+                const activePartner = selectedPartnerId
+                  ? PARTNERS.find((p) => p.id === selectedPartnerId)
+                  : null;
+                const effectiveColor = activePartner ? activePartner.id : selectedColor || "pink";
+                const effectiveName = activePartner
+                  ? `${activePartner.name} ${currentVariation.name}`
+                  : currentVariation.name;
+                const colorLabel = activePartner
+                  ? `${activePartner.name} Edition`
+                  : (selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink");
+                return (
+                  <QuantitySelector
+                    quantity={quantity}
+                    pricePerUnit={currentVariation.price}
+                    onQuantityChange={setQuantity}
+                    selectedVariation={selectedVariation}
+                    selectedColor={effectiveColor}
+                    variationName={effectiveName}
+                    colorLabel={colorLabel}
+                  />
+                );
+              })()}
               
               <PartnerMerchandise
                 selectedPartnerId={selectedPartnerId}
