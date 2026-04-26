@@ -9,7 +9,7 @@ const HeroSection = () => {
   };
   return <section className="text-center sm:py-10 px-4 py-1">
       {/* Heart logo at top */}
-      <div className="w-full max-w-[120px] sm:max-w-[160px] mx-auto mb-4">
+      <div className="w-full max-w-[120px] sm:max-w-[160px] mx-auto mt-8 sm:mt-12 mb-8 sm:mb-10">
         <img 
           src={heartLogo} 
           alt="Love Key heart logo" 
