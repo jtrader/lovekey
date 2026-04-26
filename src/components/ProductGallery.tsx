@@ -84,9 +84,10 @@ const ProductGallery = ({
           const partnerLabel = isGuardian ? "Guardian" : "Essential";
           return (
             <img
+              key={`${activePartner.id}-${selectedVariation}`}
               src={partnerImg}
               alt={`${activePartner.name} Love Key ${partnerLabel}`}
-              className="w-full max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain transition-all duration-300 rounded-lg"
+              className="w-full max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain rounded-lg animate-fade-in"
             />
           );
         })() : (
