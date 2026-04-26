@@ -15,7 +15,7 @@ const partners = [
     logo: bendigoHealthLogo,
     href: "https://lovekeyring.org/?partner=bendigo-health",
     label: "Bendigo Health Love Key",
-    alt: "Bendigo Health Foundation partner",
+    alt: "Bendigo Health partner",
   },
   {
     name: "Bendigo Health Community Services",
