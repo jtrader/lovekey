@@ -105,6 +105,7 @@ const Index = () => {
                 selectedVariation={selectedVariation}
                 onColorSelect={handleColorSelect}
                 lifestyleImage={lifestyleImage}
+                selectedPartnerId={selectedPartnerId}
               />
             </div>
             
@@ -126,7 +127,10 @@ const Index = () => {
                 />
               )}
               
-              <PartnerMerchandise />
+              <PartnerMerchandise
+                selectedPartnerId={selectedPartnerId}
+                onSelectPartner={handleSelectPartner}
+              />
             </div>
           </div>
         </section>
