@@ -78,33 +78,18 @@ const ProductGallery = ({
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
       <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
-        {showingPartner && activePartner ? (
-          <div className="w-full flex flex-col items-center gap-2 py-4">
-            <div className="grid grid-cols-2 gap-3 w-full">
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-full aspect-square bg-background rounded-xl flex items-center justify-center p-3">
-                  <img
-                    src={activePartner.guardianImage}
-                    alt={`${activePartner.name} Love Key Guardian`}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-medium text-muted-foreground">Guardian</span>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-full aspect-square bg-background rounded-xl flex items-center justify-center p-3">
-                  <img
-                    src={activePartner.essentialImage}
-                    alt={`${activePartner.name} Love Key Essential`}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-medium text-muted-foreground">Essential</span>
-              </div>
-            </div>
-            <div className="text-sm font-semibold mt-1">{activePartner.name} Edition</div>
-          </div>
-        ) : (
+        {showingPartner && activePartner ? (() => {
+          const isGuardian = selectedVariation === "metal";
+          const partnerImg = isGuardian ? activePartner.guardianImage : activePartner.essentialImage;
+          const partnerLabel = isGuardian ? "Guardian" : "Essential";
+          return (
+            <img
+              src={partnerImg}
+              alt={`${activePartner.name} Love Key ${partnerLabel}`}
+              className="w-full max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain transition-all duration-300 rounded-lg"
+            />
+          );
+        })() : (
           <img
             src={currentImage}
             alt={currentAlt}
