@@ -143,6 +143,7 @@ const Index = () => {
               <PartnerMerchandise
                 selectedPartnerId={selectedPartnerId}
                 onSelectPartner={handleSelectPartner}
+                selectedVariation={selectedVariation}
               />
             </div>
           </div>
