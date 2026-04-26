@@ -77,7 +77,7 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner, selectedVariat
         <span>Partner Merchandise — Tap to preview the {variationLabel}</span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2">
         {PARTNERS.map((partner) => {
           const isSelected = selectedPartnerId === partner.id;
           const img = isGuardian ? partner.guardianImage : partner.essentialImage;
@@ -86,24 +86,18 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner, selectedVariat
               key={partner.id}
               onClick={() => onSelectPartner(isSelected ? null : partner.id)}
               aria-pressed={isSelected}
-              className={`group relative overflow-hidden rounded-xl border-2 bg-gradient-to-br ${partner.bgClass} p-3 text-left transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] ${
-                isSelected ? "border-primary ring-2 ring-primary/30" : partner.borderClass
+              aria-label={`${partner.name} Love Key ${variationLabel}`}
+              className={`aspect-[4/3] rounded-xl overflow-hidden bg-secondary cursor-pointer focus:outline-none transition-all duration-200 ${
+                isSelected
+                  ? "ring-2 ring-accent"
+                  : "opacity-70 hover:opacity-100"
               }`}
             >
-              <div className="flex justify-center mb-2">
-                <div className="w-16 h-16 rounded-full bg-background shadow-md overflow-hidden border-2 border-background">
-                  <img
-                    src={img}
-                    alt={`${partner.name} Love Key ${variationLabel}`}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              </div>
-
-              <div className="text-center">
-                <div className="text-sm font-semibold">{partner.name}</div>
-                <div className="text-xs text-muted-foreground">{variationLabel}</div>
-              </div>
+              <img
+                src={img}
+                alt={`${partner.name} Love Key ${variationLabel}`}
+                className="w-full h-full object-cover rounded-lg hover:scale-110 transition-transform duration-300"
+              />
             </button>
           );
         })}
