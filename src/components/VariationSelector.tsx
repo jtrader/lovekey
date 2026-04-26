@@ -1,9 +1,18 @@
 import { Check } from "lucide-react";
+import type { ReactNode } from "react";
 import { CURRENCY_SYMBOL } from "@/lib/stripe-products";
+
+const LK = () => (
+  <>
+    <span className="text-primary font-medium">Love</span> Key
+  </>
+);
+
 interface Variation {
   id: string;
   name: string;
-  description: string;
+  displayName: ReactNode;
+  description: ReactNode;
   price: number;
   units: number;
 }
@@ -12,14 +21,16 @@ const variations: Variation[] = [
   {
     id: "metal",
     name: "Love Key Guardian",
-    description: "Crafted with a polished metal frame for strength, beauty, and permanence. The Love Key Guardian is a premium reminder that care is always close.",
+    displayName: <><LK /> Guardian</>,
+    description: <>Crafted with a polished metal frame for strength, beauty, and permanence. The <LK /> Guardian is a premium reminder that care is always close.</>,
     price: 9.00,
     units: 1,
   },
   {
     id: "lightweight",
     name: "Love Key Essential",
-    description: "Free with every Love Key Guardian (max 5 per customer). Lightweight, durable, and designed for everyday carry — the simplest way to keep personal safety and wellbeing support within reach.",
+    displayName: <><LK /> Essential</>,
+    description: <>Free with every <LK /> Guardian (max 5 per customer). Lightweight, durable, and designed for everyday carry — the simplest way to keep personal safety and wellbeing support within reach.</>,
     price: 0,
     units: 1,
   },
@@ -50,7 +61,7 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
                 <Check className="w-3 h-3 text-primary-foreground" />
               </div>
             )}
-            <h4 className="font-medium text-sm mb-1">{variation.name}</h4>
+            <h4 className="font-medium text-sm mb-1">{variation.displayName}</h4>
             <p className="text-xs text-muted-foreground mb-2">{variation.description}</p>
             <p className="text-sm font-semibold text-primary">
               {variation.price === 0 ? "FREE" : `${CURRENCY_SYMBOL}${variation.price.toFixed(2)}`}

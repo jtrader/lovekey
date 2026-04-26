@@ -194,7 +194,7 @@ const CartDrawer = () => {
             <ShoppingBag className="w-16 h-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
             <p className="text-sm text-muted-foreground">
-              Add some Love Key keyrings to get started!
+              Add some <span className="text-primary font-medium">Love</span> Key keyrings to get started!
             </p>
           </div>
         ) : (
@@ -262,7 +262,7 @@ const CartDrawer = () => {
 
             {/* Quick Add Section */}
             <div className="border-t border-border pt-4 pb-2">
-              <h4 className="text-sm font-semibold mb-3">Add another Love Key</h4>
+              <h4 className="text-sm font-semibold mb-3">Add another <span className="text-primary">Love</span> Key</h4>
               
               {/* Variation Toggle */}
               <div className="flex gap-2 mb-3">
@@ -362,7 +362,7 @@ const CartDrawer = () => {
 
                     {essentialRequiresGuardian && (
                       <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2 text-sm text-foreground">
-                        The <span className="font-semibold">Love Key Essential</span> is free with the purchase of at least <span className="font-semibold">1 Love Key Guardian</span>. Please add a Guardian to checkout.
+                        The <span className="font-semibold"><span className="text-primary">Love</span> Key Essential</span> is free with the purchase of at least <span className="font-semibold">1 <span className="text-primary">Love</span> Key Guardian</span>. Please add a Guardian to checkout.
                       </div>
                     )}
 
