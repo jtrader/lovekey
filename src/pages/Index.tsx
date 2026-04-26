@@ -30,6 +30,7 @@ const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("metal");
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
 
@@ -48,7 +49,13 @@ const Index = () => {
   }, [selectedVariation, selectedColor, currentVariation]);
 
   const handleColorSelect = (color: string) => {
+    // Selecting a standard color clears any active partner preview
+    setSelectedPartnerId(null);
     setSelectedColor(color);
+  };
+
+  const handleSelectPartner = (id: string | null) => {
+    setSelectedPartnerId(id);
   };
 
   return (
@@ -98,6 +105,7 @@ const Index = () => {
                 selectedVariation={selectedVariation}
                 onColorSelect={handleColorSelect}
                 lifestyleImage={lifestyleImage}
+                selectedPartnerId={selectedPartnerId}
               />
             </div>
             
@@ -119,7 +127,10 @@ const Index = () => {
                 />
               )}
               
-              <PartnerMerchandise />
+              <PartnerMerchandise
+                selectedPartnerId={selectedPartnerId}
+                onSelectPartner={handleSelectPartner}
+              />
             </div>
           </div>
         </section>

@@ -40,11 +40,14 @@ const metalImages: Record<string, string> = {
   yellow: metalYellow,
 };
 
+import { PARTNERS } from "@/components/PartnerMerchandise";
+
 interface ProductGalleryProps {
   selectedColor: string | null;
   selectedVariation: string;
   onColorSelect: (color: string) => void;
   lifestyleImage: { src: string; alt: string };
+  selectedPartnerId?: string | null;
 }
 
 const ProductGallery = ({ 
@@ -52,15 +55,22 @@ const ProductGallery = ({
   selectedVariation, 
   onColorSelect, 
   lifestyleImage,
+  selectedPartnerId,
 }: ProductGalleryProps) => {
   const productImages = selectedVariation === "metal" ? metalImages : lightweightImages;
   const thumbnailImages = selectedVariation === "metal" ? metalImages : lightweightImages;
+
+  const activePartner = selectedPartnerId
+    ? PARTNERS.find((p) => p.id === selectedPartnerId) ?? null
+    : null;
   
-  // Show lifestyle image by default, product image when color is selected
-  const showingLifestyle = selectedColor === null;
+  // Show lifestyle image by default, product image when color is selected,
+  // partner pair when a partner is selected.
+  const showingPartner = activePartner !== null;
+  const showingLifestyle = !showingPartner && selectedColor === null;
   const currentImage = showingLifestyle 
     ? lifestyleImage.src 
-    : productImages[selectedColor] || productImages.pink;
+    : productImages[selectedColor as string] || productImages.pink;
   const currentAlt = showingLifestyle 
     ? lifestyleImage.alt 
     : `Love Key - ${selectedColor} ${selectedVariation}`;
@@ -68,15 +78,43 @@ const ProductGallery = ({
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
       <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
-        <img
-          src={currentImage}
-          alt={currentAlt}
-          className={`w-full transition-all duration-300 rounded-lg ${
-            showingLifestyle 
-              ? "aspect-[4/3] object-cover" 
-              : "max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain"
-          }`}
-        />
+        {showingPartner && activePartner ? (
+          <div className="w-full flex flex-col items-center gap-2 py-4">
+            <div className="grid grid-cols-2 gap-3 w-full">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-full aspect-square bg-background rounded-xl flex items-center justify-center p-3">
+                  <img
+                    src={activePartner.guardianImage}
+                    alt={`${activePartner.name} Love Key Guardian`}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <span className="text-xs sm:text-sm font-medium text-muted-foreground">Guardian</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-full aspect-square bg-background rounded-xl flex items-center justify-center p-3">
+                  <img
+                    src={activePartner.essentialImage}
+                    alt={`${activePartner.name} Love Key Essential`}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <span className="text-xs sm:text-sm font-medium text-muted-foreground">Essential</span>
+              </div>
+            </div>
+            <div className="text-sm font-semibold mt-1">{activePartner.name} Edition</div>
+          </div>
+        ) : (
+          <img
+            src={currentImage}
+            alt={currentAlt}
+            className={`w-full transition-all duration-300 rounded-lg ${
+              showingLifestyle 
+                ? "aspect-[4/3] object-cover" 
+                : "max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain"
+            }`}
+          />
+        )}
       </div>
       
       <div className="grid grid-cols-4 gap-2">
