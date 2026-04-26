@@ -224,10 +224,18 @@ const CartDrawer = () => {
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium">{item.variationName}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {PARTNER_COLOR_IDS.has(item.color) ? "Edition" : "Color"}: {formatColorLabel(item.color)}
-                    </p>
+                    {PARTNER_COLOR_IDS.has(item.color) ? (
+                      <h4 className="font-medium">
+                        <span className="text-primary">Love</span> Key — {PARTNERS.find((p) => p.id === item.color)?.name}
+                      </h4>
+                    ) : (
+                      <>
+                        <h4 className="font-medium">{item.variationName}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Color: {formatColorLabel(item.color)}
+                        </p>
+                      </>
+                    )}
                     <p className="text-sm font-medium mt-1 text-primary">
                       {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)}
                     </p>
