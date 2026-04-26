@@ -77,7 +77,7 @@ const ProductGallery = ({
 
   return (
     <div className="flex flex-col gap-3 animate-fade-up">
-      <div className="bg-secondary rounded-2xl overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
+      <div className="bg-white border border-border rounded-2xl shadow-lg overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
         {showingPartner && activePartner ? (() => {
           const isGuardian = selectedVariation === "metal";
           const partnerImg = isGuardian ? activePartner.guardianImage : activePartner.essentialImage;
