@@ -11,7 +11,7 @@ import ProductGallery from "@/components/ProductGallery";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
-import BundlePromos from "@/components/BundlePromos";
+import PartnerMerchandise from "@/components/PartnerMerchandise";
 import WhoItsFor from "@/components/WhoItsFor";
 import Testimonials from "@/components/Testimonials";
 import PurposeSection from "@/components/PurposeSection";
@@ -119,7 +119,7 @@ const Index = () => {
                 />
               )}
               
-              <BundlePromos selectedVariation={selectedVariation} />
+              <PartnerMerchandise />
             </div>
           </div>
         </section>
