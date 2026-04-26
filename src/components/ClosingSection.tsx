@@ -1,4 +1,5 @@
-import { Heart, Facebook, Instagram, Mail } from "lucide-react";
+import { Facebook, Instagram, Mail } from "lucide-react";
+import heartLogo from "@/assets/heart-logo.png";
 
 const ClosingSection = () => {
   return (
@@ -9,11 +10,11 @@ const ClosingSection = () => {
         <p className="text-lg text-muted-foreground mb-6">Sometimes it fits quietly on your keyring.</p>
         
         <div className="flex items-center justify-center gap-2 mt-8">
-          <Heart className="w-5 h-5 text-primary" />
+          <img src={heartLogo} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />
           <p className="text-xl font-semibold">
             <span className="text-primary">Love</span> Key is a reminder that care is always close.
           </p>
-          <Heart className="w-5 h-5 text-primary" />
+          <img src={heartLogo} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />
         </div>
 
         <a

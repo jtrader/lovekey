@@ -1,8 +1,15 @@
-import { Heart, Gift, Building, Sparkles } from "lucide-react";
+import { Gift, Building, Sparkles, type LucideIcon } from "lucide-react";
+import heartLogo from "@/assets/heart-logo.png";
 
-const audiences = [
+type Audience = {
+  icon?: LucideIcon;
+  image?: string;
+  text: string;
+};
+
+const audiences: Audience[] = [
   {
-    icon: Heart,
+    image: heartLogo,
     text: "Parents who want their children to feel supported",
   },
   {
@@ -32,7 +39,11 @@ const WhoItsFor = () => {
               className="flex items-center gap-4 p-4 bg-background rounded-xl border border-border"
             >
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <item.icon className="w-5 h-5 text-primary" />
+                {item.image ? (
+                  <img src={item.image} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />
+                ) : item.icon ? (
+                  <item.icon className="w-5 h-5 text-primary" />
+                ) : null}
               </div>
               <p className="text-base">{item.text}</p>
             </div>
