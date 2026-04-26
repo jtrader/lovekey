@@ -96,7 +96,7 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner, selectedVariat
               <img
                 src={img}
                 alt={`${partner.name} Love Key ${variationLabel}`}
-                className="w-full h-full object-cover rounded-lg hover:scale-110 transition-transform duration-300"
+                className="w-full h-full object-contain p-2 rounded-lg hover:scale-110 transition-transform duration-300"
               />
             </button>
           );
