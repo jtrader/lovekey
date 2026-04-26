@@ -1,4 +1,5 @@
-import { Heart, ShoppingBag, Facebook, Instagram } from "lucide-react";
+import { ShoppingBag, Facebook, Instagram } from "lucide-react";
+import heartLogo from "@/assets/heart-logo.png";
 import { useCart } from "@/contexts/CartContext";
 
 const Header = () => {
@@ -11,7 +12,7 @@ const Header = () => {
       </div>
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-2">
-          <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-product-red fill-product-red" />
+          <img src={heartLogo} alt="Love Key heart logo" className="w-6 h-6 sm:w-7 sm:h-7 object-contain" />
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
             <span className="text-lg sm:text-xl font-semibold tracking-tight leading-tight"><span className="text-primary">Love</span> Key</span>
             <span className="text-[10px] sm:text-xs text-muted-foreground leading-tight">A gentle way to reach help when you need it most</span>
