@@ -58,7 +58,7 @@ const Unsubscribe = () => {
         {status === "valid" && (
           <>
             <p className="text-muted-foreground">
-              Click below to unsubscribe from Love Key emails.
+              Click below to unsubscribe from <span className="text-primary font-medium">Love</span> Key emails.
             </p>
             <button
               onClick={handleUnsubscribe}

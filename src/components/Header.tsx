@@ -13,7 +13,7 @@ const Header = () => {
         <div className="flex items-center gap-2">
           <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-product-red fill-product-red" />
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
-            <span className="text-lg sm:text-xl font-semibold tracking-tight leading-tight">Love Key</span>
+            <span className="text-lg sm:text-xl font-semibold tracking-tight leading-tight"><span className="text-primary">Love</span> Key</span>
             <span className="text-[10px] sm:text-xs text-muted-foreground leading-tight">A gentle way to reach help when you need it most</span>
           </div>
         </div>

@@ -85,7 +85,7 @@ const Index = () => {
         
         {/* Product Section */}
         <section id="product-section" className="container mx-auto px-4 py-12 sm:py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">Choose Your Love Key</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">Choose Your <span className="text-primary">Love</span> Key</h2>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
             {/* Left Column - Color Selector & Product Gallery */}
             <div className="lg:sticky lg:top-24 lg:self-start space-y-4">

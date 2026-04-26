@@ -11,7 +11,7 @@ const ClosingSection = () => {
         <div className="flex items-center justify-center gap-2 mt-8">
           <Heart className="w-5 h-5 text-primary" />
           <p className="text-xl font-semibold">
-            Love Key is a reminder that care is always close.
+            <span className="text-primary">Love</span> Key is a reminder that care is always close.
           </p>
           <Heart className="w-5 h-5 text-primary" />
         </div>
@@ -33,7 +33,7 @@ const ClosingSection = () => {
           </a>
         </div>
 
-        <p className="text-xs text-muted-foreground mt-6">© {new Date().getFullYear()} Love Key. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground mt-6">© {new Date().getFullYear()} <span className="text-primary font-medium">Love</span> Key. All rights reserved.</p>
       </div>
     </section>
   );
