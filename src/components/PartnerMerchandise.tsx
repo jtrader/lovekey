@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import heartLogo from "@/assets/heart-logo.png";
 
 // Partner product images
 import cvgtEssential from "@/assets/products/partners/cvgt-essential.png";
@@ -73,7 +73,7 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner, selectedVariat
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-        <Heart className="w-4 h-4" />
+        <img src={heartLogo} alt="" aria-hidden="true" className="w-4 h-4 object-contain" />
         <span>Partner Merchandise — Tap to preview the {variationLabel}</span>
       </div>
 
