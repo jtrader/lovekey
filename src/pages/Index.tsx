@@ -121,11 +121,9 @@ const Index = () => {
                   ? PARTNERS.find((p) => p.id === selectedPartnerId)
                   : null;
                 const effectiveColor = activePartner ? activePartner.id : selectedColor || "pink";
-                const effectiveName = activePartner
-                  ? `${activePartner.name} ${currentVariation.name}`
-                  : currentVariation.name;
+                const effectiveName = currentVariation.name;
                 const colorLabel = activePartner
-                  ? `${activePartner.name} Edition`
+                  ? activePartner.name
                   : (selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink");
                 return (
                   <QuantitySelector
