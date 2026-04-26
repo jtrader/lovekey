@@ -11,11 +11,11 @@ const partners = [
     alt: "CVGT partner",
   },
   {
-    name: "Bendigo Health Community Services",
+    name: "Bendigo Community Health Services",
     logo: bchsLogo,
     href: "https://lovekeyring.org/?partner=bchs",
-    label: "Bendigo Health Community Services Love Key",
-    alt: "Bendigo Health Community Services partner",
+    label: "Bendigo Community Health Services Love Key",
+    alt: "Bendigo Community Health Services partner",
   },
   {
     name: "Bendigo Health",
