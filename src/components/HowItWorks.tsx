@@ -1,15 +1,21 @@
 import { Smartphone, QrCode, ArrowRight, CheckCircle } from "lucide-react";
 
+const LK = () => (
+  <>
+    <span className="text-primary font-medium">Love</span> Key
+  </>
+);
+
 const steps = [
   {
     icon: Smartphone,
     title: "NFC Tap feature",
-    description: "For access to the Love Key Web App",
+    description: <>For access to the <LK /> Web App</>,
   },
   {
     icon: QrCode,
     title: "Scan the QR code",
-    description: "For access to the Love Key Web App",
+    description: <>For access to the <LK /> Web App</>,
   },
   {
     icon: ArrowRight,
