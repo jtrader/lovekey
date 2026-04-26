@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import keyringHero from "@/assets/keyring-hero.png";
+import heartLogo from "@/assets/heart-logo.png";
 
 const HeroSection = () => {
   const scrollToProduct = () => {
@@ -8,12 +8,12 @@ const HeroSection = () => {
     });
   };
   return <section className="text-center sm:py-10 px-4 py-1">
-      {/* Cropped keyring image at top */}
-      <div className="w-full max-w-sm sm:max-w-lg mx-auto mb-3">
+      {/* Heart logo at top */}
+      <div className="w-full max-w-[120px] sm:max-w-[160px] mx-auto mb-4">
         <img 
-          src={keyringHero} 
-          alt="Love Key NFC keyring with heart shape and QR code for mental health support" 
-          className="w-full h-auto"
+          src={heartLogo} 
+          alt="Love Key heart logo" 
+          className="w-full h-auto object-contain"
         />
       </div>
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3 max-w-4xl mx-auto leading-tight">
