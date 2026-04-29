@@ -63,7 +63,7 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner }: PartnerMerch
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
         <img src={heartLogo} alt="" aria-hidden="true" className="w-4 h-4 object-contain" />
-        <span>Partner Merchandise — Tap to preview the Guardian</span>
+        <span>Partner Merchandise — All merchandise profits go to these community focused organisations</span>
       </div>
 
       <div className="grid grid-cols-3 gap-2">
