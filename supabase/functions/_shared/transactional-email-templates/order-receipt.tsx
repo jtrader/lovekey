@@ -73,7 +73,7 @@ export const template = {
   displayName: 'Order receipt',
   previewData: {
     customerName: 'Jane',
-    orderDetails: '2x Love Key Guardian (Pink), 1x Love Key Essential (Blue)',
+    orderDetails: '2x Love Key Guardian (Pink), 1x Love Key Guardian (Blue)',
     totalAmount: 'A$24.85',
     shippingAddress: '123 Main St, Sydney NSW 2000, AU',
     sessionId: 'cs_test_abc123def456',

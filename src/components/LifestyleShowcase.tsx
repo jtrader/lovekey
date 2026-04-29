@@ -1,5 +1,4 @@
 import metalKeyring from "@/assets/lifestyle/metal-keyring.jpeg";
-import lightweightKeyring from "@/assets/lifestyle/lightweight-keyring.jpeg";
 
 const LifestyleShowcase = () => {
   return (

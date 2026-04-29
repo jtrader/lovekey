@@ -26,14 +26,6 @@ const variations: Variation[] = [
     price: 9.00,
     units: 1,
   },
-  {
-    id: "lightweight",
-    name: "Love Key Essential",
-    displayName: <><LK /> Essential</>,
-    description: <>Free with every <LK /> Guardian (max 5 per customer). Lightweight, durable, and designed for everyday carry — the simplest way to keep personal safety and wellbeing support within reach.</>,
-    price: 0,
-    units: 1,
-  },
 ];
 
 interface VariationSelectorProps {
@@ -45,7 +37,7 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
   return (
     <div className="animate-fade-up delay-200">
       <h3 className="text-base font-semibold mb-3">Select Variation</h3>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3">
         {variations.map((variation) => (
           <button
             key={variation.id}

@@ -28,7 +28,7 @@ function getCorsHeaders(origin: string | null) {
 const ALLOWED_COLORS = [
   "green", "blue", "light-blue", "orange", "pink", "aqua", "red", "white", "yellow",
 ];
-const ALLOWED_VARIATIONS = ["Love Key Guardian", "Love Key Essential"];
+const ALLOWED_VARIATIONS = ["Love Key Guardian"];
 const MAX_QUANTITY_PER_ITEM = 100;
 const MAX_LINE_ITEMS = 50;
 const MAX_TOTAL_ITEMS = 500;
@@ -123,23 +123,6 @@ serve(async (req) => {
       );
     }
 
-    // Business rule: Love Key Essential (free) requires at least 1 Love Key Guardian
-    const guardianQty = lineItems
-      .filter((i) => i.variationName === "Love Key Guardian")
-      .reduce((sum, i) => sum + i.quantity, 0);
-    const essentialQty = lineItems
-      .filter((i) => i.variationName === "Love Key Essential")
-      .reduce((sum, i) => sum + i.quantity, 0);
-    if (essentialQty > 0 && guardianQty < 1) {
-      return new Response(
-        JSON.stringify({
-          error: "The Love Key Essential is free with the purchase of at least 1 Love Key Guardian. Please add a Guardian to your cart.",
-          code: "GUARDIAN_REQUIRED",
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
-      );
-    }
-
     console.log("[CREATE-CHECKOUT] Validated line items:", JSON.stringify(lineItems));
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
@@ -147,7 +130,6 @@ serve(async (req) => {
     // Price map for each variation
     const priceMap: Record<string, number> = {
       "Love Key Guardian": 900,  // $9.00 in cents
-      "Love Key Essential": 0, // FREE
     };
 
     // Build line items with price_data
