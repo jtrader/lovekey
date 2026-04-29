@@ -6,7 +6,6 @@ const LifestyleShowcase = () => {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6">Your <span className="text-primary">Love</span> Key Options</h2>
         <div className="text-center mb-10 sm:mb-14 text-xl font-medium text-muted-foreground space-y-6 sm:space-y-8">
-          <p>Two styles.</p>
           <p>One mission.</p>
           <p>Always there when you need it.</p>
         </div>
