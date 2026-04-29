@@ -10,17 +10,7 @@ import { variations } from "@/components/VariationSelector";
 import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
 import { PARTNER_PRODUCT_IMAGES, PARTNER_COLOR_IDS, PARTNERS } from "@/components/PartnerMerchandise";
 
-// Product image imports - Lightweight
-import lightweightGreen from "@/assets/products/green.png";
-import lightweightLightBlue from "@/assets/products/light-blue.png";
-import lightweightOrange from "@/assets/products/orange.png";
-import lightweightPink from "@/assets/products/pink.png";
-import lightweightAqua from "@/assets/products/aqua.png";
-import lightweightRed from "@/assets/products/red.png";
-import lightweightWhite from "@/assets/products/white.png";
-import lightweightYellow from "@/assets/products/yellow.png";
-
-// Product image imports - Metal
+// Product image imports - Metal (Guardian)
 import metalGreen from "@/assets/products/metal/green.png";
 import metalLightBlue from "@/assets/products/metal/light-blue.png";
 import metalOrange from "@/assets/products/metal/orange.png";
@@ -31,17 +21,6 @@ import metalWhite from "@/assets/products/metal/white.png";
 import metalYellow from "@/assets/products/metal/yellow.png";
 
 const productImages: Record<string, Record<string, string>> = {
-  lightweight: {
-    green: lightweightGreen,
-    blue: lightweightLightBlue,
-    "light-blue": lightweightLightBlue,
-    orange: lightweightOrange,
-    pink: lightweightPink,
-    aqua: lightweightAqua,
-    red: lightweightRed,
-    white: lightweightWhite,
-    yellow: lightweightYellow,
-  },
   metal: {
     green: metalGreen,
     blue: metalLightBlue,
@@ -57,10 +36,9 @@ const productImages: Record<string, Record<string, string>> = {
 
 const getProductImage = (variationId: string, color: string): string => {
   if (PARTNER_COLOR_IDS.has(color)) {
-    const partnerImg = PARTNER_PRODUCT_IMAGES[color];
-    return variationId === "metal" ? partnerImg.metal : partnerImg.lightweight;
+    return PARTNER_PRODUCT_IMAGES[color].metal;
   }
-  return productImages[variationId]?.[color] || lightweightWhite;
+  return productImages[variationId]?.[color] || metalWhite;
 };
 
 const formatColorLabel = (color: string): string => {
@@ -81,30 +59,13 @@ const colorOptions = [
 ];
 
 const CartDrawer = () => {
-  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart, addItem, detectedBundles, bundleDiscount, finalPrice } = useCart();
+  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart, addItem } = useCart();
   const [isLoading, setIsLoading] = useState(false);
-  const [quickAddVariation, setQuickAddVariation] = useState("lightweight");
   const [quickAddColor, setQuickAddColor] = useState("pink");
-
-  const guardianQty = items
-    .filter((i) => i.variationId === "metal")
-    .reduce((sum, i) => sum + i.quantity, 0);
-  const essentialQty = items
-    .filter((i) => i.variationId === "lightweight")
-    .reduce((sum, i) => sum + i.quantity, 0);
-  const essentialRequiresGuardian = essentialQty > 0 && guardianQty < 1;
+  const quickAddVariation = "metal";
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
-
-    if (essentialRequiresGuardian) {
-      toast({
-        title: "Add a Love Key Guardian",
-        description: "The Love Key Essential is free with the purchase of at least 1 Love Key Guardian.",
-        variant: "destructive",
-      });
-      return;
-    }
 
     setIsLoading(true);
     try {
@@ -282,23 +243,6 @@ const CartDrawer = () => {
             {/* Quick Add Section */}
             <div className="border-t border-border pt-4 pb-2">
               <h4 className="text-sm font-semibold mb-3">Add another <span className="text-primary">Love</span> Key</h4>
-              
-              {/* Variation Toggle */}
-              <div className="flex gap-2 mb-3">
-                {variations.map((variation) => (
-                  <button
-                    key={variation.id}
-                    onClick={() => setQuickAddVariation(variation.id)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
-                      quickAddVariation === variation.id
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-secondary hover:bg-secondary/80"
-                    }`}
-                  >
-                    {variation.name} ({CURRENCY_SYMBOL}{variation.price.toFixed(2)})
-                  </button>
-                ))}
-              </div>
 
               {/* Color Swatches */}
               <div className="flex gap-1.5 mb-3 flex-wrap">
@@ -379,15 +323,9 @@ const CartDrawer = () => {
                       </div>
                     </div>
 
-                    {essentialRequiresGuardian && (
-                      <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2 text-sm text-foreground">
-                        The <span className="font-semibold"><span className="text-primary">Love</span> Key Essential</span> is free with the purchase of at least <span className="font-semibold">1 <span className="text-primary">Love</span> Key Guardian</span>. Please add a Guardian to checkout.
-                      </div>
-                    )}
-
                     <Button
                       onClick={handleCheckout}
-                      disabled={isLoading || essentialRequiresGuardian}
+                      disabled={isLoading}
                       className="w-full py-6 text-lg bg-product-red hover:bg-product-red/90"
                     >
                       {isLoading ? (
