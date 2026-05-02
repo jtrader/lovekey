@@ -49,8 +49,6 @@ const Index = () => {
   }, [selectedVariation, selectedColor, currentVariation]);
 
   const handleColorSelect = (color: string) => {
-    // Selecting a standard color clears any active partner preview
-    setSelectedPartnerId(null);
     setSelectedColor(color);
   };
 
