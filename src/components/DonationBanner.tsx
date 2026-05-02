@@ -3,13 +3,14 @@ import cvgtLogo from "@/assets/partners/cvgt.png";
 import bendigoHealthLogo from "@/assets/partners/bendigo-health-foundation.png";
 
 const partners = [
-  {
-    name: "CVGT",
-    logo: cvgtLogo,
-    href: "https://www.cvgt.com.au",
-    label: "CVGT Love Key",
-    alt: "CVGT partner",
-  },
+  // CVGT hidden — not active yet
+  // {
+  //   name: "CVGT",
+  //   logo: cvgtLogo,
+  //   href: "https://www.cvgt.com.au",
+  //   label: "CVGT Love Key",
+  //   alt: "CVGT partner",
+  // },
   {
     name: "Bendigo Community Health Services",
     logo: bchsLogo,
