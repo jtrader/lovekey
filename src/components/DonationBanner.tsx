@@ -1,5 +1,5 @@
 import bchsLogo from "@/assets/partners/bchs.svg";
-import cvgtLogo from "@/assets/partners/cvgt.png";
+// import cvgtLogo from "@/assets/partners/cvgt.png";
 import bendigoHealthLogo from "@/assets/partners/bendigo-health-foundation.png";
 
 const partners = [
