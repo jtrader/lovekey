@@ -116,32 +116,17 @@ const Index = () => {
                 onSelect={setSelectedVariation}
               />
               
-              {currentVariation && (() => {
-                const activePartner = selectedPartnerId
-                  ? PARTNERS.find((p) => p.id === selectedPartnerId)
-                  : null;
-                const effectiveColor = activePartner ? activePartner.id : selectedColor || "pink";
-                const effectiveName = currentVariation.name;
-                const colorLabel = activePartner
-                  ? activePartner.name
-                  : (selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink");
-                return (
-                  <QuantitySelector
-                    quantity={quantity}
-                    pricePerUnit={currentVariation.price}
-                    onQuantityChange={setQuantity}
-                    selectedVariation={selectedVariation}
-                    selectedColor={effectiveColor}
-                    variationName={effectiveName}
-                    colorLabel={colorLabel}
-                  />
-                );
-              })()}
-              
-              <PartnerMerchandise
-                selectedPartnerId={selectedPartnerId}
-                onSelectPartner={handleSelectPartner}
-              />
+              {currentVariation && (
+                <QuantitySelector
+                  quantity={quantity}
+                  pricePerUnit={currentVariation.price}
+                  onQuantityChange={setQuantity}
+                  selectedVariation={selectedVariation}
+                  selectedColor={selectedColor || "pink"}
+                  variationName={currentVariation.name}
+                  colorLabel={selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink"}
+                />
+              )}
             </div>
           </div>
         </section>
