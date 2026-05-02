@@ -31,7 +31,7 @@ const DonationBanner = () => {
     <section className="py-12 px-4 bg-secondary/50">
       <div className="max-w-5xl mx-auto text-center">
         <p className="text-lg font-semibold mb-8">
-          Our Merchandise Partners:
+          Our Distribution Partners:
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-6 sm:gap-8">
           {partners.map((p) => (
