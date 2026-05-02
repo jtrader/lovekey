@@ -11,12 +11,7 @@ const steps = [
   {
     icon: Smartphone,
     title: "NFC Tap feature",
-    description: <>For access to the <LK /> Web App</>,
-  },
-  {
-    icon: QrCode,
-    title: "Scan the QR code",
-    description: <>For access to the <LK /> Web App</>,
+    description: <>For access to the <LK /> Web Hub</>,
   },
   {
     icon: ArrowRight,
