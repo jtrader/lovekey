@@ -23,7 +23,7 @@ const variations: Variation[] = [
     name: "Love Key Guardian",
     displayName: <><LK /> Guardian</>,
     description: <>Crafted with a polished metal frame for strength, beauty, and permanence. The <LK /> Guardian is a premium reminder that care is always close.</>,
-    price: 9.00,
+    price: 5.00,
     units: 1,
   },
 ];
