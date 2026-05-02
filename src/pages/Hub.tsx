@@ -10,7 +10,7 @@ type Resource = {
   description: string;
   url: string;
   logo: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  Icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   color: string;
 };
 
