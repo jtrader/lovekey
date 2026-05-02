@@ -11,7 +11,7 @@ import ProductGallery from "@/components/ProductGallery";
 import VariationSelector, { variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
-import PartnerMerchandise, { PARTNERS } from "@/components/PartnerMerchandise";
+
 import WhoItsFor from "@/components/WhoItsFor";
 import Testimonials from "@/components/Testimonials";
 import PurposeSection from "@/components/PurposeSection";
@@ -30,7 +30,7 @@ const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("metal");
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
+  
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
 
@@ -49,14 +49,9 @@ const Index = () => {
   }, [selectedVariation, selectedColor, currentVariation]);
 
   const handleColorSelect = (color: string) => {
-    // Selecting a standard color clears any active partner preview
-    setSelectedPartnerId(null);
     setSelectedColor(color);
   };
 
-  const handleSelectPartner = (id: string | null) => {
-    setSelectedPartnerId(id);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -105,7 +100,7 @@ const Index = () => {
                 selectedVariation={selectedVariation}
                 onColorSelect={handleColorSelect}
                 lifestyleImage={lifestyleImage}
-                selectedPartnerId={selectedPartnerId}
+                selectedPartnerId={null}
               />
             </div>
             
@@ -116,32 +111,17 @@ const Index = () => {
                 onSelect={setSelectedVariation}
               />
               
-              {currentVariation && (() => {
-                const activePartner = selectedPartnerId
-                  ? PARTNERS.find((p) => p.id === selectedPartnerId)
-                  : null;
-                const effectiveColor = activePartner ? activePartner.id : selectedColor || "pink";
-                const effectiveName = currentVariation.name;
-                const colorLabel = activePartner
-                  ? activePartner.name
-                  : (selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink");
-                return (
-                  <QuantitySelector
-                    quantity={quantity}
-                    pricePerUnit={currentVariation.price}
-                    onQuantityChange={setQuantity}
-                    selectedVariation={selectedVariation}
-                    selectedColor={effectiveColor}
-                    variationName={effectiveName}
-                    colorLabel={colorLabel}
-                  />
-                );
-              })()}
-              
-              <PartnerMerchandise
-                selectedPartnerId={selectedPartnerId}
-                onSelectPartner={handleSelectPartner}
-              />
+              {currentVariation && (
+                <QuantitySelector
+                  quantity={quantity}
+                  pricePerUnit={currentVariation.price}
+                  onQuantityChange={setQuantity}
+                  selectedVariation={selectedVariation}
+                  selectedColor={selectedColor || "pink"}
+                  variationName={currentVariation.name}
+                  colorLabel={selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink"}
+                />
+              )}
             </div>
           </div>
         </section>
