@@ -100,7 +100,7 @@ const Index = () => {
                 selectedVariation={selectedVariation}
                 onColorSelect={handleColorSelect}
                 lifestyleImage={lifestyleImage}
-                selectedPartnerId={selectedPartnerId}
+                selectedPartnerId={null}
               />
             </div>
             
