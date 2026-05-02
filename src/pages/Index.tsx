@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import { trackViewItem } from "@/lib/analytics";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import LifestyleShowcase from "@/components/LifestyleShowcase";
@@ -14,52 +12,14 @@ import FAQ from "@/components/FAQ";
 import ClosingSection from "@/components/ClosingSection";
 import SupportPartners from "@/components/SupportPartners";
 
-// Lifestyle image for the main gallery
-import keyring1 from "@/assets/gallery/keyring-1.png";
-
-
-const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
-
 const Index = () => {
-  const [selectedVariation, setSelectedVariation] = useState("metal");
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [quantity, setQuantity] = useState(1);
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
-
-  const currentVariation = variations.find((v) => v.id === selectedVariation);
-
-  // Fire GA4 view_item when user selects a variation/color (debounced)
-  useEffect(() => {
-    if (!currentVariation || !selectedColor) return;
-    const timeout = setTimeout(() => {
-      trackViewItem({
-        variationId: selectedVariation,
-        variationName: currentVariation.name,
-        color: selectedColor,
-        pricePerUnit: currentVariation.price,
-      });
-    }, 400);
-    return () => clearTimeout(timeout);
-  }, [selectedVariation, selectedColor, currentVariation]);
-
-  const handleColorSelect = (color: string) => {
-    // Selecting a standard color clears any active partner preview
-    setSelectedPartnerId(null);
-    setSelectedColor(color);
-  };
-
-  const handleSelectPartner = (id: string | null) => {
-    setSelectedPartnerId(id);
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="pt-24">
-        {/* Hero Section */}
         <HeroSection />
-        
+
         {/* NFC Keyring Video */}
         <div className="flex justify-center py-8">
           <div className="w-full max-w-lg mx-auto">
@@ -74,94 +34,17 @@ const Index = () => {
             </div>
           </div>
         </div>
-        
-        {/* Why Section */}
+
         <WhySection />
-        
-        {/* How It Works */}
         <HowItWorks />
-        
-        {/* Lifestyle Showcase */}
         <LifestyleShowcase />
-        
-        {/* Product Section */}
-        <section id="product-section" className="container mx-auto px-4 py-12 sm:py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10">Choose Your <span className="text-primary">Love</span> Key</h2>
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-            {/* Left Column - Color Selector & Product Gallery */}
-            <div className="lg:sticky lg:top-24 lg:self-start space-y-4">
-              <ColorSelector
-                selected={selectedColor}
-                onSelect={handleColorSelect}
-              />
-              <ProductGallery 
-                selectedColor={selectedColor} 
-                selectedVariation={selectedVariation}
-                onColorSelect={handleColorSelect}
-                lifestyleImage={lifestyleImage}
-                selectedPartnerId={selectedPartnerId}
-              />
-            </div>
-            
-            {/* Right Column - Product Details */}
-            <div className="space-y-4 sm:space-y-6">
-              <VariationSelector
-                selected={selectedVariation}
-                onSelect={setSelectedVariation}
-              />
-              
-              {currentVariation && (() => {
-                const activePartner = selectedPartnerId
-                  ? PARTNERS.find((p) => p.id === selectedPartnerId)
-                  : null;
-                const effectiveColor = activePartner ? activePartner.id : selectedColor || "pink";
-                const effectiveName = currentVariation.name;
-                const colorLabel = activePartner
-                  ? activePartner.name
-                  : (selectedColor ? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1) : "Pink");
-                return (
-                  <QuantitySelector
-                    quantity={quantity}
-                    pricePerUnit={currentVariation.price}
-                    onQuantityChange={setQuantity}
-                    selectedVariation={selectedVariation}
-                    selectedColor={effectiveColor}
-                    variationName={effectiveName}
-                    colorLabel={colorLabel}
-                  />
-                );
-              })()}
-              
-              <PartnerMerchandise
-                selectedPartnerId={selectedPartnerId}
-                onSelectPartner={handleSelectPartner}
-              />
-            </div>
-          </div>
-        </section>
-        
-        {/* Donation Banner */}
         <DonationBanner />
-        
-        {/* Who It's For */}
         <WhoItsFor />
-        
-        {/* Testimonials */}
         <Testimonials />
-        
-        {/* Purpose Section */}
         <PurposeSection />
-        
-        {/* Trust Badges */}
         <TrustBadges />
-        
-        {/* FAQ */}
         <FAQ />
-        
-        {/* Closing Section */}
         <ClosingSection />
-        
-        {/* Support Partners */}
         <SupportPartners />
       </main>
     </div>
