@@ -54,9 +54,6 @@ const Index = () => {
     setSelectedColor(color);
   };
 
-  const handleSelectPartner = (id: string | null) => {
-    setSelectedPartnerId(id);
-  };
 
   return (
     <div className="min-h-screen bg-background">
