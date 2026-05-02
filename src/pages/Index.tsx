@@ -30,7 +30,7 @@ const Index = () => {
   const [selectedVariation, setSelectedVariation] = useState("metal");
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
+  
 
   const currentVariation = variations.find((v) => v.id === selectedVariation);
 
