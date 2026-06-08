@@ -34,7 +34,6 @@ const ClosingSection = () => {
           </a>
         </div>
 
-        <p className="text-xs text-muted-foreground mt-6">© {new Date().getFullYear()} <span className="text-primary font-medium">Love</span> Key. All rights reserved.</p>
       </div>
     </section>
   );
