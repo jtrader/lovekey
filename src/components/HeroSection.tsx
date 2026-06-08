@@ -28,7 +28,7 @@ const HeroSection = () => {
           Get Your <span className="font-bold">Love</span> Key Today
         </Button>
         <Button size="lg" variant="outline" asChild className="text-base px-8 py-6 group">
-          <a href="https://lovekeylink.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://lovekeyring.org" target="_blank" rel="noopener noreferrer">
             View the <span className="text-primary group-hover:text-white transition-colors">Love</span> Key Hub Now
           </a>
         </Button>
