@@ -1,4 +1,4 @@
-import metalKeyring from "@/assets/lifestyle/metal-keyring.jpeg";
+import metalKeyring from "@/assets/optimized/lifestyle/metal-keyring.webp";
 
 const LifestyleShowcase = () => {
   return (
@@ -11,14 +11,15 @@ const LifestyleShowcase = () => {
         </div>
 
         <div className="grid md:grid-cols-1 gap-6 lg:gap-10 max-w-md mx-auto">
-          {/* Metal Edition Card */}
           <div className="group relative overflow-hidden rounded-3xl bg-background shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="aspect-[4/5] overflow-hidden">
               <img 
                 src={metalKeyring} 
-                alt="Love Key Guardian Edition metal keyring with chrome bezel and QR code for mental health support" 
+                alt="Love Key Guardian Edition metal keyring with chrome bezel and QR code" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
+                decoding="async"
+                sizes="(min-width: 768px) 448px, 100vw"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-6 sm:p-8">
