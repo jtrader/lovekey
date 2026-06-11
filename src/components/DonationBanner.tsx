@@ -1,6 +1,6 @@
 import bchsLogo from "@/assets/partners/bchs.svg";
-// import cvgtLogo from "@/assets/partners/cvgt.png";
-import bendigoHealthLogo from "@/assets/partners/bendigo-health-foundation.png";
+// import cvgtLogo from "@/assets/optimized/partners/cvgt.webp";
+import bendigoHealthLogo from "@/assets/optimized/partners/bendigo-health-foundation.webp";
 
 const partners = [
   // CVGT hidden — not active yet
@@ -52,6 +52,7 @@ const DonationBanner = () => {
                   alt={p.alt}
                   className="max-h-full max-w-full w-auto h-auto object-contain"
                   loading="lazy"
+                  decoding="async"
                 />
               </a>
             </div>

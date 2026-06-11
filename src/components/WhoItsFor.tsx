@@ -1,5 +1,5 @@
 import { Gift, Building, Sparkles, type LucideIcon } from "lucide-react";
-import heartLogo from "@/assets/heart-logo.png";
+import heartLogo from "@/assets/optimized/heart-logo.webp";
 
 type Audience = {
   icon?: LucideIcon;
@@ -40,7 +40,7 @@ const WhoItsFor = () => {
             >
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                 {item.image ? (
-                  <img src={item.image} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />
+                  <img src={item.image} alt="" aria-hidden="true" className="w-5 h-5 object-contain" loading="lazy" decoding="async" />
                 ) : item.icon ? (
                   <item.icon className="w-5 h-5 text-primary" />
                 ) : null}

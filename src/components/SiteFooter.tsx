@@ -6,16 +6,10 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-// Add this asset: src/assets/rsp_logo.png (same Respectful Synchronised Protocol logo
-// used across the network). lovekey imports images directly and uses them as src={...}.
-import rspLogo from "@/assets/rsp_logo.png";
+import rspLogo from "@/assets/optimized/rsp_logo.webp";
 
-// === PER-SITE VARIABLE: which tile is "you are here" =======================
-// This site IS the Love Key Ring, so the ring tile is the highlighted self-card.
 const SELF_SITE = "lovekeyring";
 
-// lovekey.com.au has no i18n or handoff helper, so sister links are plain canonical
-// URLs. The self tile links to the in-app root ("/").
 type NetworkSite = {
   id: string;
   label: string;
@@ -37,7 +31,6 @@ const SiteFooter = () => {
   return (
     <footer className="border-t border-border">
       <div className="mx-auto max-w-3xl px-4 py-12">
-        {/* === Love Key HELP Network === */}
         <nav aria-label="HELP Network">
           <h2 className="text-xs font-semibold tracking-wide text-foreground mb-3 text-center">
             Love Key HELP Network
@@ -72,7 +65,6 @@ const SiteFooter = () => {
           </ul>
         </nav>
 
-        {/* Legal nav */}
         <nav className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
           <Link to="/privacy" className="hover:text-foreground hover:underline">Privacy Policy</Link>
           <span aria-hidden>·</span>
@@ -81,7 +73,6 @@ const SiteFooter = () => {
           <Link to="/disclaimer" className="hover:text-foreground hover:underline">Disclaimer</Link>
         </nav>
 
-        {/* RSP logo dialog + RSP-aligned line */}
         <div className="mt-6 flex flex-col items-center gap-3">
           <Dialog>
             <DialogTrigger asChild>
@@ -90,11 +81,11 @@ const SiteFooter = () => {
                 aria-label="View Respectful Synchronised Protocol logo"
                 className="rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 hover:opacity-90 transition-opacity"
               >
-                <img src={rspLogo} alt="Respectful Synchronised Protocol" className="h-16 w-auto object-contain" loading="lazy" />
+                <img src={rspLogo} alt="Respectful Synchronised Protocol" className="h-16 w-auto object-contain" loading="lazy" decoding="async" />
               </button>
             </DialogTrigger>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-md sm:max-w-lg flex flex-col items-center overflow-hidden rounded-2xl bg-card border border-border shadow-xl ring-1 ring-border/50 p-5 sm:p-6 motion-reduce:animate-none [&>button.right-4.top-4]:hidden">
-              <img src={rspLogo} alt="Respectful Synchronised Protocol" className="w-full h-auto max-h-[70vh] rounded-2xl object-contain ring-1 ring-primary/40" />
+              <img src={rspLogo} alt="Respectful Synchronised Protocol" className="w-full h-auto max-h-[70vh] rounded-2xl object-contain ring-1 ring-primary/40" loading="lazy" decoding="async" />
               <DialogClose asChild>
                 <button
                   type="button"
@@ -119,7 +110,6 @@ const SiteFooter = () => {
           </p>
         </div>
 
-        {/* Copyright (network-standard wording) */}
         <p className="mt-6 text-[11px] text-muted-foreground text-center">
           © 2026 Love Key. All rights reserved.
         </p>
