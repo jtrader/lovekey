@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heartLogo from "@/assets/heart-logo.png";
+import heartLogo from "@/assets/optimized/heart-logo.webp";
 
 const HeroSection = () => {
   const scrollToProduct = () => {
@@ -14,6 +14,8 @@ const HeroSection = () => {
           src={heartLogo} 
           alt="Love Key heart logo" 
           className="w-full h-auto object-contain"
+          decoding="async"
+          fetchPriority="high"
         />
       </div>
       <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3 max-w-4xl mx-auto leading-tight">
