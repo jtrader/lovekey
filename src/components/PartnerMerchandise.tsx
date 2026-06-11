@@ -62,7 +62,7 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner }: PartnerMerch
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-        <img src={heartLogo} alt="" aria-hidden="true" className="w-4 h-4 object-contain" />
+        <img src={heartLogo} alt="" aria-hidden="true" className="w-4 h-4 object-contain" loading="lazy" decoding="async" />
         <span>Partner Merchandise — All merchandise profits go to these community focused organisations</span>
       </div>
 
@@ -85,6 +85,9 @@ const PartnerMerchandise = ({ selectedPartnerId, onSelectPartner }: PartnerMerch
                 src={partner.guardianImage}
                 alt={`${partner.name} Love Key Guardian`}
                 className="w-full h-full object-contain p-2 rounded-lg hover:scale-110 transition-transform duration-300"
+                loading="lazy"
+                decoding="async"
+                sizes="(min-width: 768px) 33vw, 33vw"
               />
             </button>
           );
