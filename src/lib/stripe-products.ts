@@ -15,6 +15,7 @@ export interface LocalePricing {
 }
 
 export const DEFAULT_LOCALE: SupportedLocale = "AU";
+export const LOCALE_CHANGE_EVENT = "lovekey:localechange";
 
 export const LOCALE_PRICING: Record<SupportedLocale, LocalePricing> = {
   AU: {
@@ -70,6 +71,8 @@ export const LOCALE_PRICING: Record<SupportedLocale, LocalePricing> = {
 };
 
 const PRODUCT_LOCALE_STORAGE_KEY = "lovekey-locale";
+const GEO_TARGETING_ENDPOINT = "https://ipapi.co/json/";
+const GEO_TARGETING_TIMEOUT_MS = 2500;
 
 const LOCALE_ALIASES: Record<string, SupportedLocale> = {
   au: "AU",
@@ -92,6 +95,14 @@ const LOCALE_ALIASES: Record<string, SupportedLocale> = {
   newzealand: "NZ",
   "new-zealand": "NZ",
 };
+
+type GeoTargetingResponse = {
+  country?: string;
+  country_code?: string;
+  country_code_iso3?: string;
+};
+
+let geoLocalePromise: Promise<SupportedLocale | null> | null = null;
 
 export const normalizeLocale = (value?: string | null): SupportedLocale | null => {
   if (!value) return null;
@@ -129,6 +140,26 @@ const getStoredLocale = (): SupportedLocale | null => {
   }
 };
 
+const storeActiveLocale = (locale: SupportedLocale, source: "query" | "geo") => {
+  if (typeof window === "undefined") return;
+
+  const previousLocale = getStoredLocale();
+
+  try {
+    window.localStorage.setItem(PRODUCT_LOCALE_STORAGE_KEY, locale);
+  } catch {
+    // Ignore storage errors; the in-memory React state still updates.
+  }
+
+  if (previousLocale !== locale) {
+    window.dispatchEvent(
+      new CustomEvent(LOCALE_CHANGE_EVENT, {
+        detail: { locale, source },
+      })
+    );
+  }
+};
+
 const getBrowserLocale = (): SupportedLocale | null => {
   if (typeof navigator === "undefined") return null;
 
@@ -141,6 +172,42 @@ const getBrowserLocale = (): SupportedLocale | null => {
   return null;
 };
 
+const fetchGeoTargetedLocale = async (): Promise<SupportedLocale | null> => {
+  if (typeof fetch === "undefined") return null;
+
+  const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  const timeoutId = controller
+    ? window.setTimeout(() => controller.abort(), GEO_TARGETING_TIMEOUT_MS)
+    : null;
+
+  try {
+    const response = await fetch(GEO_TARGETING_ENDPOINT, {
+      cache: "no-store",
+      signal: controller?.signal,
+    });
+
+    if (!response.ok) return null;
+
+    const data = (await response.json()) as GeoTargetingResponse;
+    return (
+      normalizeLocale(data.country_code) ??
+      normalizeLocale(data.country) ??
+      normalizeLocale(data.country_code_iso3)
+    );
+  } catch {
+    return null;
+  } finally {
+    if (timeoutId !== null) {
+      window.clearTimeout(timeoutId);
+    }
+  }
+};
+
+const getGeoTargetedLocale = () => {
+  geoLocalePromise ??= fetchGeoTargetedLocale();
+  return geoLocalePromise;
+};
+
 export const getActiveLocale = (): SupportedLocale => {
   const queryLocale = getLocaleFromQuery();
   if (queryLocale) {
@@ -150,6 +217,22 @@ export const getActiveLocale = (): SupportedLocale => {
       // Ignore storage errors; query param still wins for this page load.
     }
     return queryLocale;
+  }
+
+  return getStoredLocale() ?? getBrowserLocale() ?? DEFAULT_LOCALE;
+};
+
+export const resolveActiveLocale = async (): Promise<SupportedLocale> => {
+  const queryLocale = getLocaleFromQuery();
+  if (queryLocale) {
+    storeActiveLocale(queryLocale, "query");
+    return queryLocale;
+  }
+
+  const geoLocale = await getGeoTargetedLocale();
+  if (geoLocale) {
+    storeActiveLocale(geoLocale, "geo");
+    return geoLocale;
   }
 
   return getStoredLocale() ?? getBrowserLocale() ?? DEFAULT_LOCALE;
