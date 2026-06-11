@@ -1,6 +1,7 @@
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { formatMoney, getLocalePricing, getStripePrice } from "@/lib/stripe-products";
+import { getStripePrice } from "@/lib/stripe-products";
+import { useLocalePricing } from "@/hooks/useLocalePricing";
 import { toast } from "@/hooks/use-toast";
 import { trackAddToCart } from "@/lib/analytics";
 
@@ -25,7 +26,7 @@ const QuantitySelector = ({
   colorLabel,
 }: QuantitySelectorProps) => {
   const { addItem } = useCart();
-  const pricing = getLocalePricing();
+  const { pricing, formatMoney } = useLocalePricing();
   const displayLabel = colorLabel ?? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1);
 
   const handleAddToCart = () => {
