@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
-import { CURRENCY_SYMBOL, getStripePrice } from "@/lib/stripe-products";
+import { formatMoney, getActiveLocale, getLocalePricing, getStripePrice } from "@/lib/stripe-products";
 import { variations } from "@/components/VariationSelector";
 import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
 import { PARTNER_PRODUCT_IMAGES, PARTNER_COLOR_IDS, PARTNERS } from "@/components/PartnerMerchandise";
@@ -63,6 +63,8 @@ const CartDrawer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [quickAddColor, setQuickAddColor] = useState("pink");
   const quickAddVariation = "metal";
+  const activeLocale = getActiveLocale();
+  const pricing = getLocalePricing(activeLocale);
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
@@ -90,7 +92,7 @@ const CartDrawer = () => {
       }));
 
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { lineItems },
+        body: { lineItems, locale: activeLocale },
       });
 
       if (error) throw error;
@@ -198,7 +200,7 @@ const CartDrawer = () => {
                       </>
                     )}
                     <p className="text-sm font-medium mt-1 text-primary">
-                      {CURRENCY_SYMBOL}{item.pricePerUnit.toFixed(2)}
+                      {formatMoney(item.pricePerUnit, activeLocale)}
                     </p>
                   </div>
 
@@ -233,7 +235,7 @@ const CartDrawer = () => {
                     </div>
 
                     <p className="text-sm font-semibold text-primary">
-                      {CURRENCY_SYMBOL}{(item.pricePerUnit * item.quantity).toFixed(2)}
+                      {formatMoney(item.pricePerUnit * item.quantity, activeLocale)}
                     </p>
                   </div>
                 </div>
@@ -277,10 +279,9 @@ const CartDrawer = () => {
 
             <div className="border-t border-border pt-4 space-y-4">
               {(() => {
-                const FREE_SHIPPING_THRESHOLD = 25;
-                const qualifiesForFreeShipping = totalPrice >= FREE_SHIPPING_THRESHOLD;
-                const remaining = FREE_SHIPPING_THRESHOLD - totalPrice;
-                const shippingCost = qualifiesForFreeShipping ? 0 : 9.95;
+                const qualifiesForFreeShipping = totalPrice >= pricing.freeShippingThreshold;
+                const remaining = pricing.freeShippingThreshold - totalPrice;
+                const shippingCost = qualifiesForFreeShipping ? 0 : pricing.shippingPrice;
                 const orderTotal = totalPrice + shippingCost;
 
                 return (
@@ -292,11 +293,11 @@ const CartDrawer = () => {
                       </div>
                     ) : (
                       <div className="bg-secondary rounded-lg px-3 py-2 text-sm text-muted-foreground">
-                        Add <span className="font-semibold text-foreground">{CURRENCY_SYMBOL}{remaining.toFixed(2)}</span> more for <span className="font-semibold text-foreground">FREE delivery</span>
+                        Add <span className="font-semibold text-foreground">{formatMoney(remaining, activeLocale)}</span> more for <span className="font-semibold text-foreground">FREE delivery</span>
                         <div className="mt-2 h-1.5 bg-background rounded-full overflow-hidden">
                           <div
                             className="h-full bg-product-red transition-all"
-                            style={{ width: `${Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100)}%` }}
+                            style={{ width: `${Math.min(100, (totalPrice / pricing.freeShippingThreshold) * 100)}%` }}
                           />
                         </div>
                       </div>
@@ -305,7 +306,7 @@ const CartDrawer = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-muted-foreground">Products</span>
-                        <span className="text-primary font-medium">{CURRENCY_SYMBOL}{totalPrice.toFixed(2)}</span>
+                        <span className="text-primary font-medium">{formatMoney(totalPrice, activeLocale)}</span>
                       </div>
 
                       <div className="flex justify-between items-center text-sm">
@@ -313,13 +314,13 @@ const CartDrawer = () => {
                         {qualifiesForFreeShipping ? (
                           <span className="font-semibold text-product-green">FREE</span>
                         ) : (
-                          <span>{CURRENCY_SYMBOL}9.95</span>
+                          <span>{formatMoney(pricing.shippingPrice, activeLocale)}</span>
                         )}
                       </div>
 
                       <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">Total</span>
-                        <span className="text-xl font-bold">{CURRENCY_SYMBOL}{orderTotal.toFixed(2)}</span>
+                        <span className="text-xl font-bold">{formatMoney(orderTotal, activeLocale)}</span>
                       </div>
                     </div>
 
@@ -334,7 +335,7 @@ const CartDrawer = () => {
                           Processing...
                         </>
                       ) : (
-                        `Checkout — ${CURRENCY_SYMBOL}${orderTotal.toFixed(2)}`
+                        `Checkout — ${formatMoney(orderTotal, activeLocale)}`
                       )}
                     </Button>
                   </>
