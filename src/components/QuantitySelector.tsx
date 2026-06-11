@@ -1,6 +1,6 @@
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { getStripePrice, CURRENCY_SYMBOL } from "@/lib/stripe-products";
+import { formatMoney, getLocalePricing, getStripePrice } from "@/lib/stripe-products";
 import { toast } from "@/hooks/use-toast";
 import { trackAddToCart } from "@/lib/analytics";
 
@@ -25,7 +25,7 @@ const QuantitySelector = ({
   colorLabel,
 }: QuantitySelectorProps) => {
   const { addItem } = useCart();
-  const totalPrice = quantity * pricePerUnit;
+  const pricing = getLocalePricing();
   const displayLabel = colorLabel ?? selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1);
 
   const handleAddToCart = () => {
@@ -59,13 +59,13 @@ const QuantitySelector = ({
     <div className="bg-secondary rounded-2xl p-6">
       <div className="flex items-baseline justify-between mb-2">
         <div>
-          <span className="text-3xl font-bold text-primary">{CURRENCY_SYMBOL}{pricePerUnit.toFixed(2)}</span>
-          <span className="text-muted-foreground ml-2 text-sm">+ {CURRENCY_SYMBOL}9.95 delivery</span>
+          <span className="text-3xl font-bold text-primary">{formatMoney(pricePerUnit)}</span>
+          <span className="text-muted-foreground ml-2 text-sm">+ {formatMoney(pricing.shippingPrice)} delivery</span>
         </div>
       </div>
 
       <div className="mb-4 inline-flex items-center gap-2 bg-product-green/10 border border-product-green/30 text-foreground text-xs font-medium px-3 py-1.5 rounded-full">
-        🚚 FREE delivery on orders over {CURRENCY_SYMBOL}25
+        🚚 FREE delivery on orders over {formatMoney(pricing.freeShippingThreshold)}
       </div>
 
       
@@ -100,13 +100,13 @@ const QuantitySelector = ({
         className="w-full bg-product-red text-white py-4 rounded-xl font-semibold text-lg hover:opacity-90 transition-colors active:scale-[0.98] flex items-center justify-center gap-2"
       >
         <ShoppingCart className="w-5 h-5" />
-        Add to Cart — {CURRENCY_SYMBOL}{(quantity * pricePerUnit).toFixed(2)}
+        Add to Cart — {formatMoney(quantity * pricePerUnit)}
       </button>
 
       <div className="flex items-center justify-center gap-6 mt-4 text-sm text-muted-foreground">
         <span>✓ Fast Delivery</span>
         <span>✓ Secure Payment</span>
-        <span>✓ FREE delivery over {CURRENCY_SYMBOL}25</span>
+        <span>✓ FREE delivery over {formatMoney(pricing.freeShippingThreshold)}</span>
       </div>
     </div>
   );
