@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import type { ReactNode } from "react";
-import { CURRENCY_SYMBOL } from "@/lib/stripe-products";
+import { formatMoney, getLocalePricing } from "@/lib/stripe-products";
 
 const LK = () => (
   <>
@@ -23,7 +23,7 @@ const variations: Variation[] = [
     name: "Love Key Guardian",
     displayName: <><LK /> Guardian</>,
     description: <>Crafted with a polished metal frame for strength, beauty, and permanence. The <LK /> Guardian is a premium reminder that care is always close.</>,
-    price: 5.00,
+    price: getLocalePricing().productPrice,
     units: 1,
   },
 ];
@@ -56,7 +56,7 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
             <h4 className="font-medium text-sm mb-1">{variation.displayName}</h4>
             <p className="text-xs text-muted-foreground mb-2">{variation.description}</p>
             <p className="text-sm font-semibold text-primary">
-              {variation.price === 0 ? "FREE" : `${CURRENCY_SYMBOL}${variation.price.toFixed(2)}`}
+              {variation.price === 0 ? "FREE" : formatMoney(variation.price)}
             </p>
           </button>
         ))}
