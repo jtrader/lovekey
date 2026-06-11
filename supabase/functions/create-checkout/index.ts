@@ -33,6 +33,93 @@ const MAX_QUANTITY_PER_ITEM = 100;
 const MAX_LINE_ITEMS = 50;
 const MAX_TOTAL_ITEMS = 500;
 
+type SupportedLocale = "AU" | "GB" | "US" | "CA" | "NZ";
+
+interface LocalePricing {
+  currency: "aud" | "gbp" | "usd" | "cad" | "nzd";
+  productAmountCents: number;
+  shippingAmountCents: number;
+  freeShippingThresholdCents: number;
+  freeShippingLabel: string;
+}
+
+const DEFAULT_LOCALE: SupportedLocale = "AU";
+
+const LOCALE_PRICING: Record<SupportedLocale, LocalePricing> = {
+  AU: {
+    currency: "aud",
+    productAmountCents: 500,
+    shippingAmountCents: 995,
+    freeShippingThresholdCents: 2500,
+    freeShippingLabel: "A$25",
+  },
+  GB: {
+    currency: "gbp",
+    productAmountCents: 500,
+    shippingAmountCents: 995,
+    freeShippingThresholdCents: 2500,
+    freeShippingLabel: "£25",
+  },
+  US: {
+    currency: "usd",
+    productAmountCents: 500,
+    shippingAmountCents: 995,
+    freeShippingThresholdCents: 2500,
+    freeShippingLabel: "US$25",
+  },
+  CA: {
+    currency: "cad",
+    productAmountCents: 500,
+    shippingAmountCents: 995,
+    freeShippingThresholdCents: 2500,
+    freeShippingLabel: "CA$25",
+  },
+  NZ: {
+    currency: "nzd",
+    productAmountCents: 500,
+    shippingAmountCents: 995,
+    freeShippingThresholdCents: 2500,
+    freeShippingLabel: "NZ$25",
+  },
+};
+
+const LOCALE_ALIASES: Record<string, SupportedLocale> = {
+  au: "AU",
+  aus: "AU",
+  australia: "AU",
+  gb: "GB",
+  uk: "GB",
+  unitedkingdom: "GB",
+  "united-kingdom": "GB",
+  britain: "GB",
+  greatbritain: "GB",
+  "great-britain": "GB",
+  us: "US",
+  usa: "US",
+  unitedstates: "US",
+  "united-states": "US",
+  ca: "CA",
+  canada: "CA",
+  nz: "NZ",
+  newzealand: "NZ",
+  "new-zealand": "NZ",
+};
+
+const normalizeLocale = (value?: string | null): SupportedLocale => {
+  if (!value) return DEFAULT_LOCALE;
+
+  const normalized = value.trim().toLowerCase().replace(/[_\s]+/g, "-");
+  const compact = normalized.replace(/[^a-z0-9]/g, "");
+  const region = normalized.split("-").pop() || normalized;
+
+  return (
+    LOCALE_ALIASES[normalized] ??
+    LOCALE_ALIASES[compact] ??
+    LOCALE_ALIASES[region] ??
+    DEFAULT_LOCALE
+  );
+};
+
 interface LineItem {
   priceId: string;
   quantity: number;
@@ -42,6 +129,7 @@ interface LineItem {
 
 interface CheckoutRequest {
   lineItems: LineItem[];
+  locale?: string;
 }
 
 serve(async (req) => {
@@ -75,8 +163,10 @@ serve(async (req) => {
       );
     }
 
-    const body = await req.json();
+    const body: CheckoutRequest = await req.json();
     const lineItems: LineItem[] = body?.lineItems;
+    const locale = normalizeLocale(body?.locale);
+    const pricing = LOCALE_PRICING[locale];
 
     // Input validation
     if (!Array.isArray(lineItems) || lineItems.length === 0) {
@@ -124,24 +214,26 @@ serve(async (req) => {
     }
 
     console.log("[CREATE-CHECKOUT] Validated line items:", JSON.stringify(lineItems));
+    console.log("[CREATE-CHECKOUT] Locale:", locale, "Currency:", pricing.currency);
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
 
-    // Price map for each variation
+    // Price map for each variation in the active locale's minor currency units.
     const priceMap: Record<string, number> = {
-      "Love Key Guardian": 900,  // $9.00 in cents
+      "Love Key Guardian": pricing.productAmountCents,
     };
 
     // Build line items with price_data
     const stripeLineItems = lineItems.map((item) => ({
       price_data: {
-        currency: "aud",
-        unit_amount: priceMap[item.variationName] || 995,
+        currency: pricing.currency,
+        unit_amount: priceMap[item.variationName] || pricing.productAmountCents,
         product_data: {
           name: `${item.variationName} - ${item.color.charAt(0).toUpperCase() + item.color.slice(1)}`,
           metadata: {
             variation: item.variationName,
             color: item.color,
+            locale,
           },
         },
       },
@@ -166,21 +258,20 @@ serve(async (req) => {
 
     // Calculate subtotal in cents to determine if free shipping applies
     const subtotalCents = lineItems.reduce(
-      (sum, item) => sum + (priceMap[item.variationName] || 995) * item.quantity,
+      (sum, item) => sum + (priceMap[item.variationName] || pricing.productAmountCents) * item.quantity,
       0
     );
-    const FREE_SHIPPING_THRESHOLD_CENTS = 2500; // $25.00 AUD
-    const qualifiesForFreeShipping = subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS;
+    const qualifiesForFreeShipping = subtotalCents >= pricing.freeShippingThresholdCents;
 
     console.log(
-      `[CREATE-CHECKOUT] Subtotal: $${(subtotalCents / 100).toFixed(2)} | Free shipping: ${qualifiesForFreeShipping}`
+      `[CREATE-CHECKOUT] Subtotal: ${(subtotalCents / 100).toFixed(2)} ${pricing.currency.toUpperCase()} | Free shipping: ${qualifiesForFreeShipping}`
     );
 
     const shippingRateData: Stripe.Checkout.SessionCreateParams.ShippingOption["shipping_rate_data"] = qualifiesForFreeShipping
       ? {
           type: "fixed_amount",
-          fixed_amount: { amount: 0, currency: "aud" },
-          display_name: "Free Shipping (orders over $25)",
+          fixed_amount: { amount: 0, currency: pricing.currency },
+          display_name: `Free Shipping (orders over ${pricing.freeShippingLabel})`,
           delivery_estimate: {
             minimum: { unit: "business_day", value: 2 },
             maximum: { unit: "business_day", value: 5 },
@@ -188,7 +279,7 @@ serve(async (req) => {
         }
       : {
           type: "fixed_amount",
-          fixed_amount: { amount: 995, currency: "aud" },
+          fixed_amount: { amount: pricing.shippingAmountCents, currency: pricing.currency },
           display_name: "Standard Shipping",
           delivery_estimate: {
             minimum: { unit: "business_day", value: 2 },
@@ -203,39 +294,14 @@ serve(async (req) => {
       success_url: `${requestOrigin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${requestOrigin}/`,
       shipping_address_collection: {
-        allowed_countries: [
-          "AC","AD","AE","AF","AG","AI","AL","AM","AO","AQ","AR","AT","AU","AW","AX","AZ",
-          "BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BV","BW","BY","BZ",
-          "CA","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CV","CW","CY","CZ",
-          "DE","DJ","DK","DM","DO","DZ",
-          "EC","EE","EG","EH","ER","ES","ET",
-          "FI","FJ","FK","FO","FR",
-          "GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GU","GW","GY",
-          "HK","HN","HR","HT","HU",
-          "ID","IE","IL","IM","IN","IO","IQ","IS","IT",
-          "JE","JM","JO","JP",
-          "KE","KG","KH","KI","KM","KN","KR","KW","KY","KZ",
-          "LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY",
-          "MA","MC","MD","ME","MF","MG","MK","ML","MM","MN","MO","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ",
-          "NA","NC","NE","NG","NI","NL","NO","NP","NR","NU","NZ",
-          "OM",
-          "PA","PE","PF","PG","PH","PK","PL","PM","PN","PR","PS","PT","PY",
-          "QA",
-          "RE","RO","RS","RU","RW",
-          "SA","SB","SC","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SZ",
-          "TA","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ",
-          "UA","UG","US","UY","UZ",
-          "VA","VC","VE","VG","VN","VU",
-          "WF","WS",
-          "XK",
-          "YE","YT",
-          "ZA","ZM","ZW"
-        ],
+        allowed_countries: ["AU", "GB", "US", "CA", "NZ"],
       },
       shipping_options: [{ shipping_rate_data: shippingRateData }],
       metadata: {
         order_details: orderDetails,
         items: itemsJson,
+        locale,
+        currency: pricing.currency.toUpperCase(),
       },
     };
 
