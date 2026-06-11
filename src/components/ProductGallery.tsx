@@ -1,12 +1,12 @@
 // Metal images
-import metalLightBlue from "@/assets/products/metal/light-blue.png";
-import metalGreen from "@/assets/products/metal/green.png";
-import metalOrange from "@/assets/products/metal/orange.png";
-import metalPink from "@/assets/products/metal/pink.png";
-import metalAqua from "@/assets/products/metal/aqua.png";
-import metalRed from "@/assets/products/metal/red.png";
-import metalWhite from "@/assets/products/metal/white.png";
-import metalYellow from "@/assets/products/metal/yellow.png";
+import metalLightBlue from "@/assets/optimized/products/metal/light-blue.webp";
+import metalGreen from "@/assets/optimized/products/metal/green.webp";
+import metalOrange from "@/assets/optimized/products/metal/orange.webp";
+import metalPink from "@/assets/optimized/products/metal/pink.webp";
+import metalAqua from "@/assets/optimized/products/metal/aqua.webp";
+import metalRed from "@/assets/optimized/products/metal/red.webp";
+import metalWhite from "@/assets/optimized/products/metal/white.webp";
+import metalYellow from "@/assets/optimized/products/metal/yellow.webp";
 
 const metalImages: Record<string, string> = {
   green: metalGreen,
