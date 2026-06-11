@@ -42,7 +42,7 @@ const HowItWorks = () => {
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">How It Works</h2>
         <p className="text-center text-muted-foreground mb-12">Simple. Fast. Designed with care.</p>
         
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {steps.map((step, index) => (
             <div 
               key={index}
