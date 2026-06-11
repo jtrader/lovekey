@@ -62,6 +62,9 @@ const ProductGallery = ({
             src={activePartner.guardianImage}
             alt={`${activePartner.name} Love Key Guardian`}
             className="w-full max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain rounded-lg animate-fade-in"
+            loading="lazy"
+            decoding="async"
+            sizes="(min-width: 1024px) 50vw, 100vw"
           />
         ) : (
           <img
@@ -72,6 +75,9 @@ const ProductGallery = ({
                 ? "aspect-[4/3] object-cover"
                 : "max-h-[280px] sm:max-h-[360px] lg:max-h-[440px] object-contain"
             }`}
+            loading="lazy"
+            decoding="async"
+            sizes="(min-width: 1024px) 50vw, 100vw"
           />
         )}
       </div>
@@ -91,6 +97,9 @@ const ProductGallery = ({
               src={img}
               alt={`${color} keyring`}
               className="w-full h-full object-cover rounded-lg hover:scale-110 transition-transform duration-300"
+              loading="lazy"
+              decoding="async"
+              sizes="(min-width: 1024px) 12vw, 25vw"
             />
           </button>
         ))}
