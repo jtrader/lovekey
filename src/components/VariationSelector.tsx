@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import type { ReactNode } from "react";
-import { formatMoney, getLocalePricing } from "@/lib/stripe-products";
+import { useLocalePricing } from "@/hooks/useLocalePricing";
 
 const LK = () => (
   <>
@@ -17,16 +17,18 @@ interface Variation {
   units: number;
 }
 
-const variations: Variation[] = [
+const getVariations = (productPrice: number): Variation[] => [
   {
     id: "metal",
     name: "Love Key Guardian",
     displayName: <><LK /> Guardian</>,
     description: <>Crafted with a polished metal frame for strength, beauty, and permanence. The <LK /> Guardian is a premium reminder that care is always close.</>,
-    price: getLocalePricing().productPrice,
+    price: productPrice,
     units: 1,
   },
 ];
+
+const variations: Variation[] = getVariations(5);
 
 interface VariationSelectorProps {
   selected: string;
@@ -34,11 +36,14 @@ interface VariationSelectorProps {
 }
 
 const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
+  const { pricing, formatMoney } = useLocalePricing();
+  const localizedVariations = getVariations(pricing.productPrice);
+
   return (
     <div className="animate-fade-up delay-200">
       <h3 className="text-base font-semibold mb-3">Select Variation</h3>
       <div className="grid grid-cols-1 gap-3">
-        {variations.map((variation) => (
+        {localizedVariations.map((variation) => (
           <button
             key={variation.id}
             onClick={() => onSelect(variation.id)}
@@ -66,5 +71,5 @@ const VariationSelector = ({ selected, onSelect }: VariationSelectorProps) => {
 };
 
 export default VariationSelector;
-export { variations };
+export { variations, getVariations };
 export type { Variation };
