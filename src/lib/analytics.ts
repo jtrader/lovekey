@@ -1,5 +1,7 @@
 // Google Analytics (gtag) helper. The gtag.js script is loaded in index.html.
 
+import { getLocalePricing } from "@/lib/stripe-products";
+
 declare global {
   interface Window {
     dataLayer?: unknown[];
@@ -28,8 +30,10 @@ export const trackViewItem = (params: {
   color: string;
   pricePerUnit: number;
 }) => {
+  const { currency } = getLocalePricing();
+
   safeGtag("event", "view_item", {
-    currency: "AUD",
+    currency,
     value: params.pricePerUnit,
     items: [
       {
@@ -50,6 +54,7 @@ export const trackAddToCart = (params: {
   pricePerUnit: number;
   quantity: number;
 }) => {
+  const { currency } = getLocalePricing();
   const item: GtagItem = {
     item_id: `${params.variationId}-${params.color}`,
     item_name: params.variationName,
@@ -59,7 +64,7 @@ export const trackAddToCart = (params: {
   };
 
   safeGtag("event", "add_to_cart", {
-    currency: "AUD",
+    currency,
     value: params.pricePerUnit * params.quantity,
     items: [item],
   });
@@ -75,6 +80,7 @@ export const trackBeginCheckout = (params: {
   }>;
   value: number;
 }) => {
+  const { currency } = getLocalePricing();
   const items: GtagItem[] = params.items.map((i) => ({
     item_id: `${i.variationId}-${i.color}`,
     item_name: i.variationName,
@@ -84,7 +90,7 @@ export const trackBeginCheckout = (params: {
   }));
 
   safeGtag("event", "begin_checkout", {
-    currency: "AUD",
+    currency,
     value: params.value,
     items,
   });
