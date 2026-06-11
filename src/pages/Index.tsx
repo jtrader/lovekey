@@ -26,9 +26,40 @@ import keyring1 from "@/assets/gallery/keyring-1.png";
 
 const lifestyleImage = { src: keyring1, alt: "Love Key on keys" };
 
+const DEFAULT_VARIATION = "metal";
+
+const COLOR_QUERY_ALIASES: Record<string, string> = {
+  green: "green",
+  blue: "blue",
+  "light-blue": "blue",
+  orange: "orange",
+  pink: "pink",
+  aqua: "aqua",
+  red: "red",
+  white: "white",
+  yellow: "yellow",
+};
+
+const getProductQueryParam = (name: string) => {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get(name);
+};
+
+const getInitialVariation = () => {
+  const requestedVariation = getProductQueryParam("variant");
+  return variations.some((variation) => variation.id === requestedVariation)
+    ? requestedVariation
+    : DEFAULT_VARIATION;
+};
+
+const getInitialColor = () => {
+  const requestedColor = getProductQueryParam("color")?.toLowerCase();
+  return requestedColor ? COLOR_QUERY_ALIASES[requestedColor] ?? null : null;
+};
+
 const Index = () => {
-  const [selectedVariation, setSelectedVariation] = useState("metal");
-  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedVariation, setSelectedVariation] = useState(getInitialVariation);
+  const [selectedColor, setSelectedColor] = useState<string | null>(getInitialColor);
   const [quantity, setQuantity] = useState(1);
   
 
