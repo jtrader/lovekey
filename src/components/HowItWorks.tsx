@@ -1,5 +1,5 @@
 import { Smartphone, QrCode, ArrowRight, CheckCircle } from "lucide-react";
-import keyringHero from "@/assets/keyring-hero.png";
+import keyringHero from "@/assets/optimized/keyring-hero.webp";
 
 const LK = () => (
   <>
@@ -34,6 +34,9 @@ const HowItWorks = () => {
             src={keyringHero}
             alt="Love Key NFC keyring with heart shape and QR code for mental health support"
             className="w-full h-auto"
+            loading="lazy"
+            decoding="async"
+            sizes="(min-width: 640px) 512px, 100vw"
           />
         </div>
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4">How It Works</h2>
