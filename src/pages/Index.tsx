@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { trackViewItem } from "@/lib/analytics";
+import { useLocalePricing } from "@/hooks/useLocalePricing";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import LifestyleShowcase from "@/components/LifestyleShowcase";
@@ -8,7 +9,7 @@ import WhySection from "@/components/WhySection";
 import HowItWorks from "@/components/HowItWorks";
 import ProductGallery from "@/components/ProductGallery";
 
-import VariationSelector, { variations } from "@/components/VariationSelector";
+import VariationSelector, { getVariations, variations } from "@/components/VariationSelector";
 import ColorSelector from "@/components/ColorSelector";
 import QuantitySelector from "@/components/QuantitySelector";
 
@@ -58,12 +59,14 @@ const getInitialColor = () => {
 };
 
 const Index = () => {
+  const { pricing } = useLocalePricing();
+  const localizedVariations = getVariations(pricing.productPrice);
   const [selectedVariation, setSelectedVariation] = useState(getInitialVariation);
   const [selectedColor, setSelectedColor] = useState<string | null>(getInitialColor);
   const [quantity, setQuantity] = useState(1);
   
 
-  const currentVariation = variations.find((v) => v.id === selectedVariation);
+  const currentVariation = localizedVariations.find((v) => v.id === selectedVariation);
 
   // Fire GA4 view_item when user selects a variation/color (debounced)
   useEffect(() => {
