@@ -11,14 +11,14 @@ import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
 import { PARTNER_PRODUCT_IMAGES, PARTNER_COLOR_IDS, PARTNERS } from "@/components/PartnerMerchandise";
 
 // Product image imports - Metal (Guardian)
-import metalGreen from "@/assets/products/metal/green.png";
-import metalLightBlue from "@/assets/products/metal/light-blue.png";
-import metalOrange from "@/assets/products/metal/orange.png";
-import metalPink from "@/assets/products/metal/pink.png";
-import metalAqua from "@/assets/products/metal/aqua.png";
-import metalRed from "@/assets/products/metal/red.png";
-import metalWhite from "@/assets/products/metal/white.png";
-import metalYellow from "@/assets/products/metal/yellow.png";
+import metalGreen from "@/assets/optimized/products/metal/green.webp";
+import metalLightBlue from "@/assets/optimized/products/metal/light-blue.webp";
+import metalOrange from "@/assets/optimized/products/metal/orange.webp";
+import metalPink from "@/assets/optimized/products/metal/pink.webp";
+import metalAqua from "@/assets/optimized/products/metal/aqua.webp";
+import metalRed from "@/assets/optimized/products/metal/red.webp";
+import metalWhite from "@/assets/optimized/products/metal/white.webp";
+import metalYellow from "@/assets/optimized/products/metal/yellow.webp";
 
 const productImages: Record<string, Record<string, string>> = {
   metal: {
@@ -184,6 +184,8 @@ const CartDrawer = () => {
                       src={getProductImage(item.variationId, item.color)}
                       alt={`${item.variationName} - ${item.color}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
