@@ -153,7 +153,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo
+        title="Love Key – NFC Keyring for Safety & Wellbeing Support"
+        description="Love Key Guardian is an NFC keyring that connects you to mental health support and emergency helplines with one tap. 50% of profits donated to Lifeline."
+        path="/"
+        jsonLd={HOMEPAGE_JSONLD}
+      />
       <Header />
+
       
       <main className="pt-24">
         {/* Hero Section */}
