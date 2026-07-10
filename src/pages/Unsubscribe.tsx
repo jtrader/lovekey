@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import Seo from "@/components/Seo";
 
 type Status = "loading" | "valid" | "already" | "invalid" | "success" | "error";
 
@@ -50,6 +51,12 @@ const Unsubscribe = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <Seo
+        title="Email Preferences — Love Key"
+        description="Manage your Love Key email subscription. Confirm unsubscription from marketing and transactional updates."
+        path="/unsubscribe"
+        noindex
+      />
       <div className="max-w-md w-full text-center space-y-6">
         <h1 className="text-2xl font-bold text-foreground">Email Preferences</h1>
 
