@@ -9,7 +9,7 @@
     <meta name="description" content="Love Key Guardian is an NFC keyring that connects you to mental health support and emergency helplines with one tap. 50% of profits donated to Lifeline.">
     <meta name="author" content="Love Key" />
     <meta name="keywords" content="NFC keyring, mental health support, safety keyring, wellbeing, Lifeline, emergency help, Love Key, smart keyring, QR code keyring">
-    <link rel="canonical" href="https://lovekey.com.au/" />
+    <!-- Canonical is set per-route via react-helmet-async -->
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -61,88 +61,8 @@
     }
     </script>
 
-    <!-- JSON-LD Structured Data: Product (Guardian) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "Love Key Guardian",
-      "description": "Crafted with a polished metal frame for strength, beauty, and permanence. The Love Key Guardian is a premium NFC keyring that connects you to safety and wellbeing support with one tap.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Love Key"
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://lovekey.com.au/",
-        "priceCurrency": "AUD",
-        "price": "9.00",
-        "availability": "https://schema.org/InStock",
-        "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value": "9.95",
-            "currency": "AUD"
-          },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "businessDays": {
-              "@type": "QuantitativeValue",
-              "minValue": 2,
-              "maxValue": 5
-            }
-          }
-        }
-      },
-      "category": "Safety & Wellbeing"
-    }
-    </script>
+    <!-- Product and FAQPage JSON-LD are rendered on the homepage only via react-helmet-async -->
 
-
-
-
-    <!-- JSON-LD Structured Data: FAQPage -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What happens when I tap or scan it?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "You're instantly taken to a page with clear guidance, emergency steps, and mental health support resources."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is it complicated to use?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Not at all. If you can tap your phone or scan a QR code, you can use Love Key."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it work without an app?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. No app required. Just your phone."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is it suitable as a gift?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutely. Many people give Love Key to those they care about most."
-          }
-        }
-      ]
-    }
-    </script>
   </head>
   <body>
     <div id="root"></div>

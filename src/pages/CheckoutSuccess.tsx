@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
 import { trackPurchase } from "@/lib/analytics";
+import Seo from "@/components/Seo";
 
 const CheckoutSuccess = () => {
   const navigate = useNavigate();
@@ -96,6 +97,12 @@ const CheckoutSuccess = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Seo
+        title="Order Confirmed — Love Key"
+        description="Thank you for your Love Key order. Your confirmation and delivery details are on the way."
+        path="/checkout-success"
+        noindex
+      />
       <div className="max-w-md w-full text-center space-y-6">
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
           <CheckCircle className="w-10 h-10 text-green-600" />

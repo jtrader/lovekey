@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Seo from "@/components/Seo";
 
 const LAST_UPDATED = "9 June 2026";
 const ENTITY = "Streamline Direct";
@@ -11,6 +12,11 @@ const Disclaimer = () => {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16">
+      <Seo
+        title="Disclaimer — Love Key"
+        description="Important safety notice: Love Key is a support tool that connects to helplines and resources; it does not replace emergency services."
+        path="/disclaimer"
+      />
       <h1 className="text-3xl font-bold text-foreground mb-1">Disclaimer</h1>
       <p className="text-sm text-muted-foreground mb-8">Last updated: {LAST_UPDATED}</p>
 

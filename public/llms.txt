@@ -1,0 +1,12 @@
+# Love Key
+
+> Love Key Guardian is an NFC keyring that connects people to mental health support and emergency helplines with one tap. 50% of profits are donated to Lifeline and Bendigo Health Foundation.
+
+Love Key is an Australian brand selling a single product — the Love Key Guardian, a polished metal NFC keyring. Tapping or scanning it opens a web page with clear guidance, emergency steps, and mental health support resources. No app is required.
+
+## Pages
+
+- [Home](/): Product overview, how it works, pricing, and checkout for the Love Key Guardian.
+- [Privacy Policy](/privacy): How Love Key handles customer and visitor data.
+- [Terms of Service](/terms): Terms governing purchases and use of the Love Key website.
+- [Disclaimer](/disclaimer): Important safety notice — Love Key does not replace emergency services.

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Seo from "@/components/Seo";
 
 const LAST_UPDATED = "9 June 2026";
 const ENTITY = "Streamline Direct";
@@ -11,6 +12,11 @@ const Terms = () => {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16">
+      <Seo
+        title="Terms and Conditions — Love Key"
+        description="Terms governing purchases, shipping, refunds, and use of the Love Key website and products."
+        path="/terms"
+      />
       <h1 className="text-3xl font-bold text-foreground mb-1">Terms and Conditions</h1>
       <p className="text-sm text-muted-foreground mb-8">Last updated: {LAST_UPDATED}</p>
 

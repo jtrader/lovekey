@@ -28,6 +28,7 @@ const Header = () => {
           </a>
           <button 
             onClick={() => setIsCartOpen(true)}
+            aria-label={totalItems > 0 ? `Open shopping cart, ${totalItems} item${totalItems === 1 ? "" : "s"}` : "Open shopping cart"}
             className="relative p-2 hover:bg-secondary rounded-lg transition-colors"
           >
             <ShoppingBag className="w-6 h-6" />

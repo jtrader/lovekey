@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Seo from "@/components/Seo";
 
 const LAST_UPDATED = "9 June 2026";
 const ENTITY = "Streamline Direct";
@@ -11,6 +12,11 @@ const Privacy = () => {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16">
+      <Seo
+        title="Privacy Notice — Love Key"
+        description="How Love Key collects, uses, and protects customer and visitor information across our website and orders."
+        path="/privacy"
+      />
       <h1 className="text-3xl font-bold text-foreground mb-1">Privacy Notice</h1>
       <p className="text-sm text-muted-foreground mb-8">Last updated: {LAST_UPDATED}</p>
 
