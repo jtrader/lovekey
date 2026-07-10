@@ -20,6 +20,70 @@ import TrustBadges from "@/components/TrustBadges";
 import FAQ from "@/components/FAQ";
 import ClosingSection from "@/components/ClosingSection";
 import SupportPartners from "@/components/SupportPartners";
+import Seo from "@/components/Seo";
+
+const HOMEPAGE_JSONLD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Love Key Guardian",
+    description:
+      "Crafted with a polished metal frame for strength, beauty, and permanence. The Love Key Guardian is a premium NFC keyring that connects you to safety and wellbeing support with one tap.",
+    brand: { "@type": "Brand", name: "Love Key" },
+    offers: {
+      "@type": "Offer",
+      url: "https://lovekey.com.au/",
+      priceCurrency: "AUD",
+      price: "9.00",
+      availability: "https://schema.org/InStock",
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: "9.95", currency: "AUD" },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          businessDays: { "@type": "QuantitativeValue", minValue: 2, maxValue: 5 },
+        },
+      },
+    },
+    category: "Safety & Wellbeing",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What happens when I tap or scan it?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You're instantly taken to a page with clear guidance, emergency steps, and mental health support resources.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is it complicated to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Not at all. If you can tap your phone or scan a QR code, you can use Love Key.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Does it work without an app?",
+        acceptedAnswer: { "@type": "Answer", text: "Yes. No app required. Just your phone." },
+      },
+      {
+        "@type": "Question",
+        name: "Is it suitable as a gift?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Absolutely. Many people give Love Key to those they care about most.",
+        },
+      },
+    ],
+  },
+];
+
 
 // Lifestyle image for the main gallery
 import keyring1 from "@/assets/optimized/gallery/keyring-1.webp";
